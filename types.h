@@ -1,0 +1,168 @@
+#ifndef TYPES_H
+#define TYPES_H
+
+#define BOARD_SIZE 40
+#define MAX_PLAYERS 4
+
+#define MAX_PROPERTIES 22
+#define MAX_RAILWAY 4
+#define MAX_UTILITY 2
+
+#define NO_OWNER -1
+#define NO_ASSET -1
+
+#define STARTING_CASH 30000
+
+typedef enum
+{
+    START,
+    PROPERTY,
+    RAILWAY,
+    UTILITY,
+    EVENT,
+    TAX,
+    JAIL,
+    FREE_PARKING,
+    GO_TO_JAIL,
+    BANK,
+    INSURANCE
+} SquareType;
+
+typedef enum
+{
+    BROWN,
+    LIGHT_BLUE,
+    PINK,
+    ORANGE,
+    RED,
+    YELLOW,
+    GREEN,
+    DARK_BLUE,
+    NO_CLOUR
+} PropertyGroup;
+
+typedef enum
+{
+    AGGRESSIVE,
+    CONSERVATIVE,
+    RISK_TAKER,
+    OPPORTUNISTIC
+} PlayerStrategy;
+
+typedef enum
+{
+    NO_INSURANCE,
+    BASIC_INSURANCE,
+    COMPREHENSIVE_INSURANCE,
+    BUSINESS_INTERRUPTION_INSURANCE
+} InsuranceType;
+
+typedef struct
+{
+    int squareId;
+    char name[30];
+    SquareType type;
+    int propertyId; // -1 if not a property
+} BoardSquare;
+
+typedef struct
+{
+    int propertyId;
+    char name[30];
+
+    PropertyGroup group;
+
+    int purchasePrice;
+    int mortgageValue;
+    int baseRent;
+
+    int houseCost;
+    int hotelCost;
+
+    int owner;
+
+    int mortgaged;
+
+    int houses;
+    int hotel;
+
+} Property;
+
+typedef struct
+{
+    int railwayId;
+    char name[30];
+
+    int purchasePrice;
+    int mortgageValue;
+
+    int owner;
+    int mortgaged;
+
+} Railway;
+
+typedef struct
+{
+    int utilityId;
+    char name[30];
+
+    int purchasePrice;
+    int mortgageValue;
+
+    int owner;
+    int mortgaged;
+
+} Utility;
+
+typedef enum
+{
+    BOC
+} Bank;
+
+typedef enum
+{
+    Sri_Lanka_Insurance,
+    Ceylinco_Insurance
+} Insurance;
+
+typedef struct
+{
+    int playerId;
+    char name[50];
+    PlayerStrategy strategy;
+
+    int cash;
+    int position;
+
+    int isbankrupt;
+
+    int isJailed;
+    int jailTurns;
+
+    /*tax and loan not yet added */
+} Player;
+
+typedef struct
+{
+    BoardSquare board[BOARD_SIZE];
+
+    Property properties[MAX_PROPERTIES];
+    Railway railway[MAX_RAILWAY];
+    Utility utilities[MAX_UTILITY];
+
+    Player players[MAX_PLAYERS];
+    int currentRound;
+
+    /*event and economy not yet added */
+
+} GameplayState;
+
+void initializeProperties(GameplayState *game);
+void initializeRailways(GameplayState *game);
+void initializeUtilities(GameplayState *game);
+void initializeBoard(GameplayState *game);
+void initializeGameBoard(GameplayState *game);
+
+void initializePlayers(GameplayState *game);
+
+#endif
