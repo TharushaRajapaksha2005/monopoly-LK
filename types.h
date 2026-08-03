@@ -151,11 +151,19 @@ typedef struct
     Utility utilities[MAX_UTILITY];
 
     Player players[MAX_PLAYERS];
+
+    int turnOrder[MAX_PLAYERS];
+
     int currentRound;
+
+    int inflationRate;
+    int currentLoanInteresetRate;
 
     /*event and economy not yet added */
 
 } GameplayState;
+
+/*functions in board.c */
 
 void initializeProperties(GameplayState *game);
 void initializeRailways(GameplayState *game);
@@ -163,6 +171,34 @@ void initializeUtilities(GameplayState *game);
 void initializeBoard(GameplayState *game);
 void initializeGameBoard(GameplayState *game);
 
+void movePlayer(GameplayState *game, int playerId, int diceValue);
+
+void resolveLanding(GameplayState *game, int playerId);
+
+void handlePropertyLanding(GameplayState *game, int playerId);
+
+/*functions in player.c */
+
 void initializePlayers(GameplayState *game);
+
+/*functions in game.c */
+
+int rollDice(void);
+
+void sortTurnOrder(int turnOrder[],
+                   int diceValues[],
+                   int start,
+                   int end);
+
+void resolveTiedGroup(GameplayState *game,
+                      int start,
+                      int end);
+
+void determineTurnOrder(GameplayState *game);
+
+void playTurn(GameplayState *game, int playerId);
+
+/* functions in finance.c */
+void buyProperty(GameplayState *game, int playerId, int propertyId);
 
 #endif

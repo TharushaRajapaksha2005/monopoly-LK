@@ -1,25 +1,34 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "types.h"
 
 int main(void)
 {
     GameplayState game;
+    int i;
+    int playerId;
+
+    srand(time(NULL));
 
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    printf("Player 1: %s\n", game.players[0].name);
-    printf("Cash: LKR %d\n", game.players[0].cash);
-    printf("Position: %d\n", game.players[0].position);
+    printf("Player positions: %d %d %d %d\n",
+           game.players[0].position,
+           game.players[1].position,
+           game.players[2].position,
+           game.players[3].position);
 
-    printf("\nPlayer 2: %s\n", game.players[1].name);
-    printf("Cash: LKR %d\n", game.players[1].cash);
+    determineTurnOrder(&game);
 
-    printf("\nPlayer 3: %s\n", game.players[2].name);
-    printf("Cash: LKR %d\n", game.players[2].cash);
+    printf("\n========== ROUND 1 ==========\n");
 
-    printf("\nPlayer 4: %s\n", game.players[3].name);
-    printf("Cash: LKR %d\n", game.players[3].cash);
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        playerId = game.turnOrder[i];
+        playTurn(&game, playerId);
+    }
 
     return 0;
 }
