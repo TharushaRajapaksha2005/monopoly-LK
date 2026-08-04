@@ -9,6 +9,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[0].name, "Pettah");
        game->properties[0].group = BROWN;
        game->properties[0].purchasePrice = 1500;
+       game->properties[0].currentMarketValue = 1500;
        game->properties[0].mortgageValue = 750;
        game->properties[0].baseRent = 100;
        game->properties[0].houseCost = 500;
@@ -23,6 +24,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[1].name, "Maradana");
        game->properties[1].group = BROWN;
        game->properties[1].purchasePrice = 1800;
+       game->properties[1].currentMarketValue = 1800;
        game->properties[1].mortgageValue = 750;
        game->properties[1].baseRent = 120;
        game->properties[1].houseCost = 500;
@@ -37,6 +39,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[2].name, "Bambalapitiya");
        game->properties[2].group = LIGHT_BLUE;
        game->properties[2].purchasePrice = 2500;
+       game->properties[2].currentMarketValue = 2500;
        game->properties[2].mortgageValue = 1250;
        game->properties[2].baseRent = 180;
        game->properties[2].houseCost = 750;
@@ -51,6 +54,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[3].name, "Wellawatte");
        game->properties[3].group = LIGHT_BLUE;
        game->properties[3].purchasePrice = 2700;
+       game->properties[3].currentMarketValue = 2700;
        game->properties[3].mortgageValue = 1250;
        game->properties[3].baseRent = 200;
        game->properties[3].houseCost = 750;
@@ -65,6 +69,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[4].name, "Mount Lavinia");
        game->properties[4].group = LIGHT_BLUE;
        game->properties[4].purchasePrice = 3000;
+       game->properties[4].currentMarketValue = 3000;
        game->properties[4].mortgageValue = 1250;
        game->properties[4].baseRent = 220;
        game->properties[4].houseCost = 750;
@@ -79,6 +84,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[5].name, "Nugegoda");
        game->properties[5].group = PINK;
        game->properties[5].purchasePrice = 3500;
+       game->properties[5].currentMarketValue = 3500;
        game->properties[5].mortgageValue = 1750;
        game->properties[5].baseRent = 260;
        game->properties[5].houseCost = 1000;
@@ -93,6 +99,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[6].name, "Maharagama");
        game->properties[6].group = PINK;
        game->properties[6].purchasePrice = 3800;
+       game->properties[6].currentMarketValue = 3800;
        game->properties[6].mortgageValue = 1750;
        game->properties[6].baseRent = 280;
        game->properties[6].houseCost = 1000;
@@ -107,6 +114,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[7].name, "Kottawa");
        game->properties[7].group = PINK;
        game->properties[7].purchasePrice = 4000;
+       game->properties[7].currentMarketValue = 4000;
        game->properties[7].mortgageValue = 1750;
        game->properties[7].baseRent = 300;
        game->properties[7].houseCost = 1000;
@@ -121,6 +129,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[8].name, "Negombo");
        game->properties[8].group = ORANGE;
        game->properties[8].purchasePrice = 4500;
+       game->properties[8].currentMarketValue = 4500;
        game->properties[8].mortgageValue = 2250;
        game->properties[8].baseRent = 350;
        game->properties[8].houseCost = 1250;
@@ -135,6 +144,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[9].name, "Katunayake");
        game->properties[9].group = ORANGE;
        game->properties[9].purchasePrice = 4700;
+       game->properties[9].currentMarketValue = 4700;
        game->properties[9].mortgageValue = 2250;
        game->properties[9].baseRent = 370;
        game->properties[9].houseCost = 1250;
@@ -149,6 +159,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[10].name, "Ja-Ela");
        game->properties[10].group = ORANGE;
        game->properties[10].purchasePrice = 5000;
+       game->properties[10].currentMarketValue = 5000;
        game->properties[10].mortgageValue = 2250;
        game->properties[10].baseRent = 400;
        game->properties[10].houseCost = 1250;
@@ -163,6 +174,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[11].name, "Kandy City");
        game->properties[11].group = RED;
        game->properties[11].purchasePrice = 5500;
+       game->properties[11].currentMarketValue = 5500;
        game->properties[11].mortgageValue = 2750;
        game->properties[11].baseRent = 450;
        game->properties[11].houseCost = 1500;
@@ -177,6 +189,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[12].name, "Peradeniya");
        game->properties[12].group = RED;
        game->properties[12].purchasePrice = 5800;
+       game->properties[12].currentMarketValue = 5800;
        game->properties[12].mortgageValue = 2750;
        game->properties[12].baseRent = 480;
        game->properties[12].houseCost = 1500;
@@ -190,7 +203,8 @@ void initializeProperties(GameplayState *game)
        game->properties[13].propertyId = 13;
        strcpy(game->properties[13].name, "Katugastota");
        game->properties[13].group = RED;
-       game->properties[13].purchasePrice = 60000;
+       game->properties[13].purchasePrice = 6000;
+       game->properties[13].currentMarketValue = 6000;
        game->properties[13].mortgageValue = 2750;
        game->properties[13].baseRent = 500;
        game->properties[13].houseCost = 1500;
@@ -205,6 +219,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[14].name, "Galle Fort");
        game->properties[14].group = YELLOW;
        game->properties[14].purchasePrice = 6500;
+       game->properties[14].currentMarketValue = 6500;
        game->properties[14].mortgageValue = 3250;
        game->properties[14].baseRent = 600;
        game->properties[14].houseCost = 2000;
@@ -219,6 +234,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[15].name, "Unawatuna");
        game->properties[15].group = YELLOW;
        game->properties[15].purchasePrice = 6800;
+       game->properties[15].currentMarketValue = 6800;
        game->properties[15].mortgageValue = 3250;
        game->properties[15].baseRent = 620;
        game->properties[15].houseCost = 2000;
@@ -233,6 +249,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[16].name, "Hikkaduwa");
        game->properties[16].group = YELLOW;
        game->properties[16].purchasePrice = 7000;
+       game->properties[16].currentMarketValue = 7000;
        game->properties[16].mortgageValue = 3250;
        game->properties[16].baseRent = 650;
        game->properties[16].houseCost = 2000;
@@ -247,6 +264,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[17].name, "Jaffna Town");
        game->properties[17].group = GREEN;
        game->properties[17].purchasePrice = 8000;
+       game->properties[17].currentMarketValue = 8000;
        game->properties[17].mortgageValue = 4000;
        game->properties[17].baseRent = 750;
        game->properties[17].houseCost = 2500;
@@ -261,6 +279,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[18].name, "Nallur");
        game->properties[18].group = GREEN;
        game->properties[18].purchasePrice = 8300;
+       game->properties[18].currentMarketValue = 8300;
        game->properties[18].mortgageValue = 4000;
        game->properties[18].baseRent = 780;
        game->properties[18].houseCost = 2500;
@@ -275,6 +294,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[19].name, "Trincomalee");
        game->properties[19].group = GREEN;
        game->properties[19].purchasePrice = 8500;
+       game->properties[19].currentMarketValue = 8500;
        game->properties[19].mortgageValue = 4000;
        game->properties[19].baseRent = 800;
        game->properties[19].houseCost = 2500;
@@ -289,6 +309,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[20].name, "Nuwara Eliya");
        game->properties[20].group = DARK_BLUE;
        game->properties[20].purchasePrice = 10000;
+       game->properties[20].currentMarketValue = 10000;
        game->properties[20].mortgageValue = 5000;
        game->properties[20].baseRent = 1000;
        game->properties[20].houseCost = 3000;
@@ -303,6 +324,7 @@ void initializeProperties(GameplayState *game)
        strcpy(game->properties[21].name, "Galle Face");
        game->properties[21].group = DARK_BLUE;
        game->properties[21].purchasePrice = 12000;
+       game->properties[21].currentMarketValue = 12000;
        game->properties[21].mortgageValue = 5000;
        game->properties[21].baseRent = 1200;
        game->properties[21].houseCost = 3000;
@@ -638,6 +660,7 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
 
        case 6:
               printf("Square type: JAIL\n");
+              printf("Just visiting Jail\n");
               break;
 
        case 7:
@@ -646,6 +669,7 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
 
        case 8:
               printf("Square type: GO TO JAIL\n");
+              sendPlayerToJail(game, playerId);
               break;
 
        case 9:
@@ -746,6 +770,7 @@ void handleRailwayLanding(GameplayState *game, int playerId)
        }
 }
 
+// handle utitlity landing
 void handleUtilityLanding(GameplayState *game, int playerId, int diceValue)
 {
        int position;
@@ -776,4 +801,15 @@ void handleUtilityLanding(GameplayState *game, int playerId, int diceValue)
 
               payUtilityRent(game, playerId, utilityId, diceValue);
        }
+}
+
+void sendPlayerToJail(GameplayState *game, int playerId)
+{
+       game->players[playerId].position = 10; // change position to square 10
+       game->players[playerId].inJail = 1;
+       game->players[playerId].jailTurns = 0;
+
+       printf("%s was sent to jail \n", game->players[playerId].name);
+
+       printf("%s is now on square %d: %s\n", game->players[playerId].name, game->players[playerId].position, game->board[10].name);
 }

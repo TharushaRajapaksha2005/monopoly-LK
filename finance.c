@@ -295,3 +295,30 @@ void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceVa
     printf("Dice total: %d\n", diceValue);
     printf("Utilities owned by owner: %d\n", utilityCount);
 }
+
+int payJailBail(GameplayState *game, int playerId)
+{
+    int bailAmount = 300;
+
+    if (game->players[playerId].cash < bailAmount)
+    {
+        printf("%s does not have enough cash to pay bail.\n",
+               game->players[playerId].name);
+
+        return 0;
+    }
+
+    game->players[playerId].cash -= bailAmount;
+    game->players[playerId].inJail = 0;
+    game->players[playerId].jailTurns = 0;
+
+    printf("%s paid LKR %d bail and left Jail.\n",
+           game->players[playerId].name,
+           bailAmount);
+
+    printf("%s now has LKR %d.\n",
+           game->players[playerId].name,
+           game->players[playerId].cash);
+
+    return 1; /* return 1 = bail was paid return 0 = baild wasnt paid*/
+}

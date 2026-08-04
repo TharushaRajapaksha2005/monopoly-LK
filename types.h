@@ -73,6 +73,7 @@ typedef struct
     PropertyGroup group;
 
     int purchasePrice;
+    int currentMarketValue;
     int mortgageValue;
     int baseRent;
 
@@ -136,7 +137,7 @@ typedef struct
 
     int isbankrupt;
 
-    int isJailed;
+    int inJail;
     int jailTurns;
 
     /*tax and loan not yet added */
@@ -153,8 +154,10 @@ typedef struct
     Player players[MAX_PLAYERS];
 
     int turnOrder[MAX_PLAYERS];
-
     int currentRound;
+
+    float incomeTaxRate;
+    float communityFundRate;
 
     int inflationRate;
     int currentLoanInteresetRate;
@@ -174,17 +177,12 @@ void initializeGameBoard(GameplayState *game);
 void movePlayer(GameplayState *game, int playerId, int diceValue);
 
 void resolveLanding(GameplayState *game, int playerId, int diceValue);
+
 void handlePropertyLanding(GameplayState *game, int playerId);
-
-void buyRailway(GameplayState *game, int playerId, int railwayId);
-int countOwnedRailways(GameplayState *game, int playerId);
-void payRailwayRent(GameplayState *game, int playerId, int railwayId);
 void handleRailwayLanding(GameplayState *game, int playerId);
-
-void buyUtility(GameplayState *game, int playerId, int utilityId);
-int countOwnedUtilities(GameplayState *game, int playerId);
-void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceValue);
 void handleUtilityLanding(GameplayState *game, int playerId, int diceValue);
+
+void sendPlayerToJail(GameplayState *game, int playerId);
 
 /*functions in player.c */
 
@@ -202,9 +200,20 @@ void determineTurnOrder(GameplayState *game);
 
 void playTurn(GameplayState *game, int playerId);
 
+void handleJailTurn(GameplayState *game, int playerId);
+
 /* functions in finance.c */
 void buyProperty(GameplayState *game, int playerId, int propertyId);
-
 void payPropertyRent(GameplayState *game, int playerId, int propertyId);
+
+void buyRailway(GameplayState *game, int playerId, int railwayId);
+int countOwnedRailways(GameplayState *game, int playerId);
+void payRailwayRent(GameplayState *game, int playerId, int railwayId);
+
+void buyUtility(GameplayState *game, int playerId, int utilityId);
+int countOwnedUtilities(GameplayState *game, int playerId);
+void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceValue);
+
+int payJailBail(GameplayState *game, int playerId);
 
 #endif

@@ -12,14 +12,13 @@ int main(void)
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    printf("=== TEST 6: SECOND UTILITY ===\n\n");
+    printf("=== TEST 5: PLAY TURN WHILE JAILED ===\n");
 
-    game.players[0].position = 28;
+    game.players[0].position = 10;
+    game.players[0].inJail = 1;
+    game.players[0].jailTurns = 0;
 
-    handleUtilityLanding(&game, 0, 7);
-
-    printf("\nUtility 1 owner ID: %d\n",
-           game.utilities[1].owner);
+    playTurn(&game, 0);
 
     return 0;
 }
