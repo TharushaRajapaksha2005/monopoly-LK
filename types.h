@@ -147,7 +147,7 @@ typedef struct
     BoardSquare board[BOARD_SIZE];
 
     Property properties[MAX_PROPERTIES];
-    Railway railway[MAX_RAILWAY];
+    Railway railways[MAX_RAILWAY];
     Utility utilities[MAX_UTILITY];
 
     Player players[MAX_PLAYERS];
@@ -173,9 +173,18 @@ void initializeGameBoard(GameplayState *game);
 
 void movePlayer(GameplayState *game, int playerId, int diceValue);
 
-void resolveLanding(GameplayState *game, int playerId);
-
+void resolveLanding(GameplayState *game, int playerId, int diceValue);
 void handlePropertyLanding(GameplayState *game, int playerId);
+
+void buyRailway(GameplayState *game, int playerId, int railwayId);
+int countOwnedRailways(GameplayState *game, int playerId);
+void payRailwayRent(GameplayState *game, int playerId, int railwayId);
+void handleRailwayLanding(GameplayState *game, int playerId);
+
+void buyUtility(GameplayState *game, int playerId, int utilityId);
+int countOwnedUtilities(GameplayState *game, int playerId);
+void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceValue);
+void handleUtilityLanding(GameplayState *game, int playerId, int diceValue);
 
 /*functions in player.c */
 
@@ -185,14 +194,9 @@ void initializePlayers(GameplayState *game);
 
 int rollDice(void);
 
-void sortTurnOrder(int turnOrder[],
-                   int diceValues[],
-                   int start,
-                   int end);
+void sortTurnOrder(int turnOrder[], int diceValues[], int start, int end);
 
-void resolveTiedGroup(GameplayState *game,
-                      int start,
-                      int end);
+void resolveTiedGroup(GameplayState *game, int start, int end);
 
 void determineTurnOrder(GameplayState *game);
 
@@ -200,5 +204,7 @@ void playTurn(GameplayState *game, int playerId);
 
 /* functions in finance.c */
 void buyProperty(GameplayState *game, int playerId, int propertyId);
+
+void payPropertyRent(GameplayState *game, int playerId, int propertyId);
 
 #endif

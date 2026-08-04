@@ -158,5 +158,5 @@ void playTurn(GameplayState *game, int playerId)
 
     movePlayer(game, playerId, diceValue);
 
-    resolveLanding(game, playerId);
+    resolveLanding(game, playerId, diceValue);
 }

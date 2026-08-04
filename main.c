@@ -6,29 +6,20 @@
 int main(void)
 {
     GameplayState game;
-    int i;
-    int playerId;
 
     srand(time(NULL));
 
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    printf("Player positions: %d %d %d %d\n",
-           game.players[0].position,
-           game.players[1].position,
-           game.players[2].position,
-           game.players[3].position);
+    printf("=== TEST 6: SECOND UTILITY ===\n\n");
 
-    determineTurnOrder(&game);
+    game.players[0].position = 28;
 
-    printf("\n========== ROUND 1 ==========\n");
+    handleUtilityLanding(&game, 0, 7);
 
-    for (i = 0; i < MAX_PLAYERS; i++)
-    {
-        playerId = game.turnOrder[i];
-        playTurn(&game, playerId);
-    }
+    printf("\nUtility 1 owner ID: %d\n",
+           game.utilities[1].owner);
 
     return 0;
 }
