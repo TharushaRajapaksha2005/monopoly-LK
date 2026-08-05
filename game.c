@@ -196,3 +196,13 @@ void handleJailTurn(GameplayState *game, int playerId)
         printf("%s remains in Jail.\n", game->players[playerId].name);
     }
 }
+
+void playRound(GameplayState *game)
+{
+    int i;
+    int playerId;
+
+    printf("\n===================================\n");
+    printf("ROUND %d\n", game->currentRound);
+    printf("===================================\n");
+}

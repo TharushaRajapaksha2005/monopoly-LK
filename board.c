@@ -652,6 +652,15 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
 
        case 4:
               printf("Square type: EVENT\n");
+
+              if (position == 2)
+              {
+                     payCommunityDevelopmentFund(game, playerId);
+              }
+              else
+              {
+                     printf("Other event card handling will be added later.\n");
+              }
               break;
 
        case 5:

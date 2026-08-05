@@ -322,3 +322,53 @@ int payJailBail(GameplayState *game, int playerId)
 
     return 1; /* return 1 = bail was paid return 0 = baild wasnt paid*/
 }
+
+int calculatePropertyAssetValue(GameplayState *game, int playerId)
+{
+    int i;
+    int totalValue = 0;
+
+    for (i = 0; i < MAX_PROPERTIES; i++)
+    {
+        if (game->properties[i].owner == playerId)
+        {
+            totalValue += game->properties[i].currentMarketValue;
+        }
+    }
+
+    return totalValue;
+}
+
+void payCommunityDevelopmentFund(GameplayState *game, int playerId)
+{
+    int propertyAssetValue;
+    int taxAmount;
+
+    propertyAssetValue = calculatePropertyAssetValue(game, playerId);
+    taxAmount = (int)(propertyAssetValue * game->communityFundRate);
+
+    printf("%s has property assets worth LKR %d \n", game->players[playerId].name, propertyAssetValue);
+
+    printf("Community Development Fund rate: %.0f%%\n", game->communityFundRate * 100);
+
+    if (taxAmount == 0)
+    {
+        printf("%s owns no properties, so no tax is paid.\n", game->players[playerId].name);
+
+        return;
+    }
+
+    if (game->players[playerId].cash < taxAmount)
+    {
+        printf("%s cannot pay the Community Development Fund tax of LKR %d.\n", game->players[playerId].name, taxAmount);
+
+        // Debt recovert will add later
+        return;
+    }
+
+    game->players[playerId].cash -= taxAmount;
+
+    printf("%s paid LKR %d to the Community Development Fund.\n", game->players[playerId].name, taxAmount);
+
+    printf("%s now has LKR %d.\n", game->players[playerId].name, game->players[playerId].cash);
+}

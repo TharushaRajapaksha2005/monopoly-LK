@@ -216,4 +216,7 @@ void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceVa
 
 int payJailBail(GameplayState *game, int playerId);
 
+int calculatePropertyAssetValue(GameplayState *game, int playerId);
+void payCommunityDevelopmentFund(GameplayState *game, int playerId);
+
 #endif
