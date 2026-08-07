@@ -205,4 +205,20 @@ void playRound(GameplayState *game)
     printf("\n===================================\n");
     printf("ROUND %d\n", game->currentRound);
     printf("===================================\n");
+
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        playerId = game->turnOrder[i];
+
+        if (game->players[playerId].isbankrupt == 0)
+        {
+            playTurn(game, playerId);
+        }
+        else
+        {
+            printf("%s is bankrupt and skips the turn.\n", game->players[playerId].name);
+        }
+    }
+
+    game->currentRound++;
 }

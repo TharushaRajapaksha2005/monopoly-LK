@@ -6,31 +6,48 @@
 int main(void)
 {
     GameplayState game;
+    int i;
+    int result;
 
     srand(time(NULL));
 
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    game.incomeTaxRate = 0.15f;
-    game.communityFundRate = 0.10f;
+    /*
+        Nuwara Eliya
+        propertyId = 20
+        market value = 10000
+    */
 
-    printf("=== START TEST ===\n");
-    game.players[0].position = 0;
-    resolveLanding(&game, 0, 7);
+    printf("=== AUCTION DECISION TEST ===\n\n");
 
-    printf("\n=== JAIL VISITING TEST ===\n");
-    game.players[0].position = 10;
-    game.players[0].inJail = 0;
-    resolveLanding(&game, 0, 7);
+    printf("Current bid: LKR 10000\n");
+    printf("Next bid: LKR 9250\n\n");
 
-    printf("\n=== FREE PARKING TEST ===\n");
-    game.players[0].position = 20;
-    resolveLanding(&game, 0, 7);
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        game.players[i].cash = 30000;
 
-    printf("\n=== TAX PLACEHOLDER TEST ===\n");
-    game.players[0].position = 4;
-    resolveLanding(&game, 0, 7);
+        result =
+            shouldBidProperty(&game,
+                              i,
+                              20,
+                              10000);
+
+        printf("%s\n", game.players[i].name);
+
+        if (result == 1)
+        {
+            printf("Decision: BID LKR 9250\n");
+        }
+        else
+        {
+            printf("Decision: WITHDRAW\n");
+        }
+
+        printf("\n");
+    }
 
     return 0;
 }

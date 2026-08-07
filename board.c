@@ -339,29 +339,29 @@ void initializeRailways(GameplayState *game)
 {
        game->railways[0].railwayId = 0;
        strcpy(game->railways[0].name, "Colombo Fort Railway Station");
-       game->railways[0].purchasePrice = 1000; // temp purchasePrice
-       game->railways[0].mortgageValue = 0;
+       game->railways[0].purchasePrice = 1500; // temp purchasePrice
+       game->railways[0].mortgageValue = 750;
        game->railways[0].owner = NO_OWNER;
        game->railways[0].mortgaged = 0;
 
        game->railways[1].railwayId = 1;
        strcpy(game->railways[1].name, "Kandy Railway Station");
        game->railways[1].purchasePrice = 1500;
-       game->railways[1].mortgageValue = 0;
+       game->railways[1].mortgageValue = 750;
        game->railways[1].owner = NO_OWNER;
        game->railways[1].mortgaged = 0;
 
        game->railways[2].railwayId = 2;
        strcpy(game->railways[2].name, "Galle Railway Station");
-       game->railways[2].purchasePrice = 2000;
-       game->railways[2].mortgageValue = 0;
+       game->railways[2].purchasePrice = 1500;
+       game->railways[2].mortgageValue = 750;
        game->railways[2].owner = NO_OWNER;
        game->railways[2].mortgaged = 0;
 
        game->railways[3].railwayId = 3;
        strcpy(game->railways[3].name, "Jaffna Railway Station");
-       game->railways[3].purchasePrice = 2500;
-       game->railways[3].mortgageValue = 0;
+       game->railways[3].purchasePrice = 1500;
+       game->railways[3].mortgageValue = 750;
        game->railways[3].owner = NO_OWNER;
        game->railways[3].mortgaged = 0;
 }
@@ -371,16 +371,16 @@ void initializeUtilities(GameplayState *game)
        game->utilities[0].utilityId = 0;
        strcpy(game->utilities[0].name,
               "Ceylon Electricity Board");
-       game->utilities[0].purchasePrice = 1000; // temp purchasePrice
-       game->utilities[0].mortgageValue = 0;
+       game->utilities[0].purchasePrice = 1500; // temp purchasePrice
+       game->utilities[0].mortgageValue = 750;
        game->utilities[0].owner = NO_OWNER;
        game->utilities[0].mortgaged = 0;
 
        game->utilities[1].utilityId = 1;
        strcpy(game->utilities[1].name,
               "National Water Supply and Drainage Board");
-       game->utilities[1].purchasePrice = 2000; // temp purchasePrice
-       game->utilities[1].mortgageValue = 0;
+       game->utilities[1].purchasePrice = 1500; // temp purchasePrice
+       game->utilities[1].mortgageValue = 750;
        game->utilities[1].owner = NO_OWNER;
        game->utilities[1].mortgaged = 0;
 }
@@ -665,6 +665,7 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
 
        case 5:
               printf("Square type: TAX\n");
+              printf("Income Tax handling will be completed later.\n");
               break;
 
        case 6:
@@ -705,16 +706,22 @@ void handlePropertyLanding(GameplayState *game, int playerId)
        propertyId = game->board[position].propertyId;
        ownerId = game->properties[propertyId].owner;
 
-       printf("Property name: %s\n",
-              game->properties[propertyId].name);
+       printf("Property name: %s\n", game->properties[propertyId].name);
 
-       printf("Purchase price: LKR %d\n",
-              game->properties[propertyId].purchasePrice);
+       printf("Purchase price: LKR %d\n", game->properties[propertyId].purchasePrice);
 
        if (ownerId == NO_OWNER)
        {
-              printf("This property has no owner \n");
-              buyProperty(game, playerId, propertyId);
+              if (shouldBuyProperty(game, playerId, propertyId) == 1)
+              {
+                     buyProperty(game, playerId, propertyId);
+              }
+              else
+              {
+                     printf("%s decided not to buys %s \n", game->players[playerId].name, game->properties[propertyId].name);
+
+                     /* auction will add later*/
+              }
        }
        else if (ownerId == playerId)
        {
@@ -725,24 +732,6 @@ void handlePropertyLanding(GameplayState *game, int playerId)
               printf("This property is owned by %s \n", game->players[ownerId].name);
 
               payPropertyRent(game, playerId, propertyId);
-       }
-
-       if (game->properties[propertyId].owner == NO_OWNER)
-       {
-              printf("This property has no owner.\n");
-
-              buyProperty(game, playerId, propertyId); // temp test
-       }
-
-       else if (game->properties[propertyId].owner == playerId)
-       {
-              printf("%s already owns this property.\n",
-                     game->players[playerId].name);
-       }
-       else
-       {
-              printf("This property is owned by %s.\n",
-                     game->players[game->properties[propertyId].owner].name);
        }
 }
 
@@ -763,8 +752,16 @@ void handleRailwayLanding(GameplayState *game, int playerId)
 
        if (ownerId == NO_OWNER)
        {
-              printf("This railway has no owner.\n");
-              buyRailway(game, playerId, railwayId);
+              if (shouldBuyRailway(game, playerId, railwayId) == 1)
+              {
+                     buyProperty(game, playerId, railwayId);
+              }
+              else
+              {
+                     printf("%s decided not to buy %s \n", game->players[playerId].name, game->railways[railwayId].name);
+
+                     /* auction will add later*/
+              }
        }
 
        else if (ownerId == playerId)
@@ -796,9 +793,16 @@ void handleUtilityLanding(GameplayState *game, int playerId, int diceValue)
 
        if (ownerId == NO_OWNER)
        {
-              printf("This utility has no owner.\n");
+              if (shouldBuyUtility(game, playerId, utilityId) == 1)
+              {
+                     buyUtility(game, playerId, utilityId);
+              }
+              else
+              {
+                     printf("%s decided not to buy %s \n", game->players[playerId].name, game->utilities[utilityId].name);
 
-              buyUtility(game, playerId, utilityId);
+                     /* auction will add later*/
+              }
        }
        else if (ownerId == playerId)
        {

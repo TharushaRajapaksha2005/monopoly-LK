@@ -188,6 +188,12 @@ void sendPlayerToJail(GameplayState *game, int playerId);
 
 void initializePlayers(GameplayState *game);
 
+int shouldBuyProperty(GameplayState *game, int playerId, int propertyId);
+int shouldBuyRailway(GameplayState *game, int playerId, int railwayId);
+int shouldBuyUtility(GameplayState *game, int playerId, int utilityId);
+
+int shouldBidProperty(GameplayState *game, int playerId, int propertyId, int currentBid);
+
 /*functions in game.c */
 
 int rollDice(void);
@@ -201,6 +207,8 @@ void determineTurnOrder(GameplayState *game);
 void playTurn(GameplayState *game, int playerId);
 
 void handleJailTurn(GameplayState *game, int playerId);
+
+void playRound(GameplayState *game);
 
 /* functions in finance.c */
 void buyProperty(GameplayState *game, int playerId, int propertyId);
