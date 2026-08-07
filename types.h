@@ -95,6 +95,7 @@ typedef struct
     char name[30];
 
     int purchasePrice;
+    int currentMarketValue;
     int mortgageValue;
 
     int owner;
@@ -108,6 +109,7 @@ typedef struct
     char name[30];
 
     int purchasePrice;
+    int currentMarketValue;
     int mortgageValue;
 
     int owner;
@@ -193,6 +195,8 @@ int shouldBuyRailway(GameplayState *game, int playerId, int railwayId);
 int shouldBuyUtility(GameplayState *game, int playerId, int utilityId);
 
 int shouldBidProperty(GameplayState *game, int playerId, int propertyId, int currentBid);
+int shouldBidRailway(GameplayState *game, int playerId, int railwayId, int currentBid);
+int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int currentBid);
 
 /*functions in game.c */
 
@@ -226,5 +230,7 @@ int payJailBail(GameplayState *game, int playerId);
 
 int calculatePropertyAssetValue(GameplayState *game, int playerId);
 void payCommunityDevelopmentFund(GameplayState *game, int playerId);
+
+void auctionProperty(GameplayState *game, int propertyId);
 
 #endif

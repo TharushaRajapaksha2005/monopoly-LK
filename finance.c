@@ -372,3 +372,120 @@ void payCommunityDevelopmentFund(GameplayState *game, int playerId)
 
     printf("%s now has LKR %d.\n", game->players[playerId].name, game->players[playerId].cash);
 }
+
+void auctionProperty(GameplayState *game, int propertyId)
+{
+    int active[MAX_PLAYERS];
+    int activeCount;
+    int highestBidder;
+    int currentBid;
+    int nextBid;
+    int openingBid;
+    int i;
+
+    highestBidder = NO_OWNER;
+    openingBid = game->properties[propertyId].currentMarketValue / 2;
+    currentBid = openingBid - 250;
+
+    /* subtract 250 because shouldBidProperty()
+        calculates the next bid as currentBid + 250.
+
+        So the first possible bid becomes openingBid. */
+
+    activeCount = 0;
+
+    printf("\n=== AUCTION STARTED ===\n");
+    printf("Property: %s\n", game->properties[propertyId].name);
+    printf("Market Value: LKR %d\n", game->properties[propertyId].currentMarketValue);
+    printf("Opening Bid: LKR %d\n\n", openingBid);
+
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (game->players[i].isbankrupt == 0)
+        {
+            active[i] = 1;
+            activeCount++;
+        }
+        else
+        {
+            active[i] = 0;
+        }
+    }
+
+    while (activeCount > 0)
+    {
+        for (i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (active[i] == 0)
+            {
+                continue;
+            }
+
+            if (i == highestBidder)
+            {
+                continue;
+            }
+
+            nextBid = currentBid + 250;
+
+            if (shouldBidProperty(game, i, propertyId, currentBid) == 1)
+            {
+                currentBid = nextBid;
+                highestBidder = i;
+
+                printf("%s bids LKR %d \n", game->players[i].name, currentBid);
+            }
+            else
+            {
+                active[i] = 0;
+                activeCount--;
+
+                printf("%s withdraws from the auction \n", game->players[i].name);
+            }
+        }
+
+        if (highestBidder != NO_OWNER)
+        {
+            activeCount = 0;
+
+            for (i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (active[i] == 1)
+                {
+                    activeCount++;
+                }
+            }
+            if (activeCount == 1)
+            {
+                break;
+            }
+        }
+        else
+        {
+            /* nobody made even the opening bid*/
+            if (activeCount == 0)
+            {
+                break;
+            }
+        }
+    }
+
+    /* no one wanted the property*/
+
+    if (highestBidder == NO_OWNER)
+    {
+        printf("\nNobody purchased %s \n", game->properties[propertyId].name);
+        printf("Property remain owned by the Bank \n");
+
+        return;
+    }
+
+    game->players[highestBidder].cash -= currentBid;
+    game->properties[propertyId].owner = highestBidder;
+
+    printf("\n %s wins the auction \n", game->players[highestBidder].name);
+    printf("Winner Bid: LKR %d\n", currentBid);
+    printf("Remaining Cash: LKR %d\n", game->players[highestBidder].cash);
+
+    printf("=======================\n");
+}

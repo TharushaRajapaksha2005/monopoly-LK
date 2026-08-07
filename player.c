@@ -256,3 +256,113 @@ int shouldBidProperty(GameplayState *game, int playerId, int propertyId, int cur
 
     return 0;
 }
+
+int shouldBidRailway(GameplayState *game, int playerId, int railwayId, int currentBid)
+{
+    int nextBid;
+    int marketValue;
+    int maximumBid;
+
+    nextBid = currentBid + 250;
+
+    marketValue = game->railways[railwayId].currentMarketValue;
+
+    if (game->players[playerId].isbankrupt == 1)
+    {
+        return 0;
+    }
+
+    if (game->players[playerId].cash < nextBid)
+    {
+        return 0;
+    }
+
+    switch (game->players[playerId].strategy)
+    {
+    case 0: // aggressive
+        maximumBid = (int)(marketValue * 1.20f);
+
+        if (nextBid <= maximumBid)
+        {
+            return 1;
+        }
+
+        return 0;
+
+    case 1: // conservative
+        if (nextBid < marketValue)
+        {
+            return 1;
+        }
+
+        return 0;
+
+    case 2: // risk taker
+        return 1;
+
+    case 3: // opertunistic
+        if (nextBid < marketValue)
+        {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    return 0;
+}
+
+int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int currentBid)
+{
+    int nextBid;
+    int marketValue;
+    int maximumBid;
+
+    nextBid = currentBid + 250;
+
+    marketValue = game->utilities[utilityId].currentMarketValue;
+
+    if (game->players[playerId].isbankrupt == 1)
+    {
+        return 0;
+    }
+
+    if (game->players[playerId].cash < nextBid)
+    {
+        return 0;
+    }
+
+    switch (game->players[playerId].strategy)
+    {
+    case 0: // aggressive
+        maximumBid = (int)(marketValue * 1.20f);
+
+        if (nextBid <= maximumBid)
+        {
+            return 1;
+        }
+
+        return 0;
+
+    case 1: // conservative
+        if (nextBid < marketValue)
+        {
+            return 1;
+        }
+
+        return 0;
+
+    case 2: // risk taker
+        return 1;
+
+    case 3: // opertunistic
+        if (nextBid < marketValue)
+        {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    return 0;
+}

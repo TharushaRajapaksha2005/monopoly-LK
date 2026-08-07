@@ -14,39 +14,75 @@ int main(void)
     initializeGameBoard(&game);
     initializePlayers(&game);
 
+    printf("=== RAILWAY BID TEST ===\n\n");
+
     /*
-        Nuwara Eliya
-        propertyId = 20
-        market value = 10000
+        Test railway 0.
+
+        Set currentBid close to its market value
+        so we can see different strategy decisions.
     */
-
-    printf("=== AUCTION DECISION TEST ===\n\n");
-
-    printf("Current bid: LKR 10000\n");
-    printf("Next bid: LKR 9250\n\n");
 
     for (i = 0; i < MAX_PLAYERS; i++)
     {
         game.players[i].cash = 30000;
+    }
 
-        result =
-            shouldBidProperty(&game,
-                              i,
-                              20,
-                              10000);
+    printf("Railway market value: LKR %d\n",
+           game.railways[0].currentMarketValue);
 
-        printf("%s\n", game.players[i].name);
+    printf("Current bid: LKR %d\n\n",
+           game.railways[0].currentMarketValue);
+
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        result = shouldBidRailway(
+            &game,
+            i,
+            0,
+            game.railways[0].currentMarketValue - 1000);
+
+        printf("%s: ",
+               game.players[i].name);
 
         if (result == 1)
         {
-            printf("Decision: BID LKR 9250\n");
+            printf("BID\n");
         }
         else
         {
-            printf("Decision: WITHDRAW\n");
+            printf("WITHDRAW\n");
         }
+    }
 
-        printf("\n");
+    printf("\n==============================\n");
+    printf("=== UTILITY BID TEST ===\n\n");
+
+    printf("Utility market value: LKR %d\n",
+           game.utilities[0].currentMarketValue);
+
+    printf("Current bid: LKR %d\n\n",
+           game.utilities[0].currentMarketValue);
+
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        result = shouldBidUtility(
+            &game,
+            i,
+            0,
+            game.utilities[0].currentMarketValue - 1000);
+
+        printf("%s: ",
+               game.players[i].name);
+
+        if (result == 1)
+        {
+            printf("BID\n");
+        }
+        else
+        {
+            printf("WITHDRAW\n");
+        }
     }
 
     return 0;

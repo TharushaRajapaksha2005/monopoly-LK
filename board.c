@@ -339,7 +339,8 @@ void initializeRailways(GameplayState *game)
 {
        game->railways[0].railwayId = 0;
        strcpy(game->railways[0].name, "Colombo Fort Railway Station");
-       game->railways[0].purchasePrice = 1500; // temp purchasePrice
+       game->railways[0].purchasePrice = 1500;
+       game->railways[0].currentMarketValue = 1500;
        game->railways[0].mortgageValue = 750;
        game->railways[0].owner = NO_OWNER;
        game->railways[0].mortgaged = 0;
@@ -347,6 +348,7 @@ void initializeRailways(GameplayState *game)
        game->railways[1].railwayId = 1;
        strcpy(game->railways[1].name, "Kandy Railway Station");
        game->railways[1].purchasePrice = 1500;
+       game->railways[1].currentMarketValue = 1500;
        game->railways[1].mortgageValue = 750;
        game->railways[1].owner = NO_OWNER;
        game->railways[1].mortgaged = 0;
@@ -354,6 +356,7 @@ void initializeRailways(GameplayState *game)
        game->railways[2].railwayId = 2;
        strcpy(game->railways[2].name, "Galle Railway Station");
        game->railways[2].purchasePrice = 1500;
+       game->railways[2].currentMarketValue = 1500;
        game->railways[2].mortgageValue = 750;
        game->railways[2].owner = NO_OWNER;
        game->railways[2].mortgaged = 0;
@@ -361,6 +364,7 @@ void initializeRailways(GameplayState *game)
        game->railways[3].railwayId = 3;
        strcpy(game->railways[3].name, "Jaffna Railway Station");
        game->railways[3].purchasePrice = 1500;
+       game->railways[3].currentMarketValue = 1500;
        game->railways[3].mortgageValue = 750;
        game->railways[3].owner = NO_OWNER;
        game->railways[3].mortgaged = 0;
@@ -371,7 +375,8 @@ void initializeUtilities(GameplayState *game)
        game->utilities[0].utilityId = 0;
        strcpy(game->utilities[0].name,
               "Ceylon Electricity Board");
-       game->utilities[0].purchasePrice = 1500; // temp purchasePrice
+       game->utilities[0].purchasePrice = 1500;
+       game->utilities[0].currentMarketValue = 1500;
        game->utilities[0].mortgageValue = 750;
        game->utilities[0].owner = NO_OWNER;
        game->utilities[0].mortgaged = 0;
@@ -379,7 +384,8 @@ void initializeUtilities(GameplayState *game)
        game->utilities[1].utilityId = 1;
        strcpy(game->utilities[1].name,
               "National Water Supply and Drainage Board");
-       game->utilities[1].purchasePrice = 1500; // temp purchasePrice
+       game->utilities[1].purchasePrice = 1500;
+       game->utilities[1].currentMarketValue = 1500;
        game->utilities[1].mortgageValue = 750;
        game->utilities[1].owner = NO_OWNER;
        game->utilities[1].mortgaged = 0;
@@ -675,6 +681,7 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
 
        case 7:
               printf("Square type: FREE PARKING\n");
+              printf("%s landed on Free Parking. Nothing happens.\n", game->players[playerId].name);
               break;
 
        case 8:
@@ -720,7 +727,7 @@ void handlePropertyLanding(GameplayState *game, int playerId)
               {
                      printf("%s decided not to buys %s \n", game->players[playerId].name, game->properties[propertyId].name);
 
-                     /* auction will add later*/
+                     auctionProperty(game, propertyId);
               }
        }
        else if (ownerId == playerId)
