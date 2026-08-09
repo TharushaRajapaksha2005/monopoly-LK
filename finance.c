@@ -40,6 +40,13 @@ void payPropertyRent(GameplayState *game, int playerId, int propertyId)
     ownerId = game->properties[propertyId].owner;
     rent = game->properties[propertyId].baseRent;
 
+    // no rent for NO OWNER property
+    if (ownerId == NO_OWNER)
+    {
+        printf("This property has no owner.\n");
+        return;
+    }
+
     // doesnt pay rent for own property
 
     if (ownerId == playerId)
@@ -54,11 +61,27 @@ void payPropertyRent(GameplayState *game, int playerId, int propertyId)
         printf("%s is mortgaged no rent is collected \n", game->properties[propertyId].name);
         return;
     }
-    // no rent for NO OWNER property
-    if (ownerId == NO_OWNER)
+
+    /* rent calcutaions*/
+    if (game->properties[propertyId].hotel == 1)
     {
-        printf("This property has no owner.\n");
-        return;
+        rent = rent * 10;
+    }
+    else if (game->properties[propertyId].houses == 4)
+    {
+        rent = rent * 7;
+    }
+    else if (game->properties[propertyId].houses == 3)
+    {
+        rent = rent * 5;
+    }
+    else if (game->properties[propertyId].houses == 2)
+    {
+        rent = rent * 3;
+    }
+    else if (game->properties[propertyId].houses == 1)
+    {
+        rent = rent * 2;
     }
 
     /* temp basic payment bankrupcy and debt will add later*/
@@ -411,6 +434,7 @@ void auctionProperty(GameplayState *game, int propertyId)
             active[i] = 0;
         }
     }
+    // auction starts from here
 
     while (activeCount > 0)
     {
@@ -488,4 +512,320 @@ void auctionProperty(GameplayState *game, int propertyId)
     printf("Remaining Cash: LKR %d\n", game->players[highestBidder].cash);
 
     printf("=======================\n");
+}
+
+void auctionRailway(GameplayState *game, int railwayId)
+{
+    int active[MAX_PLAYERS];
+    int activeCount;
+    int highestBidder;
+    int currentBid;
+    int nextBid;
+    int openingBid;
+    int i;
+
+    openingBid = game->railways[railwayId].currentMarketValue / 2;
+
+    highestBidder = NO_OWNER;
+    currentBid = currentBid - 250;
+    activeCount = 0;
+
+    printf("\n=== RAILWAY AUCTION STARTED ===\n");
+    printf("Railway: %s\n", game->railways[railwayId].currentMarketValue);
+    printf("Market Value: LKR %d\n", game->railways[railwayId].currentMarketValue);
+    printf("Opening Bid: LKR %d\n\n", openingBid);
+
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (game->players[i].isbankrupt == 0)
+        {
+            active[i] = 1;
+            activeCount++;
+        }
+        else
+        {
+            active[i] = 0;
+        }
+    }
+
+    while (activeCount > 0)
+    {
+        for (i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (active[i] == 0)
+            {
+                continue;
+            }
+
+            nextBid = currentBid + 250;
+
+            if (shouldBidRailway(game, i, railwayId, currentBid) == 1)
+            {
+                currentBid = nextBid;
+                highestBidder = i;
+
+                printf("%s bids LKR %d\n", game->players[i].name, currentBid);
+            }
+            else
+            {
+                active[i] = 0;
+                activeCount--;
+
+                printf("%s withdraws from the auction\n", game->players[i].name);
+            }
+        }
+        if (highestBidder != NO_OWNER)
+        {
+            activeCount = 0;
+
+            for (i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (active[i] == 1)
+                {
+                    activeCount++;
+                }
+            }
+            if (activeCount == 1)
+            {
+                break;
+            }
+        }
+        else if (activeCount == 0)
+        {
+            break;
+        }
+    }
+    if (highestBidder == NO_CLOUR)
+    {
+        printf("\nNobidy purchased %s \n", game->railways[railwayId].name);
+
+        return;
+    }
+
+    game->players[highestBidder].cash -= currentBid;
+    game->railways[railwayId].owner = highestBidder;
+
+    printf("\n%s wins the railway auction \n", game->players[highestBidder].name);
+    printf("Winning Bid: LKR %d \n", currentBid);
+    printf("Remaining Cahs: LKR %d\n", game->players[highestBidder].cash);
+
+    printf("==============================\n");
+}
+
+void auctionUtility(GameplayState *game, int utilityId)
+{
+    int active[MAX_PLAYERS];
+    int activeCount;
+    int highestBidder;
+    int currentBid;
+    int nextBid;
+    int openingBid;
+    int i;
+
+    openingBid = game->utilities[utilityId].currentMarketValue / 2;
+
+    highestBidder = NO_OWNER;
+    currentBid = openingBid - 250;
+    activeCount = 0;
+
+    printf("\n=== UTILITY AUCTION STARTED ===\n");
+    printf("Utility: %s\n", game->utilities[utilityId].name);
+
+    printf("Market Value: LKR %d\n", game->utilities[utilityId].currentMarketValue);
+
+    printf("Opening Bid: LKR %d\n\n", openingBid);
+
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (game->players[i].isbankrupt == 0)
+        {
+            active[i] = 1;
+            activeCount++;
+        }
+        else
+        {
+            active[i] = 0;
+        }
+    }
+
+    while (activeCount > 0)
+    {
+        for (i = 0; i < MAX_PLAYERS; i++)
+        {
+            if (active[i] == 0)
+            {
+                continue;
+            }
+
+            if (i == highestBidder)
+            {
+                continue;
+            }
+
+            nextBid = currentBid + 250;
+
+            if (shouldBidUtility(game, i, utilityId, currentBid) == 1)
+            {
+                currentBid = nextBid;
+                highestBidder = i;
+
+                printf("%s bids LKR %d\n", game->players[i].name, currentBid);
+            }
+            else
+            {
+                active[i] = 0;
+                activeCount--;
+
+                printf("%s withdraws from the auction\n", game->players[i].name);
+            }
+        }
+
+        if (highestBidder != NO_OWNER)
+        {
+            activeCount = 0;
+
+            for (i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (active[i] == 1)
+                {
+                    activeCount++;
+                }
+            }
+
+            if (activeCount == 1)
+            {
+                break;
+            }
+        }
+        else if (activeCount == 0)
+        {
+            break;
+        }
+    }
+
+    if (highestBidder == NO_OWNER)
+    {
+        printf("\nNobody purchased %s.\n", game->utilities[utilityId].name);
+
+        return;
+    }
+
+    game->players[highestBidder].cash -= currentBid;
+
+    game->utilities[utilityId].owner = highestBidder;
+
+    printf("\n%s wins the utility auction\n", game->players[highestBidder].name);
+
+    printf("Winning Bid: LKR %d\n", currentBid);
+
+    printf("Remaining Cash: LKR %d\n", game->players[highestBidder].cash);
+
+    printf("==============================\n");
+}
+
+void buildHouse(GameplayState *game, int playerId, int propertyId)
+{
+    int cost;
+    cost = game->properties[propertyId].houseCost;
+
+    if (canBuildHouse(game, playerId, propertyId) == 0)
+    {
+        printf("%s cannot build a house on %s \n", game->players[playerId].name, game->properties[propertyId].name);
+        return;
+    }
+
+    game->players[playerId].cash -= cost;
+    game->properties[propertyId].houses++;
+
+    printf("%s build one house on %s \n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Build cost: LKR %d\n", cost);
+    printf("Houses on property: %d \n", game->properties[propertyId].houses);
+    printf("Remaining cash: LKR %d \n", game->players[playerId].cash);
+}
+
+void buildHotel(GameplayState *game, int playerId, int propertyId)
+{
+    int cost;
+    cost = game->properties[propertyId].hotelCost;
+
+    if (canBuildHotel(game, playerId, propertyId) == 0)
+    {
+        printf("%s cannot build a hotel on %s \n", game->players[playerId].name, game->properties[propertyId].name);
+        return;
+    }
+
+    game->players[playerId].cash -= cost;
+    game->properties[propertyId].houses = 0;
+    game->properties[propertyId].hotel = 1;
+
+    printf("%s build a hotel on %s \n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Hotel cost: LKR %d\n", cost);
+    printf("Remaining cash: LKR %d \n", game->players[playerId].cash);
+}
+
+int mortgageProperty(GameplayState *game, int playerId, int propertyId)
+{
+    if (game->properties[propertyId].owner != playerId)
+    {
+        return 0;
+    }
+    if (game->properties[propertyId].mortgaged == 1)
+    {
+        return 0;
+    }
+    if (game->properties[propertyId].houses > 0 || game->properties[propertyId].hotel == 1)
+    {
+        return 0;
+    }
+
+    game->properties[propertyId].mortgaged = 1;
+    game->players[playerId].cash += game->properties[propertyId].mortgageValue;
+
+    printf("%s mortgaged %s \n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Received: LKR %d\n", game->properties[propertyId].mortgageValue);
+    printf("Cash: LKR %d\n", game->players[playerId].cash);
+
+    return 1;
+}
+
+int mortgageRailway(GameplayState *game, int playerId, int railwayId)
+{
+    if (game->railways[railwayId].owner != playerId)
+    {
+        return 0;
+    }
+    if (game->railways[railwayId].mortgaged == 1)
+    {
+        return 0;
+    }
+
+    game->railways[railwayId].mortgaged = 1;
+    game->players[playerId].cash += game->railways[railwayId].mortgageValue;
+
+    printf("%s mortgaged %s.\n", game->players[playerId].name, game->railways[railwayId].name);
+    printf("Received: LKR %d\n", game->railways[railwayId].mortgageValue);
+    printf("Cash: LKR %d\n", game->players[playerId].cash);
+
+    return 1;
+}
+
+int mortgageUtility(GameplayState *game, int playerId, int utilityId)
+{
+    if (game->utilities[utilityId].owner != playerId)
+    {
+        return 0;
+    }
+    if (game->utilities[utilityId].mortgaged == 1)
+    {
+        return 0;
+    }
+
+    game->utilities[utilityId].mortgaged = 1;
+    game->players[playerId].cash += game->utilities[utilityId].mortgageValue;
+
+    printf("%s mortgaged %s.\n", game->players[playerId].name, game->utilities[utilityId].name);
+    printf("Received: LKR %d\n", game->utilities[utilityId].mortgageValue);
+    printf("Cash: LKR %d\n", game->players[playerId].cash);
+
+    return 1;
 }

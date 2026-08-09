@@ -637,26 +637,26 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
 
        switch (type)
        {
-       case 0:
+       case START:
               printf("Square type: START\n");
               break;
 
-       case 1:
+       case PROPERTY:
               printf("Square type: PROPERTY\n");
               handlePropertyLanding(game, playerId);
               break;
 
-       case 2:
+       case RAILWAY:
               printf("Square type: RAILWAY\n");
               handleRailwayLanding(game, playerId);
               break;
 
-       case 3:
+       case UTILITY:
               printf("Square type: UTILITY\n");
               handleUtilityLanding(game, playerId, diceValue);
               break;
 
-       case 4:
+       case EVENT:
               printf("Square type: EVENT\n");
 
               if (position == 2)
@@ -669,31 +669,31 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
               }
               break;
 
-       case 5:
+       case TAX:
               printf("Square type: TAX\n");
               printf("Income Tax handling will be completed later.\n");
               break;
 
-       case 6:
+       case JAIL:
               printf("Square type: JAIL\n");
               printf("Just visiting Jail\n");
               break;
 
-       case 7:
+       case FREE_PARKING:
               printf("Square type: FREE PARKING\n");
               printf("%s landed on Free Parking. Nothing happens.\n", game->players[playerId].name);
               break;
 
-       case 8:
+       case GO_TO_JAIL:
               printf("Square type: GO TO JAIL\n");
               sendPlayerToJail(game, playerId);
               break;
 
-       case 9:
+       case BANK:
               printf("Square type: BANK\n");
               break;
 
-       case 10:
+       case INSURANCE:
               printf("Square type: INSURANCE\n");
               break;
 
@@ -767,7 +767,7 @@ void handleRailwayLanding(GameplayState *game, int playerId)
               {
                      printf("%s decided not to buy %s \n", game->players[playerId].name, game->railways[railwayId].name);
 
-                     /* auction will add later*/
+                     auctionRailway(game, railwayId);
               }
        }
 
@@ -808,7 +808,7 @@ void handleUtilityLanding(GameplayState *game, int playerId, int diceValue)
               {
                      printf("%s decided not to buy %s \n", game->players[playerId].name, game->utilities[utilityId].name);
 
-                     /* auction will add later*/
+                     auctionUtility(game, utilityId);
               }
        }
        else if (ownerId == playerId)

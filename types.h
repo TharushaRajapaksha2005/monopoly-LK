@@ -198,6 +198,17 @@ int shouldBidProperty(GameplayState *game, int playerId, int propertyId, int cur
 int shouldBidRailway(GameplayState *game, int playerId, int railwayId, int currentBid);
 int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int currentBid);
 
+int hasMonopoly(GameplayState *game, int playerId, PropertyGroup group);
+int canBuildHouse(GameplayState *game, int playerId, int propertyId);
+int canBuildHotel(GameplayState *game, int playerId, int propertyId);
+
+void buildHouse(GameplayState *game, int playerId, int propertyId);
+void buildHotel(GameplayState *game, int playerId, int propertyId);
+
+int shouldBuildHouse(GameplayState *game, int playerId, int propertyId);
+int shouldBuildHotel(GameplayState *game, int playerId, int propertyId);
+void developMonopoly(GameplayState *game, int playerId, PropertyGroup group);
+
 /*functions in game.c */
 
 int rollDice(void);
@@ -232,5 +243,11 @@ int calculatePropertyAssetValue(GameplayState *game, int playerId);
 void payCommunityDevelopmentFund(GameplayState *game, int playerId);
 
 void auctionProperty(GameplayState *game, int propertyId);
+void auctionRailway(GameplayState *game, int railwayId);
+void auctionUtility(GameplayState *game, int utilityId);
+
+int mortgageProperty(GameplayState *game, int playerId, int propertyId);
+int mortgageRailway(GameplayState *game, int playerId, int railwayId);
+int mortgageUtility(GameplayState *game, int playerId, int utilityId);
 
 #endif

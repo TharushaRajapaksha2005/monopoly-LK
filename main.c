@@ -1,89 +1,149 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "types.h"
 
 int main(void)
 {
     GameplayState game;
-    int i;
     int result;
-
-    srand(time(NULL));
 
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    printf("=== RAILWAY BID TEST ===\n\n");
+    printf("=== MORTGAGE TESTS ===\n\n");
 
-    /*
-        Test railway 0.
+    /* ============================= */
+    /* TEST 1 - PROPERTY MORTGAGE    */
+    /* ============================= */
 
-        Set currentBid close to its market value
-        so we can see different strategy decisions.
-    */
+    printf("TEST 1: PROPERTY MORTGAGE\n");
 
-    for (i = 0; i < MAX_PLAYERS; i++)
-    {
-        game.players[i].cash = 30000;
-    }
+    game.players[0].cash = 10000;
 
-    printf("Railway market value: LKR %d\n",
-           game.railways[0].currentMarketValue);
+    game.properties[0].owner = 0;
+    game.properties[0].mortgaged = 0;
+    game.properties[0].houses = 0;
+    game.properties[0].hotel = 0;
 
-    printf("Current bid: LKR %d\n\n",
-           game.railways[0].currentMarketValue);
+    printf("Cash before: LKR %d\n",
+           game.players[0].cash);
 
-    for (i = 0; i < MAX_PLAYERS; i++)
-    {
-        result = shouldBidRailway(
-            &game,
-            i,
-            0,
-            game.railways[0].currentMarketValue - 1000);
+    printf("Mortgage value: LKR %d\n",
+           game.properties[0].mortgageValue);
 
-        printf("%s: ",
-               game.players[i].name);
+    result = mortgageProperty(&game, 0, 0);
 
-        if (result == 1)
-        {
-            printf("BID\n");
-        }
-        else
-        {
-            printf("WITHDRAW\n");
-        }
-    }
+    printf("Result: %d\n", result);
 
-    printf("\n==============================\n");
-    printf("=== UTILITY BID TEST ===\n\n");
+    printf("Cash after: LKR %d\n",
+           game.players[0].cash);
 
-    printf("Utility market value: LKR %d\n",
-           game.utilities[0].currentMarketValue);
+    printf("Mortgage status: %d\n\n",
+           game.properties[0].mortgaged);
 
-    printf("Current bid: LKR %d\n\n",
-           game.utilities[0].currentMarketValue);
+    /* ============================= */
+    /* TEST 2 - SAME PROPERTY AGAIN  */
+    /* ============================= */
 
-    for (i = 0; i < MAX_PLAYERS; i++)
-    {
-        result = shouldBidUtility(
-            &game,
-            i,
-            0,
-            game.utilities[0].currentMarketValue - 1000);
+    printf("TEST 2: MORTGAGE SAME PROPERTY AGAIN\n");
 
-        printf("%s: ",
-               game.players[i].name);
+    result = mortgageProperty(&game, 0, 0);
 
-        if (result == 1)
-        {
-            printf("BID\n");
-        }
-        else
-        {
-            printf("WITHDRAW\n");
-        }
-    }
+    printf("Result: %d\n", result);
+
+    printf("Cash: LKR %d\n",
+           game.players[0].cash);
+
+    printf("Mortgage status: %d\n\n",
+           game.properties[0].mortgaged);
+
+    /* ============================= */
+    /* TEST 3 - DEVELOPED PROPERTY   */
+    /* ============================= */
+
+    printf("TEST 3: DEVELOPED PROPERTY\n");
+
+    game.properties[1].owner = 0;
+    game.properties[1].mortgaged = 0;
+    game.properties[1].houses = 2;
+    game.properties[1].hotel = 0;
+
+    result = mortgageProperty(&game, 0, 1);
+
+    printf("Result: %d\n", result);
+
+    printf("Mortgage status: %d\n\n",
+           game.properties[1].mortgaged);
+
+    /* ============================= */
+    /* TEST 4 - RAILWAY MORTGAGE     */
+    /* ============================= */
+
+    printf("TEST 4: RAILWAY MORTGAGE\n");
+
+    game.players[0].cash = 10000;
+
+    game.railways[0].owner = 0;
+    game.railways[0].mortgaged = 0;
+
+    printf("Cash before: LKR %d\n",
+           game.players[0].cash);
+
+    printf("Mortgage value: LKR %d\n",
+           game.railways[0].mortgageValue);
+
+    result = mortgageRailway(&game, 0, 0);
+
+    printf("Result: %d\n", result);
+
+    printf("Cash after: LKR %d\n",
+           game.players[0].cash);
+
+    printf("Mortgage status: %d\n\n",
+           game.railways[0].mortgaged);
+
+    /* ============================= */
+    /* TEST 5 - UTILITY MORTGAGE     */
+    /* ============================= */
+
+    printf("TEST 5: UTILITY MORTGAGE\n");
+
+    game.players[0].cash = 10000;
+
+    game.utilities[0].owner = 0;
+    game.utilities[0].mortgaged = 0;
+
+    printf("Cash before: LKR %d\n",
+           game.players[0].cash);
+
+    printf("Mortgage value: LKR %d\n",
+           game.utilities[0].mortgageValue);
+
+    result = mortgageUtility(&game, 0, 0);
+
+    printf("Result: %d\n", result);
+
+    printf("Cash after: LKR %d\n",
+           game.players[0].cash);
+
+    printf("Mortgage status: %d\n\n",
+           game.utilities[0].mortgaged);
+
+    /* ============================= */
+    /* TEST 6 - NOT THE OWNER        */
+    /* ============================= */
+
+    printf("TEST 6: TRY TO MORTGAGE SOMEONE ELSE'S ASSET\n");
+
+    game.properties[2].owner = 1;
+    game.properties[2].mortgaged = 0;
+
+    result = mortgageProperty(&game, 0, 2);
+
+    printf("Result: %d\n",
+           result);
+
+    printf("Mortgage status: %d\n",
+           game.properties[2].mortgaged);
 
     return 0;
 }
