@@ -142,7 +142,12 @@ typedef struct
     int inJail;
     int jailTurns;
 
-    /*tax and loan not yet added */
+    int loanActive;
+    int loanAmount;
+    int loanRoundsRemaining;
+    int loanInterestRate;
+
+    /*tax not yet added */
 } Player;
 
 typedef struct
@@ -160,6 +165,8 @@ typedef struct
 
     float incomeTaxRate;
     float communityFundRate;
+
+    int loanInterestRate;
 
     int inflationRate;
     int currentLoanInteresetRate;
@@ -249,5 +256,10 @@ void auctionUtility(GameplayState *game, int utilityId);
 int mortgageProperty(GameplayState *game, int playerId, int propertyId);
 int mortgageRailway(GameplayState *game, int playerId, int railwayId);
 int mortgageUtility(GameplayState *game, int playerId, int utilityId);
+
+int calculateCollateralValue(GameplayState *game, int playerId);
+int calculateMaxLoan(GameplayState *game, int playerId);
+int takeLoan(GameplayState *game, int playerId, int amount);
+void updateLoanAfterRound(GameplayState *game, int playerId);
 
 #endif

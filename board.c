@@ -2,8 +2,8 @@
 #include <string.h>
 #include "types.h"
 
-void initializeProperties(GameplayState *game)
-{
+void initializeProperties(GameplayState *game){
+
        /* Property 0 - Pettah */
        game->properties[0].propertyId = 0;
        strcpy(game->properties[0].name, "Pettah");
@@ -335,8 +335,8 @@ void initializeProperties(GameplayState *game)
        game->properties[21].hotel = 0;
 }
 
-void initializeRailways(GameplayState *game)
-{
+void initializeRailways(GameplayState *game){
+
        game->railways[0].railwayId = 0;
        strcpy(game->railways[0].name, "Colombo Fort Railway Station");
        game->railways[0].purchasePrice = 1500;
@@ -370,11 +370,10 @@ void initializeRailways(GameplayState *game)
        game->railways[3].mortgaged = 0;
 }
 
-void initializeUtilities(GameplayState *game)
-{
+void initializeUtilities(GameplayState *game){
+
        game->utilities[0].utilityId = 0;
-       strcpy(game->utilities[0].name,
-              "Ceylon Electricity Board");
+       strcpy(game->utilities[0].name, "Ceylon Electricity Board");
        game->utilities[0].purchasePrice = 1500;
        game->utilities[0].currentMarketValue = 1500;
        game->utilities[0].mortgageValue = 750;
@@ -382,8 +381,7 @@ void initializeUtilities(GameplayState *game)
        game->utilities[0].mortgaged = 0;
 
        game->utilities[1].utilityId = 1;
-       strcpy(game->utilities[1].name,
-              "National Water Supply and Drainage Board");
+       strcpy(game->utilities[1].name, "National Water Supply and Drainage Board");
        game->utilities[1].purchasePrice = 1500;
        game->utilities[1].currentMarketValue = 1500;
        game->utilities[1].mortgageValue = 750;
@@ -391,8 +389,8 @@ void initializeUtilities(GameplayState *game)
        game->utilities[1].mortgaged = 0;
 }
 
-void initializeBoard(GameplayState *game)
-{
+void initializeBoard(GameplayState *game){
+
        game->board[0].squareId = 0;
        strcpy(game->board[0].name, "GO");
        game->board[0].type = START;
@@ -595,26 +593,24 @@ void initializeBoard(GameplayState *game)
        game->board[39].propertyId = 21;
 }
 
-void initializeGameBoard(GameplayState *game)
-{
+void initializeGameBoard(GameplayState *game){
+
        initializeProperties(game);
        initializeRailways(game);
        initializeUtilities(game);
        initializeBoard(game);
 }
 
-void movePlayer(GameplayState *game, int playerId, int diceValue)
-{
+void movePlayer(GameplayState *game, int playerId, int diceValue){
+
        int oldPosition;
        int newPosition;
 
        oldPosition = game->players[playerId].position;
        newPosition = oldPosition + diceValue;
 
-       if (newPosition >= BOARD_SIZE)
-       {
+       if (newPosition >= BOARD_SIZE){
               newPosition = newPosition - BOARD_SIZE;
-
               game->players[playerId].cash = game->players[playerId].cash + 2000;
 
               printf("%s passed GO and recevid LKR 2000 \n", game->players[playerId].name);
@@ -623,20 +619,18 @@ void movePlayer(GameplayState *game, int playerId, int diceValue)
        game->players[playerId].position = newPosition;
 
        printf("%s moved form square %d to square %d \n", game->players[playerId].name, oldPosition, newPosition);
-
        printf("%s landed on %s \n", game->players[playerId].name, game->board[newPosition].name);
 }
 
-void resolveLanding(GameplayState *game, int playerId, int diceValue)
-{
+void resolveLanding(GameplayState *game, int playerId, int diceValue){
+
        int position;
        int type;
 
        position = game->players[playerId].position;
        type = game->board[position].type;
 
-       switch (type)
-       {
+       switch (type){
        case START:
               printf("Square type: START\n");
               break;
@@ -659,12 +653,10 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
        case EVENT:
               printf("Square type: EVENT\n");
 
-              if (position == 2)
-              {
+              if (position == 2){
                      payCommunityDevelopmentFund(game, playerId);
               }
-              else
-              {
+              else{
                      printf("Other event card handling will be added later.\n");
               }
               break;
@@ -703,8 +695,8 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue)
        }
 }
 // handle property landing
-void handlePropertyLanding(GameplayState *game, int playerId)
-{
+void handlePropertyLanding(GameplayState *game, int playerId){
+
        int position;
        int propertyId;
        int ownerId;
@@ -714,37 +706,29 @@ void handlePropertyLanding(GameplayState *game, int playerId)
        ownerId = game->properties[propertyId].owner;
 
        printf("Property name: %s\n", game->properties[propertyId].name);
-
        printf("Purchase price: LKR %d\n", game->properties[propertyId].purchasePrice);
 
-       if (ownerId == NO_OWNER)
-       {
-              if (shouldBuyProperty(game, playerId, propertyId) == 1)
-              {
+       if (ownerId == NO_OWNER){
+              if (shouldBuyProperty(game, playerId, propertyId) == 1){
                      buyProperty(game, playerId, propertyId);
               }
-              else
-              {
+              else{
                      printf("%s decided not to buys %s \n", game->players[playerId].name, game->properties[propertyId].name);
-
                      auctionProperty(game, propertyId);
               }
        }
-       else if (ownerId == playerId)
-       {
+       else if (ownerId == playerId){
               printf("%s already owns this prorperty \n", game->players[playerId].name);
        }
-       else
-       {
+       else{
               printf("This property is owned by %s \n", game->players[ownerId].name);
-
               payPropertyRent(game, playerId, propertyId);
        }
 }
 
 // handle railway landing
-void handleRailwayLanding(GameplayState *game, int playerId)
-{
+void handleRailwayLanding(GameplayState *game, int playerId){
+
        int position;
        int railwayId;
        int ownerId;
@@ -754,38 +738,30 @@ void handleRailwayLanding(GameplayState *game, int playerId)
        ownerId = game->railways[railwayId].owner;
 
        printf("Railway: %s\n", game->railways[railwayId].name);
-
        printf("Purchase price: LKR %d\n", game->railways[railwayId].purchasePrice);
 
-       if (ownerId == NO_OWNER)
-       {
-              if (shouldBuyRailway(game, playerId, railwayId) == 1)
-              {
+       if (ownerId == NO_OWNER){
+              if (shouldBuyRailway(game, playerId, railwayId) == 1){
                      buyProperty(game, playerId, railwayId);
               }
-              else
-              {
+              else{
                      printf("%s decided not to buy %s \n", game->players[playerId].name, game->railways[railwayId].name);
-
                      auctionRailway(game, railwayId);
               }
        }
 
-       else if (ownerId == playerId)
-       {
+       else if (ownerId == playerId){
               printf("%s already owns this railway.\n", game->players[playerId].name);
        }
-       else
-       {
+       else{
               printf("This railway is owned by %s.\n", game->players[ownerId].name);
-
               payRailwayRent(game, playerId, railwayId);
        }
 }
 
 // handle utitlity landing
-void handleUtilityLanding(GameplayState *game, int playerId, int diceValue)
-{
+void handleUtilityLanding(GameplayState *game, int playerId, int diceValue){
+
        int position;
        int utilityId;
        int ownerId;
@@ -795,41 +771,33 @@ void handleUtilityLanding(GameplayState *game, int playerId, int diceValue)
        ownerId = game->utilities[utilityId].owner;
 
        printf("Utility: %s\n", game->utilities[utilityId].name);
-
        printf("Purchase price: LKR %d\n", game->utilities[utilityId].purchasePrice);
 
-       if (ownerId == NO_OWNER)
-       {
-              if (shouldBuyUtility(game, playerId, utilityId) == 1)
-              {
+       if (ownerId == NO_OWNER){
+              if (shouldBuyUtility(game, playerId, utilityId) == 1){
                      buyUtility(game, playerId, utilityId);
               }
-              else
-              {
+              else{
                      printf("%s decided not to buy %s \n", game->players[playerId].name, game->utilities[utilityId].name);
 
                      auctionUtility(game, utilityId);
               }
        }
-       else if (ownerId == playerId)
-       {
+       else if (ownerId == playerId){
               printf("%s already owns this utility.\n", game->players[playerId].name);
        }
-       else
-       {
+       else{
               printf("This utility is owned by %s.\n", game->players[ownerId].name);
-
               payUtilityRent(game, playerId, utilityId, diceValue);
        }
 }
 
-void sendPlayerToJail(GameplayState *game, int playerId)
-{
+void sendPlayerToJail(GameplayState *game, int playerId){
+
        game->players[playerId].position = 10; // change position to square 10
        game->players[playerId].inJail = 1;
        game->players[playerId].jailTurns = 0;
 
        printf("%s was sent to jail \n", game->players[playerId].name);
-
        printf("%s is now on square %d: %s\n", game->players[playerId].name, game->players[playerId].position, game->board[10].name);
 }

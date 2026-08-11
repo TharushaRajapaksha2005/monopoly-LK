@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "types.h"
 
-int rollDice()
-{
+int rollDice(){
+
     int dice1 = rand() % 6 + 1;
     int dice2 = rand() % 6 + 1;
 
@@ -12,16 +12,13 @@ int rollDice()
 
 /* sort only part of the arrays from high to low*/
 
-void sortTurnOrder(int turnOrder[], int diceValue[], int start, int end)
-{
+void sortTurnOrder(int turnOrder[], int diceValue[], int start, int end){
+
     int i, j, temp;
 
-    for (i = start; i < end; i++)
-    {
-        for (j = i + 1; j <= end; j++)
-        {
-            if (diceValue[j] > diceValue[i])
-            {
+    for (i = start; i < end; i++){
+        for (j = i + 1; j <= end; j++){
+            if (diceValue[j] > diceValue[i]){
                 temp = diceValue[i]; // swap dice valuse
                 diceValue[i] = diceValue[j];
                 diceValue[j] = temp;
@@ -34,8 +31,8 @@ void sortTurnOrder(int turnOrder[], int diceValue[], int start, int end)
     }
 }
 
-void resolveTiedGroup(GameplayState *game, int start, int end)
-{
+void resolveTiedGroup(GameplayState *game, int start, int end){
+
     int rerollValuses[MAX_PLAYERS];
     int i;
     int groupStart;
@@ -43,10 +40,8 @@ void resolveTiedGroup(GameplayState *game, int start, int end)
 
     printf("\nTied Players reroll:\n");
 
-    for (i = start; i <= end; i++)
-    {
+    for (i = start; i <= end; i++){
         rerollValuses[i] = rollDice();
-
         printf("%s rolled %d\n", game->players[game->turnOrder[i]].name, rerollValuses[i]);
     }
 
@@ -54,24 +49,21 @@ void resolveTiedGroup(GameplayState *game, int start, int end)
 
     groupStart = start;
 
-    while (groupStart <= end)
-    {
+    while (groupStart <= end){
         groupEnd = groupStart;
 
-        while (groupEnd < end && rerollValuses[groupEnd] == rerollValuses[groupEnd + 1])
-        {
+        while (groupEnd < end && rerollValuses[groupEnd] == rerollValuses[groupEnd + 1]){
             groupEnd++;
         }
-        if (groupEnd > groupStart)
-        {
+        if (groupEnd > groupStart){
             resolveTiedGroup(game, groupStart, groupEnd);
         }
         groupStart = groupEnd + 1;
     }
 }
 
-void determineTurnOrder(GameplayState *game)
-{
+void determineTurnOrder(GameplayState *game){
+
     int diceValues[MAX_PLAYERS];
     int i;
     int groupStart;
@@ -80,8 +72,7 @@ void determineTurnOrder(GameplayState *game)
     printf("Determining turn order:\n\n");
 
     /* All four players roll first */
-    for (i = 0; i < MAX_PLAYERS; i++)
-    {
+    for (i = 0; i < MAX_PLAYERS; i++){
         game->turnOrder[i] = i;
         diceValues[i] = rollDice();
 
@@ -94,21 +85,17 @@ void determineTurnOrder(GameplayState *game)
     /* Find tied groups */
     groupStart = 0;
 
-    while (groupStart < MAX_PLAYERS)
-    {
+    while (groupStart < MAX_PLAYERS){
         groupEnd = groupStart;
 
-        while (groupEnd < MAX_PLAYERS - 1 && diceValues[groupEnd] == diceValues[groupEnd + 1])
-        {
+        while (groupEnd < MAX_PLAYERS - 1 && diceValues[groupEnd] == diceValues[groupEnd + 1]){
             groupEnd++;
         }
 
-        if (groupEnd > groupStart)
-        {
+        if (groupEnd > groupStart){
             printf("\nTie between:\n");
 
-            for (i = groupStart; i <= groupEnd; i++)
-            {
+            for (i = groupStart; i <= groupEnd; i++){
                 printf("%s\n", game->players[game->turnOrder[i]].name);
             }
 
@@ -120,21 +107,19 @@ void determineTurnOrder(GameplayState *game)
 
     printf("\nFinal turn order:\n");
 
-    for (i = 0; i < MAX_PLAYERS; i++)
-    {
+    for (i = 0; i < MAX_PLAYERS; i++){
         printf("%d. %s\n", i + 1, game->players[game->turnOrder[i]].name);
     }
 }
 
-void playTurn(GameplayState *game, int playerId)
-{
+void playTurn(GameplayState *game, int playerId){
+
     int diceValue;
 
     printf("\n-----------------------------------\n");
     printf("%s's turn\n", game->players[playerId].name);
 
-    if (game->players[playerId].inJail == 1)
-    {
+    if (game->players[playerId].inJail == 1){
         handleJailTurn(game, playerId);
         return;
     }
@@ -144,12 +129,11 @@ void playTurn(GameplayState *game, int playerId)
     printf("%s rolled %d.\n", game->players[playerId].name, diceValue);
 
     movePlayer(game, playerId, diceValue);
-
     resolveLanding(game, playerId, diceValue);
 }
 
-void handleJailTurn(GameplayState *game, int playerId)
-{
+void handleJailTurn(GameplayState *game, int playerId){
+
     int dice1;
     int dice2;
     int diceValue;
@@ -164,8 +148,7 @@ void handleJailTurn(GameplayState *game, int playerId)
 
     /* player can leave jail if dice 1 = dice 2 */
 
-    if (dice1 == dice2)
-    {
+    if (dice1 == dice2){
         printf("%s rolled doubles and left Jail.\n", game->players[playerId].name);
 
         game->players[playerId].inJail = 0;
@@ -197,8 +180,8 @@ void handleJailTurn(GameplayState *game, int playerId)
     }
 }
 
-void playRound(GameplayState *game)
-{
+void playRound(GameplayState *game){
+
     int i;
     int playerId;
 
@@ -206,16 +189,13 @@ void playRound(GameplayState *game)
     printf("ROUND %d\n", game->currentRound);
     printf("===================================\n");
 
-    for (i = 0; i < MAX_PLAYERS; i++)
-    {
+    for (i = 0; i < MAX_PLAYERS; i++){
         playerId = game->turnOrder[i];
 
-        if (game->players[playerId].isbankrupt == 0)
-        {
+        if (game->players[playerId].isbankrupt == 0){
             playTurn(game, playerId);
         }
-        else
-        {
+        else{
             printf("%s is bankrupt and skips the turn.\n", game->players[playerId].name);
         }
     }

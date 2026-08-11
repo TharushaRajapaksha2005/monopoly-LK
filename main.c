@@ -4,146 +4,72 @@
 int main(void)
 {
     GameplayState game;
-    int result;
 
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    printf("=== MORTGAGE TESTS ===\n\n");
+    printf("=== LOAN INTEREST TEST ===\n\n");
 
-    /* ============================= */
-    /* TEST 1 - PROPERTY MORTGAGE    */
-    /* ============================= */
+    /*
+        Stable economy = 8% interest.
+    */
+    game.loanInterestRate = 8;
 
-    printf("TEST 1: PROPERTY MORTGAGE\n");
+    /*
+        Give Player 0 an active loan.
+    */
+    game.players[0].loanActive = 1;
+    game.players[0].loanAmount = 1000;
+    game.players[0].loanRoundsRemaining = 20;
 
-    game.players[0].cash = 10000;
+    printf("BEFORE ROUND UPDATE\n");
 
-    game.properties[0].owner = 0;
-    game.properties[0].mortgaged = 0;
-    game.properties[0].houses = 0;
-    game.properties[0].hotel = 0;
+    printf("Loan Amount: LKR %d\n",
+           game.players[0].loanAmount);
 
-    printf("Cash before: LKR %d\n",
-           game.players[0].cash);
+    printf("Interest Rate: %d%%\n",
+           game.loanInterestRate);
 
-    printf("Mortgage value: LKR %d\n",
-           game.properties[0].mortgageValue);
+    printf("Rounds Remaining: %d\n\n",
+           game.players[0].loanRoundsRemaining);
 
-    result = mortgageProperty(&game, 0, 0);
 
-    printf("Result: %d\n", result);
+    /*
+        End of round 1.
+    */
+    printf("=== AFTER ROUND 1 ===\n");
 
-    printf("Cash after: LKR %d\n",
-           game.players[0].cash);
+    updateLoanAfterRound(&game, 0);
 
-    printf("Mortgage status: %d\n\n",
-           game.properties[0].mortgaged);
+    printf("\n");
 
-    /* ============================= */
-    /* TEST 2 - SAME PROPERTY AGAIN  */
-    /* ============================= */
 
-    printf("TEST 2: MORTGAGE SAME PROPERTY AGAIN\n");
+    /*
+        End of round 2.
+    */
+    printf("=== AFTER ROUND 2 ===\n");
 
-    result = mortgageProperty(&game, 0, 0);
+    updateLoanAfterRound(&game, 0);
 
-    printf("Result: %d\n", result);
+    printf("\n");
 
-    printf("Cash: LKR %d\n",
-           game.players[0].cash);
 
-    printf("Mortgage status: %d\n\n",
-           game.properties[0].mortgaged);
+    /*
+        Test a player without a loan.
+    */
+    printf("=== PLAYER WITHOUT LOAN ===\n");
 
-    /* ============================= */
-    /* TEST 3 - DEVELOPED PROPERTY   */
-    /* ============================= */
+    game.players[1].loanActive = 0;
+    game.players[1].loanAmount = 0;
+    game.players[1].loanRoundsRemaining = 0;
 
-    printf("TEST 3: DEVELOPED PROPERTY\n");
+    updateLoanAfterRound(&game, 1);
 
-    game.properties[1].owner = 0;
-    game.properties[1].mortgaged = 0;
-    game.properties[1].houses = 2;
-    game.properties[1].hotel = 0;
+    printf("Player 1 Loan Amount: LKR %d\n",
+           game.players[1].loanAmount);
 
-    result = mortgageProperty(&game, 0, 1);
-
-    printf("Result: %d\n", result);
-
-    printf("Mortgage status: %d\n\n",
-           game.properties[1].mortgaged);
-
-    /* ============================= */
-    /* TEST 4 - RAILWAY MORTGAGE     */
-    /* ============================= */
-
-    printf("TEST 4: RAILWAY MORTGAGE\n");
-
-    game.players[0].cash = 10000;
-
-    game.railways[0].owner = 0;
-    game.railways[0].mortgaged = 0;
-
-    printf("Cash before: LKR %d\n",
-           game.players[0].cash);
-
-    printf("Mortgage value: LKR %d\n",
-           game.railways[0].mortgageValue);
-
-    result = mortgageRailway(&game, 0, 0);
-
-    printf("Result: %d\n", result);
-
-    printf("Cash after: LKR %d\n",
-           game.players[0].cash);
-
-    printf("Mortgage status: %d\n\n",
-           game.railways[0].mortgaged);
-
-    /* ============================= */
-    /* TEST 5 - UTILITY MORTGAGE     */
-    /* ============================= */
-
-    printf("TEST 5: UTILITY MORTGAGE\n");
-
-    game.players[0].cash = 10000;
-
-    game.utilities[0].owner = 0;
-    game.utilities[0].mortgaged = 0;
-
-    printf("Cash before: LKR %d\n",
-           game.players[0].cash);
-
-    printf("Mortgage value: LKR %d\n",
-           game.utilities[0].mortgageValue);
-
-    result = mortgageUtility(&game, 0, 0);
-
-    printf("Result: %d\n", result);
-
-    printf("Cash after: LKR %d\n",
-           game.players[0].cash);
-
-    printf("Mortgage status: %d\n\n",
-           game.utilities[0].mortgaged);
-
-    /* ============================= */
-    /* TEST 6 - NOT THE OWNER        */
-    /* ============================= */
-
-    printf("TEST 6: TRY TO MORTGAGE SOMEONE ELSE'S ASSET\n");
-
-    game.properties[2].owner = 1;
-    game.properties[2].mortgaged = 0;
-
-    result = mortgageProperty(&game, 0, 2);
-
-    printf("Result: %d\n",
-           result);
-
-    printf("Mortgage status: %d\n",
-           game.properties[2].mortgaged);
+    printf("Player 1 Rounds Remaining: %d\n",
+           game.players[1].loanRoundsRemaining);
 
     return 0;
 }
