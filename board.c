@@ -18,6 +18,9 @@ void initializeProperties(GameplayState *game){
        game->properties[0].mortgaged = 0;
        game->properties[0].houses = 0;
        game->properties[0].hotel = 0;
+       game->properties[0].loanLocked = 0;
+       game->properties[0].insuranceType = NO_INSURANCE;
+       game->properties[0].insuranceRoundsRemaining = 0;
 
        /* Property 1 - Maradana */
        game->properties[1].propertyId = 1;
@@ -33,6 +36,9 @@ void initializeProperties(GameplayState *game){
        game->properties[1].mortgaged = 0;
        game->properties[1].houses = 0;
        game->properties[1].hotel = 0;
+       game->properties[1].loanLocked = 0;
+       game->properties[1].insuranceType = NO_INSURANCE;
+       game->properties[1].insuranceRoundsRemaining = 0;
 
        /* Property 2 - Bambalapitiya */
        game->properties[2].propertyId = 2;
@@ -48,6 +54,9 @@ void initializeProperties(GameplayState *game){
        game->properties[2].mortgaged = 0;
        game->properties[2].houses = 0;
        game->properties[2].hotel = 0;
+       game->properties[2].loanLocked = 0;
+       game->properties[2].insuranceType = NO_INSURANCE;
+       game->properties[2].insuranceRoundsRemaining = 0;
 
        /* Property 3 - Wellawatte */
        game->properties[3].propertyId = 3;
@@ -63,6 +72,9 @@ void initializeProperties(GameplayState *game){
        game->properties[3].mortgaged = 0;
        game->properties[3].houses = 0;
        game->properties[3].hotel = 0;
+       game->properties[3].loanLocked = 0;
+       game->properties[3].insuranceType = NO_INSURANCE;
+       game->properties[3].insuranceRoundsRemaining = 0;
 
        /* Property 4 - Mount Lavinia */
        game->properties[4].propertyId = 4;
@@ -78,6 +90,9 @@ void initializeProperties(GameplayState *game){
        game->properties[4].mortgaged = 0;
        game->properties[4].houses = 0;
        game->properties[4].hotel = 0;
+       game->properties[4].loanLocked = 0;
+       game->properties[4].insuranceType = NO_INSURANCE;
+       game->properties[4].insuranceRoundsRemaining = 0;
 
        /* Property 5 - Nugegoda */
        game->properties[5].propertyId = 5;
@@ -93,6 +108,9 @@ void initializeProperties(GameplayState *game){
        game->properties[5].mortgaged = 0;
        game->properties[5].houses = 0;
        game->properties[5].hotel = 0;
+       game->properties[5].loanLocked = 0;
+       game->properties[5].insuranceType = NO_INSURANCE;
+       game->properties[5].insuranceRoundsRemaining = 0;
 
        /* Property 6 - Maharagama */
        game->properties[6].propertyId = 6;
@@ -108,6 +126,9 @@ void initializeProperties(GameplayState *game){
        game->properties[6].mortgaged = 0;
        game->properties[6].houses = 0;
        game->properties[6].hotel = 0;
+       game->properties[6].loanLocked = 0;
+       game->properties[6].insuranceType = NO_INSURANCE;
+       game->properties[6].insuranceRoundsRemaining = 0;
 
        /* Property 7 - Kottawa */
        game->properties[7].propertyId = 7;
@@ -123,6 +144,9 @@ void initializeProperties(GameplayState *game){
        game->properties[7].mortgaged = 0;
        game->properties[7].houses = 0;
        game->properties[7].hotel = 0;
+       game->properties[7].loanLocked = 0;
+       game->properties[7].insuranceType = NO_INSURANCE;
+       game->properties[7].insuranceRoundsRemaining = 0;
 
        /* Property 8 - Negombo */
        game->properties[8].propertyId = 8;
@@ -138,6 +162,9 @@ void initializeProperties(GameplayState *game){
        game->properties[8].mortgaged = 0;
        game->properties[8].houses = 0;
        game->properties[8].hotel = 0;
+       game->properties[8].loanLocked = 0;
+       game->properties[8].insuranceType = NO_INSURANCE;
+       game->properties[8].insuranceRoundsRemaining = 0;
 
        /* Property 9 - Katunayake */
        game->properties[9].propertyId = 9;
@@ -153,6 +180,9 @@ void initializeProperties(GameplayState *game){
        game->properties[9].mortgaged = 0;
        game->properties[9].houses = 0;
        game->properties[9].hotel = 0;
+       game->properties[9].loanLocked = 0;
+       game->properties[9].insuranceType = NO_INSURANCE;
+       game->properties[9].insuranceRoundsRemaining = 0;
 
        /* Property 10 - Ja-Ela */
        game->properties[10].propertyId = 10;
@@ -168,6 +198,9 @@ void initializeProperties(GameplayState *game){
        game->properties[10].mortgaged = 0;
        game->properties[10].houses = 0;
        game->properties[10].hotel = 0;
+       game->properties[10].loanLocked = 0;
+       game->properties[10].insuranceType = NO_INSURANCE;
+       game->properties[10].insuranceRoundsRemaining = 0;
 
        /* Property 11 - Kandy City */
        game->properties[11].propertyId = 11;
@@ -183,6 +216,9 @@ void initializeProperties(GameplayState *game){
        game->properties[11].mortgaged = 0;
        game->properties[11].houses = 0;
        game->properties[11].hotel = 0;
+       game->properties[11].loanLocked = 0;
+       game->properties[11].insuranceType = NO_INSURANCE;
+       game->properties[11].insuranceRoundsRemaining = 0;
 
        /* Property 12 - Peradeniya */
        game->properties[12].propertyId = 12;
@@ -198,6 +234,9 @@ void initializeProperties(GameplayState *game){
        game->properties[12].mortgaged = 0;
        game->properties[12].houses = 0;
        game->properties[12].hotel = 0;
+       game->properties[12].loanLocked = 0;
+       game->properties[12].insuranceType = NO_INSURANCE;
+       game->properties[12].insuranceRoundsRemaining = 0;
 
        /* Property 13 - Katugastota */
        game->properties[13].propertyId = 13;
@@ -213,6 +252,9 @@ void initializeProperties(GameplayState *game){
        game->properties[13].mortgaged = 0;
        game->properties[13].houses = 0;
        game->properties[13].hotel = 0;
+       game->properties[13].loanLocked = 0;
+       game->properties[13].insuranceType = NO_INSURANCE;
+       game->properties[13].insuranceRoundsRemaining = 0;
 
        /* Property 14 - Galle Fort */
        game->properties[14].propertyId = 14;
@@ -228,6 +270,9 @@ void initializeProperties(GameplayState *game){
        game->properties[14].mortgaged = 0;
        game->properties[14].houses = 0;
        game->properties[14].hotel = 0;
+       game->properties[14].loanLocked = 0;
+       game->properties[14].insuranceType = NO_INSURANCE;
+       game->properties[14].insuranceRoundsRemaining = 0;
 
        /* Property 15 - Unawatuna */
        game->properties[15].propertyId = 15;
@@ -243,6 +288,9 @@ void initializeProperties(GameplayState *game){
        game->properties[15].mortgaged = 0;
        game->properties[15].houses = 0;
        game->properties[15].hotel = 0;
+       game->properties[15].loanLocked = 0;
+       game->properties[15].insuranceType = NO_INSURANCE;
+       game->properties[15].insuranceRoundsRemaining = 0;
 
        /* Property 16 - Hikkaduwa */
        game->properties[16].propertyId = 16;
@@ -258,6 +306,9 @@ void initializeProperties(GameplayState *game){
        game->properties[16].mortgaged = 0;
        game->properties[16].houses = 0;
        game->properties[16].hotel = 0;
+       game->properties[16].loanLocked = 0;
+       game->properties[16].insuranceType = NO_INSURANCE;
+       game->properties[16].insuranceRoundsRemaining = 0;
 
        /* Property 17 - Jaffna Town */
        game->properties[17].propertyId = 17;
@@ -273,6 +324,9 @@ void initializeProperties(GameplayState *game){
        game->properties[17].mortgaged = 0;
        game->properties[17].houses = 0;
        game->properties[17].hotel = 0;
+       game->properties[17].loanLocked = 0;
+       game->properties[17].insuranceType = NO_INSURANCE;
+       game->properties[18].insuranceRoundsRemaining = 0;
 
        /* Property 18 - Nallur */
        game->properties[18].propertyId = 18;
@@ -288,6 +342,9 @@ void initializeProperties(GameplayState *game){
        game->properties[18].mortgaged = 0;
        game->properties[18].houses = 0;
        game->properties[18].hotel = 0;
+       game->properties[18].loanLocked = 0;
+       game->properties[18].insuranceType = NO_INSURANCE;
+       game->properties[18].insuranceRoundsRemaining = 0;
 
        /* Property 19 - Trincomalee */
        game->properties[19].propertyId = 19;
@@ -303,6 +360,9 @@ void initializeProperties(GameplayState *game){
        game->properties[19].mortgaged = 0;
        game->properties[19].houses = 0;
        game->properties[19].hotel = 0;
+       game->properties[19].loanLocked = 0;
+       game->properties[19].insuranceType = NO_INSURANCE;
+       game->properties[19].insuranceRoundsRemaining = 0;
 
        /* Property 20 - Nuwara Eliya */
        game->properties[20].propertyId = 20;
@@ -318,6 +378,9 @@ void initializeProperties(GameplayState *game){
        game->properties[20].mortgaged = 0;
        game->properties[20].houses = 0;
        game->properties[20].hotel = 0;
+       game->properties[20].loanLocked = 0;
+       game->properties[20].insuranceType = NO_INSURANCE;
+       game->properties[20].insuranceRoundsRemaining = 0;
 
        /* Property 21 - Galle Face */
        game->properties[21].propertyId = 21;
@@ -333,6 +396,9 @@ void initializeProperties(GameplayState *game){
        game->properties[21].mortgaged = 0;
        game->properties[21].houses = 0;
        game->properties[21].hotel = 0;
+       game->properties[21].loanLocked = 0;
+       game->properties[21].insuranceType = NO_INSURANCE;
+       game->properties[21].insuranceRoundsRemaining = 0;
 }
 
 void initializeRailways(GameplayState *game){
@@ -344,6 +410,7 @@ void initializeRailways(GameplayState *game){
        game->railways[0].mortgageValue = 750;
        game->railways[0].owner = NO_OWNER;
        game->railways[0].mortgaged = 0;
+       game->railways[0].loanLocked = 0;
 
        game->railways[1].railwayId = 1;
        strcpy(game->railways[1].name, "Kandy Railway Station");
@@ -352,6 +419,7 @@ void initializeRailways(GameplayState *game){
        game->railways[1].mortgageValue = 750;
        game->railways[1].owner = NO_OWNER;
        game->railways[1].mortgaged = 0;
+       game->railways[1].loanLocked = 0;
 
        game->railways[2].railwayId = 2;
        strcpy(game->railways[2].name, "Galle Railway Station");
@@ -360,6 +428,7 @@ void initializeRailways(GameplayState *game){
        game->railways[2].mortgageValue = 750;
        game->railways[2].owner = NO_OWNER;
        game->railways[2].mortgaged = 0;
+       game->railways[2].loanLocked = 0;
 
        game->railways[3].railwayId = 3;
        strcpy(game->railways[3].name, "Jaffna Railway Station");
@@ -368,6 +437,7 @@ void initializeRailways(GameplayState *game){
        game->railways[3].mortgageValue = 750;
        game->railways[3].owner = NO_OWNER;
        game->railways[3].mortgaged = 0;
+       game->railways[3].loanLocked = 0;
 }
 
 void initializeUtilities(GameplayState *game){
@@ -379,6 +449,7 @@ void initializeUtilities(GameplayState *game){
        game->utilities[0].mortgageValue = 750;
        game->utilities[0].owner = NO_OWNER;
        game->utilities[0].mortgaged = 0;
+       game->utilities[0].loanLocked = 0;
 
        game->utilities[1].utilityId = 1;
        strcpy(game->utilities[1].name, "National Water Supply and Drainage Board");
@@ -387,6 +458,7 @@ void initializeUtilities(GameplayState *game){
        game->utilities[1].mortgageValue = 750;
        game->utilities[1].owner = NO_OWNER;
        game->utilities[1].mortgaged = 0;
+       game->utilities[1].loanLocked = 0;
 }
 
 void initializeBoard(GameplayState *game){

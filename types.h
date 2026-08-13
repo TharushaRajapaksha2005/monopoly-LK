@@ -81,11 +81,15 @@ typedef struct
     int hotelCost;
 
     int owner;
-
     int mortgaged;
 
     int houses;
     int hotel;
+
+    int loanLocked;
+
+    InsuranceType InsuranceType;
+    int insuranceRoundsRemaining;
 
 } Property;
 
@@ -101,6 +105,8 @@ typedef struct
     int owner;
     int mortgaged;
 
+    int loanLocked;
+
 } Railway;
 
 typedef struct
@@ -115,18 +121,14 @@ typedef struct
     int owner;
     int mortgaged;
 
+    int loanLocked;
+
 } Utility;
 
 typedef enum
 {
     BOC
 } Bank;
-
-typedef enum
-{
-    Sri_Lanka_Insurance,
-    Ceylinco_Insurance
-} Insurance;
 
 typedef struct
 {
@@ -258,8 +260,15 @@ int mortgageRailway(GameplayState *game, int playerId, int railwayId);
 int mortgageUtility(GameplayState *game, int playerId, int utilityId);
 
 int calculateCollateralValue(GameplayState *game, int playerId);
+int lockLoanCollateral(GameplayState *game, int playerId, int loanAmount);
+void unlockLoanCollateral(GameplayState *game, int playerId);
 int calculateMaxLoan(GameplayState *game, int playerId);
 int takeLoan(GameplayState *game, int playerId, int amount);
 void updateLoanAfterRound(GameplayState *game, int playerId);
+int repayLoan(GameplayState *game, int playerId, int amount);
+// int extendLoan(GameplayState *game, int playerId, int extraRound);
+int increaseLoan(GameplayState *game, int playerId, int extraAmount);
+void handleLoanDefault(GameplayState *game, int playerId);
+int hasAssets(GameplayState *game, int plyaerId);
 
 #endif

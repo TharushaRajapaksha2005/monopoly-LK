@@ -192,13 +192,17 @@ void playRound(GameplayState *game){
     for (i = 0; i < MAX_PLAYERS; i++){
         playerId = game->turnOrder[i];
 
-        if (game->players[playerId].isbankrupt == 0){
+        if(game->players[playerId].isbankrupt == 0){
             playTurn(game, playerId);
         }
         else{
             printf("%s is bankrupt and skips the turn.\n", game->players[playerId].name);
         }
     }
-
+    for (i = 0; i < MAX_PLAYERS; i++){
+        if(game->players[i].isbankrupt == 0){
+            updateLoanAfterRound(game, i);
+        }
+    }
     game->currentRound++;
 }

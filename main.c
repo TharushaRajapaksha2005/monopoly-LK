@@ -8,68 +8,108 @@ int main(void)
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    printf("=== LOAN INTEREST TEST ===\n\n");
+    printf("=== BANKRUPTCY AFTER FORECLOSURE TEST ===\n\n");
 
-    /*
-        Stable economy = 8% interest.
-    */
-    game.loanInterestRate = 8;
 
-    /*
-        Give Player 0 an active loan.
-    */
+    /* ===================================== */
+    /* TEST 1 - PLAYER STILL HAS AN ASSET    */
+    /* ===================================== */
+
+    printf("TEST 1: PLAYER STILL HAS AN ASSET\n");
+
+    game.players[0].isbankrupt = 0;
+
     game.players[0].loanActive = 1;
-    game.players[0].loanAmount = 1000;
-    game.players[0].loanRoundsRemaining = 20;
-
-    printf("BEFORE ROUND UPDATE\n");
-
-    printf("Loan Amount: LKR %d\n",
-           game.players[0].loanAmount);
-
-    printf("Interest Rate: %d%%\n",
-           game.loanInterestRate);
-
-    printf("Rounds Remaining: %d\n\n",
-           game.players[0].loanRoundsRemaining);
-
+    game.players[0].loanAmount = 5000;
+    game.players[0].loanRoundsRemaining = 0;
+    game.players[0].loanInterestRate = 8;
 
     /*
-        End of round 1.
+        Pettah is pledged.
     */
-    printf("=== AFTER ROUND 1 ===\n");
-
-    updateLoanAfterRound(&game, 0);
-
-    printf("\n");
-
+    game.properties[0].owner = 0;
+    game.properties[0].loanLocked = 1;
 
     /*
-        End of round 2.
+        Maradana is NOT pledged.
+        Player should keep it.
     */
-    printf("=== AFTER ROUND 2 ===\n");
+    game.properties[1].owner = 0;
+    game.properties[1].loanLocked = 0;
 
-    updateLoanAfterRound(&game, 0);
+    printf("Before default:\n");
+    printf("Bankrupt: %d\n", game.players[0].isbankrupt);
+    printf("Has assets: %d\n\n",
+           hasAssets(&game, 0));
 
-    printf("\n");
+    handleLoanDefault(&game, 0);
 
+    printf("\nAfter default:\n");
+    printf("Pettah owner: %d\n",
+           game.properties[0].owner);
+
+    printf("Maradana owner: %d\n",
+           game.properties[1].owner);
+
+    printf("Has assets: %d\n",
+           hasAssets(&game, 0));
+
+    printf("Bankrupt: %d\n\n",
+           game.players[0].isbankrupt);
+
+
+    /* ===================================== */
+    /* TEST 2 - PLAYER LOSES ALL ASSETS      */
+    /* ===================================== */
+
+    printf("=====================================\n");
+    printf("TEST 2: PLAYER LOSES ALL ASSETS\n");
+    printf("=====================================\n");
 
     /*
-        Test a player without a loan.
+        Use Player 1 for a clean second test.
     */
-    printf("=== PLAYER WITHOUT LOAN ===\n");
+    game.players[1].isbankrupt = 0;
 
-    game.players[1].loanActive = 0;
-    game.players[1].loanAmount = 0;
+    game.players[1].loanActive = 1;
+    game.players[1].loanAmount = 4000;
     game.players[1].loanRoundsRemaining = 0;
+    game.players[1].loanInterestRate = 8;
 
-    updateLoanAfterRound(&game, 1);
+    /*
+        Give Player 1 only two assets,
+        and both are pledged.
+    */
+    game.properties[2].owner = 1;
+    game.properties[2].loanLocked = 1;
 
-    printf("Player 1 Loan Amount: LKR %d\n",
-           game.players[1].loanAmount);
+    game.railways[1].owner = 1;
+    game.railways[1].loanLocked = 1;
 
-    printf("Player 1 Rounds Remaining: %d\n",
-           game.players[1].loanRoundsRemaining);
+    printf("Before default:\n");
+    printf("Bankrupt: %d\n",
+           game.players[1].isbankrupt);
+
+    printf("Has assets: %d\n\n",
+           hasAssets(&game, 1));
+
+    handleLoanDefault(&game, 1);
+
+    printf("\nAfter default:\n");
+
+    printf("%s owner: %d\n",
+           game.properties[2].name,
+           game.properties[2].owner);
+
+    printf("%s owner: %d\n",
+           game.railways[1].name,
+           game.railways[1].owner);
+
+    printf("Has assets: %d\n",
+           hasAssets(&game, 1));
+
+    printf("Bankrupt: %d\n",
+           game.players[1].isbankrupt);
 
     return 0;
 }
