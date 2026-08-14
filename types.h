@@ -13,8 +13,7 @@
 
 #define STARTING_CASH 30000
 
-typedef enum
-{
+typedef enum{
     START,
     PROPERTY,
     RAILWAY,
@@ -28,8 +27,7 @@ typedef enum
     INSURANCE
 } SquareType;
 
-typedef enum
-{
+typedef enum{
     BROWN,
     LIGHT_BLUE,
     PINK,
@@ -41,32 +39,28 @@ typedef enum
     NO_CLOUR
 } PropertyGroup;
 
-typedef enum
-{
+typedef enum{
     AGGRESSIVE,
     CONSERVATIVE,
     RISK_TAKER,
     OPPORTUNISTIC
 } PlayerStrategy;
 
-typedef enum
-{
+typedef enum{
     NO_INSURANCE,
     BASIC_INSURANCE,
     COMPREHENSIVE_INSURANCE,
     BUSINESS_INTERRUPTION_INSURANCE
 } InsuranceType;
 
-typedef struct
-{
+typedef struct{
     int squareId;
     char name[30];
     SquareType type;
     int propertyId; // -1 if not a property
 } BoardSquare;
 
-typedef struct
-{
+typedef struct{
     int propertyId;
     char name[30];
 
@@ -76,6 +70,8 @@ typedef struct
     int currentMarketValue;
     int mortgageValue;
     int baseRent;
+    int age;
+    int depreciationPercent;
 
     int houseCost;
     int hotelCost;
@@ -88,13 +84,14 @@ typedef struct
 
     int loanLocked;
 
-    InsuranceType InsuranceType;
+    int damaged;
+
+    InsuranceType insuranceType;
     int insuranceRoundsRemaining;
 
 } Property;
 
-typedef struct
-{
+typedef struct{
     int railwayId;
     char name[30];
 
@@ -109,8 +106,7 @@ typedef struct
 
 } Railway;
 
-typedef struct
-{
+typedef struct{
     int utilityId;
     char name[30];
 
@@ -125,19 +121,26 @@ typedef struct
 
 } Utility;
 
-typedef enum
-{
+typedef enum{
     BOC
 } Bank;
 
-typedef struct
-{
+typedef enum{
+    FIRE,
+    FLOOD,
+    RIOT,
+    BUILDING_COLLAPSE,
+    ELECTRICAL_FAILURE
+} DisasterType;
+
+typedef struct{
     int playerId;
     char name[50];
     PlayerStrategy strategy;
 
     int cash;
     int position;
+    int completedLap;
 
     int isbankrupt;
 
@@ -152,8 +155,7 @@ typedef struct
     /*tax not yet added */
 } Player;
 
-typedef struct
-{
+typedef struct{
     BoardSquare board[BOARD_SIZE];
 
     Property properties[MAX_PROPERTIES];
@@ -223,15 +225,12 @@ void developMonopoly(GameplayState *game, int playerId, PropertyGroup group);
 int rollDice(void);
 
 void sortTurnOrder(int turnOrder[], int diceValues[], int start, int end);
-
 void resolveTiedGroup(GameplayState *game, int start, int end);
-
 void determineTurnOrder(GameplayState *game);
-
 void playTurn(GameplayState *game, int playerId);
-
+int isGameRoundComplete(GameplayState *game);
+void completeGameRound(GameplayState *game);
 void handleJailTurn(GameplayState *game, int playerId);
-
 void playRound(GameplayState *game);
 
 /* functions in finance.c */
@@ -270,5 +269,14 @@ int repayLoan(GameplayState *game, int playerId, int amount);
 int increaseLoan(GameplayState *game, int playerId, int extraAmount);
 void handleLoanDefault(GameplayState *game, int playerId);
 int hasAssets(GameplayState *game, int plyaerId);
+
+int buyInsurance(GameplayState *game, int playerId, int propertyId, InsuranceType type);
+void updateInsuranceAfterRound(GameplayState *game);
+
+int repairProperty(GameplayState *game, int propertyId);
+
+/* functions in events.c*/
+void triggerDisaster(GameplayState *game);
+
 
 #endif

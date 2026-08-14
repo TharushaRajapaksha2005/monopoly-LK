@@ -12,6 +12,9 @@ void initializeProperties(GameplayState *game){
        game->properties[0].currentMarketValue = 1500;
        game->properties[0].mortgageValue = 750;
        game->properties[0].baseRent = 100;
+       game->properties[0].age = 0;
+       game->properties[0].depreciationPercent = 0;
+       game->properties[i].depreciationPercent = 0;
        game->properties[0].houseCost = 500;
        game->properties[0].hotelCost = 2000;
        game->properties[0].owner = NO_OWNER;
@@ -21,6 +24,7 @@ void initializeProperties(GameplayState *game){
        game->properties[0].loanLocked = 0;
        game->properties[0].insuranceType = NO_INSURANCE;
        game->properties[0].insuranceRoundsRemaining = 0;
+       game->properties[0].damaged = 0;
 
        /* Property 1 - Maradana */
        game->properties[1].propertyId = 1;
@@ -30,6 +34,8 @@ void initializeProperties(GameplayState *game){
        game->properties[1].currentMarketValue = 1800;
        game->properties[1].mortgageValue = 750;
        game->properties[1].baseRent = 120;
+       game->properties[1].age = 0;
+       game->properties[1].depreciationPercent = 0;
        game->properties[1].houseCost = 500;
        game->properties[1].hotelCost = 2000;
        game->properties[1].owner = NO_OWNER;
@@ -39,6 +45,7 @@ void initializeProperties(GameplayState *game){
        game->properties[1].loanLocked = 0;
        game->properties[1].insuranceType = NO_INSURANCE;
        game->properties[1].insuranceRoundsRemaining = 0;
+       game->properties[1].damaged = 0;
 
        /* Property 2 - Bambalapitiya */
        game->properties[2].propertyId = 2;
@@ -48,6 +55,8 @@ void initializeProperties(GameplayState *game){
        game->properties[2].currentMarketValue = 2500;
        game->properties[2].mortgageValue = 1250;
        game->properties[2].baseRent = 180;
+       game->properties[2].age = 0;
+       game->properties[2].depreciationPercent = 0;
        game->properties[2].houseCost = 750;
        game->properties[2].hotelCost = 3000;
        game->properties[2].owner = NO_OWNER;
@@ -57,6 +66,7 @@ void initializeProperties(GameplayState *game){
        game->properties[2].loanLocked = 0;
        game->properties[2].insuranceType = NO_INSURANCE;
        game->properties[2].insuranceRoundsRemaining = 0;
+       game->properties[2].damaged = 0;
 
        /* Property 3 - Wellawatte */
        game->properties[3].propertyId = 3;
@@ -66,6 +76,8 @@ void initializeProperties(GameplayState *game){
        game->properties[3].currentMarketValue = 2700;
        game->properties[3].mortgageValue = 1250;
        game->properties[3].baseRent = 200;
+       game->properties[3].age = 0;
+       game->properties[3].depreciationPercent = 0;
        game->properties[3].houseCost = 750;
        game->properties[3].hotelCost = 3000;
        game->properties[3].owner = NO_OWNER;
@@ -75,6 +87,7 @@ void initializeProperties(GameplayState *game){
        game->properties[3].loanLocked = 0;
        game->properties[3].insuranceType = NO_INSURANCE;
        game->properties[3].insuranceRoundsRemaining = 0;
+       game->properties[3].damaged = 0;
 
        /* Property 4 - Mount Lavinia */
        game->properties[4].propertyId = 4;
@@ -84,6 +97,8 @@ void initializeProperties(GameplayState *game){
        game->properties[4].currentMarketValue = 3000;
        game->properties[4].mortgageValue = 1250;
        game->properties[4].baseRent = 220;
+       game->properties[4].age = 0;
+       game->properties[4].depreciationPercent = 0;
        game->properties[4].houseCost = 750;
        game->properties[4].hotelCost = 3000;
        game->properties[4].owner = NO_OWNER;
@@ -93,6 +108,7 @@ void initializeProperties(GameplayState *game){
        game->properties[4].loanLocked = 0;
        game->properties[4].insuranceType = NO_INSURANCE;
        game->properties[4].insuranceRoundsRemaining = 0;
+       game->properties[4].damaged = 0;
 
        /* Property 5 - Nugegoda */
        game->properties[5].propertyId = 5;
@@ -102,6 +118,8 @@ void initializeProperties(GameplayState *game){
        game->properties[5].currentMarketValue = 3500;
        game->properties[5].mortgageValue = 1750;
        game->properties[5].baseRent = 260;
+       game->properties[5].age = 0;
+       game->properties[5].depreciationPercent = 0;
        game->properties[5].houseCost = 1000;
        game->properties[5].hotelCost = 4000;
        game->properties[5].owner = NO_OWNER;
@@ -111,6 +129,7 @@ void initializeProperties(GameplayState *game){
        game->properties[5].loanLocked = 0;
        game->properties[5].insuranceType = NO_INSURANCE;
        game->properties[5].insuranceRoundsRemaining = 0;
+       game->properties[5].damaged = 0;
 
        /* Property 6 - Maharagama */
        game->properties[6].propertyId = 6;
@@ -120,6 +139,8 @@ void initializeProperties(GameplayState *game){
        game->properties[6].currentMarketValue = 3800;
        game->properties[6].mortgageValue = 1750;
        game->properties[6].baseRent = 280;
+       game->properties[6].age = 0;
+       game->properties[6].depreciationPercent = 0;
        game->properties[6].houseCost = 1000;
        game->properties[6].hotelCost = 4000;
        game->properties[6].owner = NO_OWNER;
@@ -129,6 +150,7 @@ void initializeProperties(GameplayState *game){
        game->properties[6].loanLocked = 0;
        game->properties[6].insuranceType = NO_INSURANCE;
        game->properties[6].insuranceRoundsRemaining = 0;
+       game->properties[6].damaged = 0;
 
        /* Property 7 - Kottawa */
        game->properties[7].propertyId = 7;
@@ -138,6 +160,8 @@ void initializeProperties(GameplayState *game){
        game->properties[7].currentMarketValue = 4000;
        game->properties[7].mortgageValue = 1750;
        game->properties[7].baseRent = 300;
+       game->properties[7].age = 0;
+       game->properties[7].depreciationPercent = 0;
        game->properties[7].houseCost = 1000;
        game->properties[7].hotelCost = 4000;
        game->properties[7].owner = NO_OWNER;
@@ -147,6 +171,7 @@ void initializeProperties(GameplayState *game){
        game->properties[7].loanLocked = 0;
        game->properties[7].insuranceType = NO_INSURANCE;
        game->properties[7].insuranceRoundsRemaining = 0;
+       game->properties[7].damaged = 0;
 
        /* Property 8 - Negombo */
        game->properties[8].propertyId = 8;
@@ -156,6 +181,8 @@ void initializeProperties(GameplayState *game){
        game->properties[8].currentMarketValue = 4500;
        game->properties[8].mortgageValue = 2250;
        game->properties[8].baseRent = 350;
+       game->properties[8].age = 0;
+       game->properties[8].depreciationPercent = 0;
        game->properties[8].houseCost = 1250;
        game->properties[8].hotelCost = 5000;
        game->properties[8].owner = NO_OWNER;
@@ -165,6 +192,7 @@ void initializeProperties(GameplayState *game){
        game->properties[8].loanLocked = 0;
        game->properties[8].insuranceType = NO_INSURANCE;
        game->properties[8].insuranceRoundsRemaining = 0;
+       game->properties[8].damaged = 0;
 
        /* Property 9 - Katunayake */
        game->properties[9].propertyId = 9;
@@ -174,6 +202,8 @@ void initializeProperties(GameplayState *game){
        game->properties[9].currentMarketValue = 4700;
        game->properties[9].mortgageValue = 2250;
        game->properties[9].baseRent = 370;
+       game->properties[9].age = 0;
+       game->properties[9].depreciationPercent = 0;
        game->properties[9].houseCost = 1250;
        game->properties[9].hotelCost = 5000;
        game->properties[9].owner = NO_OWNER;
@@ -183,6 +213,7 @@ void initializeProperties(GameplayState *game){
        game->properties[9].loanLocked = 0;
        game->properties[9].insuranceType = NO_INSURANCE;
        game->properties[9].insuranceRoundsRemaining = 0;
+       game->properties[9].damaged = 0;
 
        /* Property 10 - Ja-Ela */
        game->properties[10].propertyId = 10;
@@ -192,6 +223,8 @@ void initializeProperties(GameplayState *game){
        game->properties[10].currentMarketValue = 5000;
        game->properties[10].mortgageValue = 2250;
        game->properties[10].baseRent = 400;
+       game->properties[10].age = 0;
+       game->properties[10].depreciationPercent = 0;
        game->properties[10].houseCost = 1250;
        game->properties[10].hotelCost = 5000;
        game->properties[10].owner = NO_OWNER;
@@ -201,6 +234,7 @@ void initializeProperties(GameplayState *game){
        game->properties[10].loanLocked = 0;
        game->properties[10].insuranceType = NO_INSURANCE;
        game->properties[10].insuranceRoundsRemaining = 0;
+       game->properties[10].damaged = 0;
 
        /* Property 11 - Kandy City */
        game->properties[11].propertyId = 11;
@@ -210,6 +244,8 @@ void initializeProperties(GameplayState *game){
        game->properties[11].currentMarketValue = 5500;
        game->properties[11].mortgageValue = 2750;
        game->properties[11].baseRent = 450;
+       game->properties[11].age = 0;
+       game->properties[11].depreciationPercent = 0;
        game->properties[11].houseCost = 1500;
        game->properties[11].hotelCost = 6000;
        game->properties[11].owner = NO_OWNER;
@@ -219,6 +255,7 @@ void initializeProperties(GameplayState *game){
        game->properties[11].loanLocked = 0;
        game->properties[11].insuranceType = NO_INSURANCE;
        game->properties[11].insuranceRoundsRemaining = 0;
+       game->properties[11].damaged = 0;
 
        /* Property 12 - Peradeniya */
        game->properties[12].propertyId = 12;
@@ -228,6 +265,8 @@ void initializeProperties(GameplayState *game){
        game->properties[12].currentMarketValue = 5800;
        game->properties[12].mortgageValue = 2750;
        game->properties[12].baseRent = 480;
+       game->properties[12].age = 0;
+       game->properties[12].depreciationPercent = 0;
        game->properties[12].houseCost = 1500;
        game->properties[12].hotelCost = 6000;
        game->properties[12].owner = NO_OWNER;
@@ -237,6 +276,7 @@ void initializeProperties(GameplayState *game){
        game->properties[12].loanLocked = 0;
        game->properties[12].insuranceType = NO_INSURANCE;
        game->properties[12].insuranceRoundsRemaining = 0;
+       game->properties[12].damaged = 0;
 
        /* Property 13 - Katugastota */
        game->properties[13].propertyId = 13;
@@ -246,6 +286,8 @@ void initializeProperties(GameplayState *game){
        game->properties[13].currentMarketValue = 6000;
        game->properties[13].mortgageValue = 2750;
        game->properties[13].baseRent = 500;
+       game->properties[13].age = 0;
+       game->properties[13].depreciationPercent = 0;
        game->properties[13].houseCost = 1500;
        game->properties[13].hotelCost = 6000;
        game->properties[13].owner = NO_OWNER;
@@ -255,6 +297,7 @@ void initializeProperties(GameplayState *game){
        game->properties[13].loanLocked = 0;
        game->properties[13].insuranceType = NO_INSURANCE;
        game->properties[13].insuranceRoundsRemaining = 0;
+       game->properties[13].damaged = 0;
 
        /* Property 14 - Galle Fort */
        game->properties[14].propertyId = 14;
@@ -264,6 +307,8 @@ void initializeProperties(GameplayState *game){
        game->properties[14].currentMarketValue = 6500;
        game->properties[14].mortgageValue = 3250;
        game->properties[14].baseRent = 600;
+       game->properties[14].age = 0;
+       game->properties[14].depreciationPercent = 0;
        game->properties[14].houseCost = 2000;
        game->properties[14].hotelCost = 8000;
        game->properties[14].owner = NO_OWNER;
@@ -273,6 +318,7 @@ void initializeProperties(GameplayState *game){
        game->properties[14].loanLocked = 0;
        game->properties[14].insuranceType = NO_INSURANCE;
        game->properties[14].insuranceRoundsRemaining = 0;
+       game->properties[14].damaged = 0;
 
        /* Property 15 - Unawatuna */
        game->properties[15].propertyId = 15;
@@ -282,6 +328,8 @@ void initializeProperties(GameplayState *game){
        game->properties[15].currentMarketValue = 6800;
        game->properties[15].mortgageValue = 3250;
        game->properties[15].baseRent = 620;
+       game->properties[15].age = 0;
+       game->properties[15].depreciationPercent = 0;
        game->properties[15].houseCost = 2000;
        game->properties[15].hotelCost = 8000;
        game->properties[15].owner = NO_OWNER;
@@ -291,6 +339,7 @@ void initializeProperties(GameplayState *game){
        game->properties[15].loanLocked = 0;
        game->properties[15].insuranceType = NO_INSURANCE;
        game->properties[15].insuranceRoundsRemaining = 0;
+       game->properties[15].damaged = 0;
 
        /* Property 16 - Hikkaduwa */
        game->properties[16].propertyId = 16;
@@ -300,6 +349,8 @@ void initializeProperties(GameplayState *game){
        game->properties[16].currentMarketValue = 7000;
        game->properties[16].mortgageValue = 3250;
        game->properties[16].baseRent = 650;
+       game->properties[16].age = 0;
+       game->properties[16].depreciationPercent = 0;
        game->properties[16].houseCost = 2000;
        game->properties[16].hotelCost = 8000;
        game->properties[16].owner = NO_OWNER;
@@ -309,6 +360,7 @@ void initializeProperties(GameplayState *game){
        game->properties[16].loanLocked = 0;
        game->properties[16].insuranceType = NO_INSURANCE;
        game->properties[16].insuranceRoundsRemaining = 0;
+       game->properties[16].damaged = 0;
 
        /* Property 17 - Jaffna Town */
        game->properties[17].propertyId = 17;
@@ -318,6 +370,8 @@ void initializeProperties(GameplayState *game){
        game->properties[17].currentMarketValue = 8000;
        game->properties[17].mortgageValue = 4000;
        game->properties[17].baseRent = 750;
+       game->properties[17].age = 0;
+       game->properties[17].depreciationPercent = 0;
        game->properties[17].houseCost = 2500;
        game->properties[17].hotelCost = 10000;
        game->properties[17].owner = NO_OWNER;
@@ -327,6 +381,7 @@ void initializeProperties(GameplayState *game){
        game->properties[17].loanLocked = 0;
        game->properties[17].insuranceType = NO_INSURANCE;
        game->properties[18].insuranceRoundsRemaining = 0;
+       game->properties[17].damaged = 0;
 
        /* Property 18 - Nallur */
        game->properties[18].propertyId = 18;
@@ -336,6 +391,8 @@ void initializeProperties(GameplayState *game){
        game->properties[18].currentMarketValue = 8300;
        game->properties[18].mortgageValue = 4000;
        game->properties[18].baseRent = 780;
+       game->properties[18].age = 0;
+       game->properties[18].depreciationPercent = 0;
        game->properties[18].houseCost = 2500;
        game->properties[18].hotelCost = 10000;
        game->properties[18].owner = NO_OWNER;
@@ -345,6 +402,7 @@ void initializeProperties(GameplayState *game){
        game->properties[18].loanLocked = 0;
        game->properties[18].insuranceType = NO_INSURANCE;
        game->properties[18].insuranceRoundsRemaining = 0;
+       game->properties[18].damaged = 0;
 
        /* Property 19 - Trincomalee */
        game->properties[19].propertyId = 19;
@@ -354,6 +412,8 @@ void initializeProperties(GameplayState *game){
        game->properties[19].currentMarketValue = 8500;
        game->properties[19].mortgageValue = 4000;
        game->properties[19].baseRent = 800;
+       game->properties[19].age = 0;
+       game->properties[19].depreciationPercent = 0;
        game->properties[19].houseCost = 2500;
        game->properties[19].hotelCost = 10000;
        game->properties[19].owner = NO_OWNER;
@@ -363,6 +423,7 @@ void initializeProperties(GameplayState *game){
        game->properties[19].loanLocked = 0;
        game->properties[19].insuranceType = NO_INSURANCE;
        game->properties[19].insuranceRoundsRemaining = 0;
+       game->properties[19].damaged = 0;
 
        /* Property 20 - Nuwara Eliya */
        game->properties[20].propertyId = 20;
@@ -372,6 +433,8 @@ void initializeProperties(GameplayState *game){
        game->properties[20].currentMarketValue = 10000;
        game->properties[20].mortgageValue = 5000;
        game->properties[20].baseRent = 1000;
+       game->properties[20].age = 0;
+       game->properties[20].depreciationPercent = 0;
        game->properties[20].houseCost = 3000;
        game->properties[20].hotelCost = 12000;
        game->properties[20].owner = NO_OWNER;
@@ -381,6 +444,7 @@ void initializeProperties(GameplayState *game){
        game->properties[20].loanLocked = 0;
        game->properties[20].insuranceType = NO_INSURANCE;
        game->properties[20].insuranceRoundsRemaining = 0;
+       game->properties[20].damaged = 0;
 
        /* Property 21 - Galle Face */
        game->properties[21].propertyId = 21;
@@ -390,6 +454,8 @@ void initializeProperties(GameplayState *game){
        game->properties[21].currentMarketValue = 12000;
        game->properties[21].mortgageValue = 5000;
        game->properties[21].baseRent = 1200;
+       game->properties[21].age = 0;
+       game->properties[21].depreciationPercent = 0;
        game->properties[21].houseCost = 3000;
        game->properties[21].hotelCost = 12000;
        game->properties[21].owner = NO_OWNER;
@@ -399,6 +465,7 @@ void initializeProperties(GameplayState *game){
        game->properties[21].loanLocked = 0;
        game->properties[21].insuranceType = NO_INSURANCE;
        game->properties[21].insuranceRoundsRemaining = 0;
+       game->properties[21].damaged = 0;
 }
 
 void initializeRailways(GameplayState *game){
@@ -683,8 +750,10 @@ void movePlayer(GameplayState *game, int playerId, int diceValue){
 
        if (newPosition >= BOARD_SIZE){
               newPosition = newPosition - BOARD_SIZE;
-              game->players[playerId].cash = game->players[playerId].cash + 2000;
+              game->players[playerId].cash += 2000;
+              game->players[playerId].completedLap = 1;
 
+              printf("%s completed a lap.\n",game->players[playerId].name);
               printf("%s passed GO and recevid LKR 2000 \n", game->players[playerId].name);
        }
 

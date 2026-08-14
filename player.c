@@ -9,6 +9,7 @@ void initializePlayers(GameplayState *game){
     game->players[0].strategy = AGGRESSIVE;
     game->players[0].cash = STARTING_CASH;
     game->players[0].position = 0;
+    game->players[0].completedLap = 0;
     game->players[0].isbankrupt = 0;
     game->players[0].inJail = 0;
     game->players[0].jailTurns = 0;
@@ -23,6 +24,7 @@ void initializePlayers(GameplayState *game){
     game->players[1].strategy = CONSERVATIVE;
     game->players[1].cash = STARTING_CASH;
     game->players[1].position = 0;
+    game->players[1].completedLap = 0;
     game->players[1].isbankrupt = 0;
     game->players[1].inJail = 0;
     game->players[1].jailTurns = 0;
@@ -37,6 +39,7 @@ void initializePlayers(GameplayState *game){
     game->players[2].strategy = RISK_TAKER;
     game->players[2].cash = STARTING_CASH;
     game->players[2].position = 0;
+    game->players[2].completedLap = 0;
     game->players[2].isbankrupt = 0;
     game->players[2].inJail = 0;
     game->players[2].jailTurns = 0;
@@ -51,6 +54,7 @@ void initializePlayers(GameplayState *game){
     game->players[3].strategy = OPPORTUNISTIC;
     game->players[3].cash = STARTING_CASH;
     game->players[3].position = 0;
+    game->players[3].completedLap = 0;
     game->players[3].isbankrupt = 0;
     game->players[3].inJail = 0;
     game->players[3].jailTurns = 0;

@@ -47,6 +47,11 @@ void payPropertyRent(GameplayState *game, int playerId, int propertyId){
         printf("%s is mortgaged no rent is collected \n", game->properties[propertyId].name);
         return;
     }
+    // no rent if property is damaged
+    if(game->properties[propertyId].damaged == 1){
+        printf("%s is damaged. No rent collected.\n", game->properties[propertyId].name);
+        return; 
+    }
     /* rent calcutaions*/
     if(game->properties[propertyId].hotel == 1){
         rent = rent * 10;
@@ -944,7 +949,7 @@ void handleLoanDefault(GameplayState *game, int playerId){
             game->properties[i].houses = 0;
             game->properties[i].hotel = 0;
             game->properties[i].loanLocked = 0;
-            game->properties[i].InsuranceType = NO_INSURANCE;
+            game->properties[i].insuranceType = NO_INSURANCE;
         }
     }
      for (i = 0; i < MAX_RAILWAY; i++){
@@ -1000,4 +1005,83 @@ int hasAssets(GameplayState *game, int playerId){
         }
     }
     return 0;
+}
+
+int buyInsurance(GameplayState *game, int playerId, int propertyId, InsuranceType type){
+    int premium = 0;
+
+    if(game->properties[propertyId].owner != playerId){
+        return 0;
+    }
+    if(type ==BASIC_INSURANCE){
+        premium = game->properties[propertyId].currentMarketValue * 5/100;
+    }
+    else if(type == COMPREHENSIVE_INSURANCE){
+        premium = game->properties[propertyId].currentMarketValue * 10/100;
+    }
+     else if (type == BUSINESS_INTERRUPTION_INSURANCE){
+        /* Business Interruption Insurance only applies to properties with hotels. */
+        if (game->properties[propertyId].hotel == 0){
+            return 0;
+        } 
+        premium = game->properties[propertyId].currentMarketValue * 15 / 100;
+    }
+    else{
+        return 0;
+    }
+    if(game->players[playerId].cash < premium){
+        return 0;
+    }
+
+    game->players[playerId].cash -= premium;
+    game->properties[propertyId].insuranceType = type;
+    game->properties[propertyId].insuranceRoundsRemaining = 20;
+
+    printf("%s insured %s.\n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Premium: LKR %d\n", premium);
+
+    return 1;
+}
+
+void updateInsuranceAfterRound(GameplayState *game){
+    int i;
+
+    for (i = 0; i < MAX_PROPERTIES; i++){
+        if(game->properties[i].insuranceType != NO_INSURANCE){
+            game->properties[i].insuranceRoundsRemaining--;
+            /* Reminder 3 rounds before expiry. */
+            if (game->properties[i].insuranceRoundsRemaining == 3){
+                printf("Insurance on %s expires in 3 rounds.\n", game->properties[i].name);
+            }
+
+            /* Policy expired. */
+            if(game->properties[i].insuranceRoundsRemaining <= 0){
+                printf("Insurance on %s has expired.\n", game->properties[i].name);
+                game->properties[i].insuranceType = NO_INSURANCE;
+                game->properties[i].insuranceRoundsRemaining = 0;
+            }
+        }
+    }
+}
+
+int repairProperty(GameplayState *game, int propertyId){
+    int owner;
+    int repairCost = 1000;
+    owner = game->properties[propertyId].owner;
+
+    if(game->properties[propertyId].damaged == 0){
+        return 0;
+    }
+    if(owner == NO_OWNER){
+        return 0;
+    }
+    if(game->players[owner].cash < repairCost){
+        return 0;
+    }
+
+    game->players[owner].cash -= repairCost;
+    game->properties[propertyId].damaged = 0;
+    printf("%s repaired %s for LKR %d.\n", game->players[owner].name, game->properties[propertyId].name, repairCost);
+
+    return 1;
 }

@@ -180,29 +180,67 @@ void handleJailTurn(GameplayState *game, int playerId){
     }
 }
 
-void playRound(GameplayState *game){
+int isGameRoundComplete(GameplayState *game){
+    int i;
+
+    for (i = 0; i < MAX_PLAYERS; i++){
+        if(game->players[i].isbankrupt == 0){
+            if(game->players[i].completedLap == 0){
+            return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+void completeGameRound(GameplayState *game){
+    int i;
+
+    game->currentRound++;
+
+    printf("\n=================================\n");
+    printf("GAME ROUND %d COMPLETED\n", game->currentRound);
+    printf("=================================\n");
+
+    if(game->currentRound % 10 == 0){
+        triggerDisaster(game);
+    }
+
+    for (i = 0; i < MAX_PLAYERS; i++){
+        if(game->players[i].isbankrupt == 0){
+            updateLoanAfterRound(game, i);
+        }
+    }
+    /* insurance duration*/
+    updateInsuranceAfterRound(game);
+
+    for (i = 0; i < MAX_PLAYERS; i++){
+        if(game->players[i].isbankrupt == 0){
+            game->players[i].completedLap = 0;
+        }
+    }
+}
+
+void playTurnCycle(GameplayState *game){
 
     int i;
     int playerId;
-
-    printf("\n===================================\n");
-    printf("ROUND %d\n", game->currentRound);
-    printf("===================================\n");
 
     for (i = 0; i < MAX_PLAYERS; i++){
         playerId = game->turnOrder[i];
 
         if(game->players[playerId].isbankrupt == 0){
             playTurn(game, playerId);
+             if(isGameRoundComplete(game)){
+                completeGameRound(game);
+            }
         }
-        else{
-            printf("%s is bankrupt and skips the turn.\n", game->players[playerId].name);
-        }
-    }
-    for (i = 0; i < MAX_PLAYERS; i++){
-        if(game->players[i].isbankrupt == 0){
-            updateLoanAfterRound(game, i);
+        
         }
     }
-    game->currentRound++;
-}
+    
+        
+    
+
+    
+
