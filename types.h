@@ -36,7 +36,7 @@ typedef enum{
     YELLOW,
     GREEN,
     DARK_BLUE,
-    NO_CLOUR
+    NO_GROUP
 } PropertyGroup;
 
 typedef enum{
@@ -76,11 +76,24 @@ typedef struct{
     int houseCost;
     int hotelCost;
 
+    // for inflation and dynamic property market effetcs 
+    int normalPurchasePrice;
+    int normalMarketValue;
+    int normalMortgageValue;
+    int normalBaseRent;
+    int normalHouseCost;
+    int normalHotelCost;
+
     int owner;
     int mortgaged;
 
     int houses;
     int hotel;
+    int houseCondition[4];
+    int hotelCondition;
+    int maintenanceIgnoredRounds;
+    int structuralDamage; 
+    int valueBeforeStructuralDamage; 
 
     int loanLocked;
 
@@ -122,8 +135,28 @@ typedef struct{
 } Utility;
 
 typedef enum{
-    BOC
-} Bank;
+    TOURISM_BOOM,
+    FUEL_CRISIS,
+    HEAVY_MONSOON,
+    ECONOMIC_RECESSION,
+    STOCK_MARKET_BOOM,
+    GOVERNMENT_HOUSING_PROGRAMME,
+    FOREIGN_INVESTMENT,
+    POLITICAL_UNREST
+} NationalEvent;
+
+typedef enum
+{
+    NO_REGULATION,
+    INCREASE_PROPERTY_TAX,
+    REDUCE_LOAN_INTEREST,
+    HOUSING_SUBSIDY,
+    LUXURY_PROPERTY_TAX,
+    RAILWAY_MODERNIZATION,
+    ELECTRICITY_TARIFF_REVISION,
+    INSURANCE_REGULATION,
+    ANTI_SPECULATION_ACT
+} GovernmentRegulation;
 
 typedef enum{
     FIRE,
@@ -174,6 +207,17 @@ typedef struct{
 
     int inflationRate;
     int currentLoanInteresetRate;
+    int repairCost;
+    int insurancePremiumFactor;
+
+    PropertyGroup boomGroup;
+    PropertyGroup declineGroup;
+    int boomRoundsRemaining;
+    int declineRoundsRemaining;
+    int lastMarketAffectedRound[8];
+
+    GovernmentRegulation currentGovRegulation;
+    NationalEvent currentNationalEvent;
 
     /*event and economy not yet added */
 
@@ -231,7 +275,20 @@ void playTurn(GameplayState *game, int playerId);
 int isGameRoundComplete(GameplayState *game);
 void completeGameRound(GameplayState *game);
 void handleJailTurn(GameplayState *game, int playerId);
-void playRound(GameplayState *game);
+void playTurnCycle(GameplayState *game);
+
+void updatePropertyAge(GameplayState *game);
+void updateBuildingCondition(GameplayState *game);
+int getPropertyBuildingCondition(GameplayState *game, int propertyId);
+
+int countSolventPlayers(GameplayState *game);
+int calculateNetWorth(GameplayState *game, int playerId);
+int findWinner(GameplayState *game);
+void printGameResult(GameplayState *game);
+void printMarketConditions(GameplayState *game);
+void printRoundSummary(GameplayState *game);
+//void startGame(void);
+
 
 /* functions in finance.c */
 void buyProperty(GameplayState *game, int playerId, int propertyId);
@@ -247,8 +304,11 @@ void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceVa
 
 int payJailBail(GameplayState *game, int playerId);
 
-int calculatePropertyAssetValue(GameplayState *game, int playerId);
+int calculateTotalPropertyValue(GameplayState *game, int playerId);
 void payCommunityDevelopmentFund(GameplayState *game, int playerId);
+int calculateIncomeTax(GameplayState *game, int playerId);
+void payIncomeTax(GameplayState *game, int playerId);
+void declareBankrupt(GameplayState *game, int playerId);
 
 void auctionProperty(GameplayState *game, int propertyId);
 void auctionRailway(GameplayState *game, int railwayId);
@@ -274,9 +334,18 @@ int buyInsurance(GameplayState *game, int playerId, int propertyId, InsuranceTyp
 void updateInsuranceAfterRound(GameplayState *game);
 
 int repairProperty(GameplayState *game, int propertyId);
+void maintainProperty(GameplayState *game, int playerId, int propertyId);
+void performMaintenance(GameplayState *game, int playerId);
+void updateMaintenanceNeglect(GameplayState *game);
+int repaireStructuralDamage(GameplayState *game, int playerId, int propertyId);
+int repaireProperty(GameplayState *game, int playerId, int propertyId);
 
 /* functions in events.c*/
 void triggerDisaster(GameplayState *game);
+void applyInflation(GameplayState *game);
+void applyPropertyMarket(GameplayState *game);
+void updatePropertyMarket(GameplayState *game);
 
+void triggerGovRegulation(GameplayState *game);
 
 #endif

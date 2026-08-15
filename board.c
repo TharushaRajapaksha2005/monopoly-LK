@@ -14,9 +14,12 @@ void initializeProperties(GameplayState *game){
        game->properties[0].baseRent = 100;
        game->properties[0].age = 0;
        game->properties[0].depreciationPercent = 0;
-       game->properties[i].depreciationPercent = 0;
+       game->properties[0].depreciationPercent = 0;
        game->properties[0].houseCost = 500;
        game->properties[0].hotelCost = 2000;
+       game->properties[0].maintenanceIgnoredRounds = 0;
+       game->properties[0].structuralDamage = 0;
+       game->properties[0].valueBeforeStructuralDamage = 0;
        game->properties[0].owner = NO_OWNER;
        game->properties[0].mortgaged = 0;
        game->properties[0].houses = 0;
@@ -38,6 +41,9 @@ void initializeProperties(GameplayState *game){
        game->properties[1].depreciationPercent = 0;
        game->properties[1].houseCost = 500;
        game->properties[1].hotelCost = 2000;
+       game->properties[1].maintenanceIgnoredRounds = 0;
+       game->properties[1].structuralDamage = 0;
+       game->properties[1].valueBeforeStructuralDamage = 0;
        game->properties[1].owner = NO_OWNER;
        game->properties[1].mortgaged = 0;
        game->properties[1].houses = 0;
@@ -59,6 +65,9 @@ void initializeProperties(GameplayState *game){
        game->properties[2].depreciationPercent = 0;
        game->properties[2].houseCost = 750;
        game->properties[2].hotelCost = 3000;
+       game->properties[2].maintenanceIgnoredRounds = 0;
+       game->properties[2].structuralDamage = 0;
+       game->properties[2].valueBeforeStructuralDamage = 0;
        game->properties[2].owner = NO_OWNER;
        game->properties[2].mortgaged = 0;
        game->properties[2].houses = 0;
@@ -80,6 +89,9 @@ void initializeProperties(GameplayState *game){
        game->properties[3].depreciationPercent = 0;
        game->properties[3].houseCost = 750;
        game->properties[3].hotelCost = 3000;
+       game->properties[3].maintenanceIgnoredRounds = 0;
+       game->properties[3].structuralDamage = 0;
+       game->properties[3].valueBeforeStructuralDamage = 0;
        game->properties[3].owner = NO_OWNER;
        game->properties[3].mortgaged = 0;
        game->properties[3].houses = 0;
@@ -101,6 +113,9 @@ void initializeProperties(GameplayState *game){
        game->properties[4].depreciationPercent = 0;
        game->properties[4].houseCost = 750;
        game->properties[4].hotelCost = 3000;
+       game->properties[4].maintenanceIgnoredRounds = 0;
+       game->properties[4].structuralDamage = 0;
+       game->properties[4].valueBeforeStructuralDamage = 0;
        game->properties[4].owner = NO_OWNER;
        game->properties[4].mortgaged = 0;
        game->properties[4].houses = 0;
@@ -122,6 +137,9 @@ void initializeProperties(GameplayState *game){
        game->properties[5].depreciationPercent = 0;
        game->properties[5].houseCost = 1000;
        game->properties[5].hotelCost = 4000;
+       game->properties[5].maintenanceIgnoredRounds = 0;
+       game->properties[5].structuralDamage = 0;
+       game->properties[5].valueBeforeStructuralDamage = 0;
        game->properties[5].owner = NO_OWNER;
        game->properties[5].mortgaged = 0;
        game->properties[5].houses = 0;
@@ -143,6 +161,9 @@ void initializeProperties(GameplayState *game){
        game->properties[6].depreciationPercent = 0;
        game->properties[6].houseCost = 1000;
        game->properties[6].hotelCost = 4000;
+       game->properties[6].maintenanceIgnoredRounds = 0;
+       game->properties[6].structuralDamage = 0;
+       game->properties[6].valueBeforeStructuralDamage = 0;
        game->properties[6].owner = NO_OWNER;
        game->properties[6].mortgaged = 0;
        game->properties[6].houses = 0;
@@ -164,6 +185,9 @@ void initializeProperties(GameplayState *game){
        game->properties[7].depreciationPercent = 0;
        game->properties[7].houseCost = 1000;
        game->properties[7].hotelCost = 4000;
+       game->properties[7].maintenanceIgnoredRounds = 0;
+       game->properties[7].structuralDamage = 0;
+       game->properties[7].valueBeforeStructuralDamage = 0;
        game->properties[7].owner = NO_OWNER;
        game->properties[7].mortgaged = 0;
        game->properties[7].houses = 0;
@@ -185,6 +209,9 @@ void initializeProperties(GameplayState *game){
        game->properties[8].depreciationPercent = 0;
        game->properties[8].houseCost = 1250;
        game->properties[8].hotelCost = 5000;
+       game->properties[8].maintenanceIgnoredRounds = 0;
+       game->properties[8].structuralDamage = 0;
+       game->properties[8].valueBeforeStructuralDamage = 0;
        game->properties[8].owner = NO_OWNER;
        game->properties[8].mortgaged = 0;
        game->properties[8].houses = 0;
@@ -206,6 +233,9 @@ void initializeProperties(GameplayState *game){
        game->properties[9].depreciationPercent = 0;
        game->properties[9].houseCost = 1250;
        game->properties[9].hotelCost = 5000;
+       game->properties[9].maintenanceIgnoredRounds = 0;
+       game->properties[9].structuralDamage = 0;
+       game->properties[9].valueBeforeStructuralDamage = 0;
        game->properties[9].owner = NO_OWNER;
        game->properties[9].mortgaged = 0;
        game->properties[9].houses = 0;
@@ -227,6 +257,9 @@ void initializeProperties(GameplayState *game){
        game->properties[10].depreciationPercent = 0;
        game->properties[10].houseCost = 1250;
        game->properties[10].hotelCost = 5000;
+       game->properties[10].maintenanceIgnoredRounds = 0;
+       game->properties[10].structuralDamage = 0;
+       game->properties[10].valueBeforeStructuralDamage = 0;
        game->properties[10].owner = NO_OWNER;
        game->properties[10].mortgaged = 0;
        game->properties[10].houses = 0;
@@ -248,6 +281,9 @@ void initializeProperties(GameplayState *game){
        game->properties[11].depreciationPercent = 0;
        game->properties[11].houseCost = 1500;
        game->properties[11].hotelCost = 6000;
+       game->properties[11].maintenanceIgnoredRounds = 0;
+       game->properties[11].structuralDamage = 0;
+       game->properties[11].valueBeforeStructuralDamage = 0;
        game->properties[11].owner = NO_OWNER;
        game->properties[11].mortgaged = 0;
        game->properties[11].houses = 0;
@@ -269,6 +305,9 @@ void initializeProperties(GameplayState *game){
        game->properties[12].depreciationPercent = 0;
        game->properties[12].houseCost = 1500;
        game->properties[12].hotelCost = 6000;
+       game->properties[12].maintenanceIgnoredRounds = 0;
+       game->properties[12].structuralDamage = 0;
+       game->properties[12].valueBeforeStructuralDamage = 0;
        game->properties[12].owner = NO_OWNER;
        game->properties[12].mortgaged = 0;
        game->properties[12].houses = 0;
@@ -290,6 +329,9 @@ void initializeProperties(GameplayState *game){
        game->properties[13].depreciationPercent = 0;
        game->properties[13].houseCost = 1500;
        game->properties[13].hotelCost = 6000;
+       game->properties[13].maintenanceIgnoredRounds = 0;
+       game->properties[13].structuralDamage = 0;
+       game->properties[13].valueBeforeStructuralDamage = 0;
        game->properties[13].owner = NO_OWNER;
        game->properties[13].mortgaged = 0;
        game->properties[13].houses = 0;
@@ -311,6 +353,9 @@ void initializeProperties(GameplayState *game){
        game->properties[14].depreciationPercent = 0;
        game->properties[14].houseCost = 2000;
        game->properties[14].hotelCost = 8000;
+       game->properties[14].maintenanceIgnoredRounds = 0;
+       game->properties[14].structuralDamage = 0;
+       game->properties[14].valueBeforeStructuralDamage = 0;
        game->properties[14].owner = NO_OWNER;
        game->properties[14].mortgaged = 0;
        game->properties[14].houses = 0;
@@ -332,6 +377,9 @@ void initializeProperties(GameplayState *game){
        game->properties[15].depreciationPercent = 0;
        game->properties[15].houseCost = 2000;
        game->properties[15].hotelCost = 8000;
+       game->properties[15].maintenanceIgnoredRounds = 0;
+       game->properties[15].structuralDamage = 0;
+       game->properties[15].valueBeforeStructuralDamage = 0;
        game->properties[15].owner = NO_OWNER;
        game->properties[15].mortgaged = 0;
        game->properties[15].houses = 0;
@@ -353,6 +401,9 @@ void initializeProperties(GameplayState *game){
        game->properties[16].depreciationPercent = 0;
        game->properties[16].houseCost = 2000;
        game->properties[16].hotelCost = 8000;
+       game->properties[16].maintenanceIgnoredRounds = 0;
+       game->properties[16].structuralDamage = 0;
+       game->properties[16].valueBeforeStructuralDamage = 0;
        game->properties[16].owner = NO_OWNER;
        game->properties[16].mortgaged = 0;
        game->properties[16].houses = 0;
@@ -374,6 +425,9 @@ void initializeProperties(GameplayState *game){
        game->properties[17].depreciationPercent = 0;
        game->properties[17].houseCost = 2500;
        game->properties[17].hotelCost = 10000;
+       game->properties[17].maintenanceIgnoredRounds = 0;
+       game->properties[17].structuralDamage = 0;
+       game->properties[17].valueBeforeStructuralDamage = 0;
        game->properties[17].owner = NO_OWNER;
        game->properties[17].mortgaged = 0;
        game->properties[17].houses = 0;
@@ -395,6 +449,9 @@ void initializeProperties(GameplayState *game){
        game->properties[18].depreciationPercent = 0;
        game->properties[18].houseCost = 2500;
        game->properties[18].hotelCost = 10000;
+       game->properties[18].maintenanceIgnoredRounds = 0;
+       game->properties[18].structuralDamage = 0;
+       game->properties[18].valueBeforeStructuralDamage = 0;
        game->properties[18].owner = NO_OWNER;
        game->properties[18].mortgaged = 0;
        game->properties[18].houses = 0;
@@ -416,6 +473,9 @@ void initializeProperties(GameplayState *game){
        game->properties[19].depreciationPercent = 0;
        game->properties[19].houseCost = 2500;
        game->properties[19].hotelCost = 10000;
+       game->properties[19].maintenanceIgnoredRounds = 0;
+       game->properties[19].structuralDamage = 0;
+       game->properties[19].valueBeforeStructuralDamage = 0;
        game->properties[19].owner = NO_OWNER;
        game->properties[19].mortgaged = 0;
        game->properties[19].houses = 0;
@@ -437,6 +497,9 @@ void initializeProperties(GameplayState *game){
        game->properties[20].depreciationPercent = 0;
        game->properties[20].houseCost = 3000;
        game->properties[20].hotelCost = 12000;
+       game->properties[20].maintenanceIgnoredRounds = 0;
+       game->properties[20].structuralDamage = 0;
+       game->properties[20].valueBeforeStructuralDamage = 0;
        game->properties[20].owner = NO_OWNER;
        game->properties[20].mortgaged = 0;
        game->properties[20].houses = 0;
@@ -458,6 +521,9 @@ void initializeProperties(GameplayState *game){
        game->properties[21].depreciationPercent = 0;
        game->properties[21].houseCost = 3000;
        game->properties[21].hotelCost = 12000;
+       game->properties[21].maintenanceIgnoredRounds = 0;
+       game->properties[21].structuralDamage = 0;
+       game->properties[21].valueBeforeStructuralDamage = 0;
        game->properties[21].owner = NO_OWNER;
        game->properties[21].mortgaged = 0;
        game->properties[21].houses = 0;
@@ -466,6 +532,22 @@ void initializeProperties(GameplayState *game){
        game->properties[21].insuranceType = NO_INSURANCE;
        game->properties[21].insuranceRoundsRemaining = 0;
        game->properties[21].damaged = 0;
+int i;
+int j;
+for (i = 0; i < MAX_PROPERTIES; i++){
+    for (j = 0; j < 4; j++){
+       game->properties[i].houseCondition[j] = 0;
+    }
+       game->properties[i].hotelCondition = 0;
+}
+for (i = 0; i < MAX_PROPERTIES; i++){
+    game->properties[i].normalPurchasePrice = game->properties[i].purchasePrice;
+    game->properties[i].normalMarketValue = game->properties[i].currentMarketValue;
+    game->properties[i].normalMortgageValue = game->properties[i].mortgageValue;
+    game->properties[i].normalBaseRent = game->properties[i].baseRent;
+    game->properties[i].normalHouseCost = game->properties[i].houseCost;
+    game->properties[i].normalHotelCost = game->properties[i].hotelCost;
+}
 }
 
 void initializeRailways(GameplayState *game){
@@ -741,7 +823,6 @@ void initializeGameBoard(GameplayState *game){
 }
 
 void movePlayer(GameplayState *game, int playerId, int diceValue){
-
        int oldPosition;
        int newPosition;
 
@@ -754,7 +835,9 @@ void movePlayer(GameplayState *game, int playerId, int diceValue){
               game->players[playerId].completedLap = 1;
 
               printf("%s completed a lap.\n",game->players[playerId].name);
-              printf("%s passed GO and recevid LKR 2000 \n", game->players[playerId].name);
+              printf("%s passed GO\n", game->players[playerId].name);
+              printf("Collected LKR 2,000.\n");
+              printf("Current Balance : LKR %d.\n", game->players[playerId].cash);
        }
 
        game->players[playerId].position = newPosition;
@@ -804,7 +887,7 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue){
 
        case TAX:
               printf("Square type: TAX\n");
-              printf("Income Tax handling will be completed later.\n");
+              payIncomeTax(game, playerId);
               break;
 
        case JAIL:

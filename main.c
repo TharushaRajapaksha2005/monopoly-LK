@@ -3,88 +3,126 @@
 #include <time.h>
 #include "types.h"
 
+
 int main(void)
 {
     GameplayState game;
+    int i;
 
+    /*
+        Seed random number generator.
+        Do this only once.
+    */
+    srand(2026);
+
+
+    /*
+        Initialize board and players.
+    */
     initializeGameBoard(&game);
     initializePlayers(&game);
 
-    srand(time(NULL));
-
-    printf("=== DISASTER TEST ===\n\n");
 
     /*
-        Give Player 0 some money.
+        Game starts at round 0.
     */
-    game.players[0].cash = 10000;
-
-    /*
-        Make Pettah a developed property.
-    */
-    game.properties[0].owner = 0;
-    game.properties[0].houses = 2;
-    game.properties[0].hotel = 0;
-    game.properties[0].damaged = 0;
-
-    /*
-        Give it Basic Insurance.
-    */
-    game.properties[0].insuranceType = BASIC_INSURANCE;
-    game.properties[0].insuranceRoundsRemaining = 20;
+    game.currentRound = 0;
 
 
     /*
-        Make Maradana another developed property.
+        Financial / economic starting values.
     */
-    game.properties[1].owner = 0;
-    game.properties[1].houses = 0;
-    game.properties[1].hotel = 1;
-    game.properties[1].damaged = 0;
+    game.repairCost = 1000;
 
-    /*
-        Give it Comprehensive Insurance.
-    */
-    game.properties[1].insuranceType = COMPREHENSIVE_INSURANCE;
-    game.properties[1].insuranceRoundsRemaining = 20;
+    game.insurancePremiumFactor = 100;
 
-
-    printf("BEFORE DISASTER\n");
-    printf("-----------------------------\n");
-
-    printf("%s\n", game.properties[0].name);
-    printf("Damaged: %d\n", game.properties[0].damaged);
-    printf("Insurance Type: %d\n\n",
-           game.properties[0].insuranceType);
-
-    printf("%s\n", game.properties[1].name);
-    printf("Damaged: %d\n", game.properties[1].damaged);
-    printf("Insurance Type: %d\n\n",
-           game.properties[1].insuranceType);
-
-    printf("Player Cash: LKR %d\n\n",
-           game.players[0].cash);
+    game.loanInterestRate = 10;
 
 
     /*
-        Trigger one disaster.
+        Tax rates.
     */
-    triggerDisaster(&game);
+    game.incomeTaxRate = 15;
+
+    game.communityFundRate = 10;
 
 
-    printf("\nAFTER DISASTER\n");
-    printf("-----------------------------\n");
+    /*
+        Dynamic property market.
+    */
+    game.boomGroup = NO_GROUP;
+    game.declineGroup = NO_GROUP;
 
-    printf("%s\n", game.properties[0].name);
-    printf("Damaged: %d\n\n",
-           game.properties[0].damaged);
+    game.boomRoundsRemaining = 0;
+    game.declineRoundsRemaining = 0;
 
-    printf("%s\n", game.properties[1].name);
-    printf("Damaged: %d\n\n",
-           game.properties[1].damaged);
 
-    printf("Player Cash: LKR %d\n",
-           game.players[0].cash);
+    /*
+        Government regulation.
+
+        There is no regulation before
+        the first regulation is selected.
+    */
+    game.currentGovRegulation = NO_REGULATION;
+
+
+    /*
+        Allow every property group to be
+        selected when the first market
+        event occurs.
+    */
+    for (i = 0; i < 8; i++)
+    {
+        game.lastMarketAffectedRound[i] = -30;
+    }
+
+
+    /*
+        Initially nobody has completed
+        a lap for the first game round.
+    */
+    for (i = 0; i < MAX_PLAYERS; i++)
+    {
+        game.players[i].completedLap = 0;
+    }
+
+
+    /*
+        Roll dice and determine the
+        starting player order.
+    */
+    determineTurnOrder(&game);
+
+
+    printf("\n");
+    printf("====================================\n");
+    printf("        MONOPOLY-LK STARTED\n");
+    printf("====================================\n");
+
+
+    /*
+        Run the simulation.
+
+        The game stops when:
+
+        1. Only one solvent player remains
+
+        OR
+
+        2. 500 GAME ROUNDS are completed.
+    */
+    while (game.currentRound < 500 &&
+           countSolventPlayers(&game) > 1)
+    {
+        playTurnCycle(&game);
+    }
+
+
+    /*
+        Show final winner and player status.
+    */
+    printGameResult(&game);
+
 
     return 0;
 }
