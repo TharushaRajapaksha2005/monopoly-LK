@@ -817,7 +817,20 @@ void initializeGameBoard(GameplayState *game){
        initializeUtilities(game);
        initializeBoard(game);
 }
+void initializeGameState(GameplayState *game){
+       int i;
+       game->currentRound = 0;
+       game->repairCost = 1000;
+       game->insurancePremiumFactor = 100;
+       game->loanInterestRate = 10;
+       game->incomeTaxRate = 15;
+       game->communityFundRate = 10;
+       game->currentGovRegulation = NO_REGULATION;
 
+       for(i = 0; i < MAX_PLAYERS; i++){
+       game->players[i].completedLap = 0;
+    } 
+}
 void movePlayer(GameplayState *game, int playerId, int diceValue){
        int oldPosition;
        int newPosition;
@@ -910,7 +923,6 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue){
               break;
 
        default:
-              printf("Square type: UNKNOWN\n");
               break;
        }
 }

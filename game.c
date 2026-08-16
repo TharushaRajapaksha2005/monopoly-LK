@@ -9,7 +9,6 @@ int rollDice(){
 
     return dice1 + dice2;
 }
-
 void sortTurnOrder(int turnOrder[], int diceValue[], int start, int end){
 
     int i, j, temp;
@@ -28,7 +27,6 @@ void sortTurnOrder(int turnOrder[], int diceValue[], int start, int end){
         }
     }
 }
-
 void resolveTiedGroup(GameplayState *game, int start, int end){
 
     int rerollValuses[MAX_PLAYERS];
@@ -59,7 +57,6 @@ void resolveTiedGroup(GameplayState *game, int start, int end){
         groupStart = groupEnd + 1;
     }
 };
-
 void determineTurnOrder(GameplayState *game){
 
     int diceValues[MAX_PLAYERS];
@@ -154,8 +151,7 @@ void handleJailTurn(GameplayState *game, int playerId){
     printf("%s rolled %d and %d \n", game->players[playerId].name, dice1, dice2);
 
     /* player can leave jail if dice 1 = dice 2 */
-
-    if (dice1 == dice2){
+    if(dice1 == dice2){
         printf("%s rolled doubles and left Jail.\n", game->players[playerId].name);
 
         game->players[playerId].inJail = 0;
@@ -170,19 +166,16 @@ void handleJailTurn(GameplayState *game, int playerId){
     game->players[playerId].jailTurns++;
 
     printf("%s did not roll doubles.\n", game->players[playerId].name);
-
     printf("Turns spent in Jail: %d\n", game->players[playerId].jailTurns);
 
     /* after three turns release player*/
-    if (game->players[playerId].jailTurns >= 3)
-    {
+    if(game->players[playerId].jailTurns >= 3){
         game->players[playerId].inJail = 0;
         game->players[playerId].jailTurns = 0;
 
         printf("%s completed three turns in Jail and has been released.\n", game->players[playerId].name);
     }
-    else
-    {
+    else{
         printf("%s remains in Jail.\n", game->players[playerId].name);
     }
 }
@@ -199,7 +192,6 @@ int isGameRoundComplete(GameplayState *game){
     }
     return 1;
 }
-
 void completeGameRound(GameplayState *game){
     int i;
 
@@ -220,12 +212,10 @@ void completeGameRound(GameplayState *game){
     updateBuildingCondition(game);
     updateBuildingCondition(game);
     updateMaintenanceNeglect(game);
-    updatePropertyMarket(game);
 
     if(game->currentRound % 10 == 0){
         triggerDisaster(game);
         applyInflation(game);
-        applyPropertyMarket(game);
     }
     if(game->currentRound % 20 == 0){
         triggerGovRegulation(game);
@@ -237,7 +227,6 @@ void completeGameRound(GameplayState *game){
         }
     }
     printRoundSummary(game);
-    printMarketConditions(game);
 }
 
 void playTurnCycle(GameplayState *game){
@@ -253,7 +242,6 @@ void playTurnCycle(GameplayState *game){
              if(isGameRoundComplete(game)){
                 completeGameRound(game);
             }
-
         }    
     }
 }
@@ -358,7 +346,6 @@ int calculateNetWorth(GameplayState *game, int playerId){
     }
     return netWorth;
 }
-
 int findWinner(GameplayState *game){
     int i;
     int winner = -1;
@@ -423,39 +410,6 @@ void printRoundSummary(GameplayState *game){
     }
     printf("=============================================\n");
 }
-void printMarketConditions(GameplayState *game)
-{
-    printf("\n=============================================\n");
-    printf("Current Market Conditions\n");
-    printf("=============================================\n");
-
-    if (game->boomRoundsRemaining > 0)
-    {
-        printf("Market Boom Active\n");
-        printf("Rounds Remaining : %d\n",
-               game->boomRoundsRemaining);
-    }
-    else
-    {
-        printf("Market Boom : None\n");
-    }
-
-    if (game->declineRoundsRemaining > 0)
-    {
-        printf("Market Decline Active\n");
-        printf("Rounds Remaining : %d\n",
-               game->declineRoundsRemaining);
-    }
-    else
-    {
-        printf("Market Decline : None\n");
-    }
-
-    printf("Current Loan Interest : %d%%\n",
-           game->loanInterestRate);
-
-    printf("=============================================\n");
-}
 void printGameResult(GameplayState *game){
     int winner;
     winner = findWinner(game);
@@ -464,11 +418,6 @@ void printGameResult(GameplayState *game){
     printf("====================================\n");
     printf("            GAME OVER\n");
     printf("====================================\n");
-
-    if(winner == -1){
-        printf("No winner.\n");
-        return;
-    }
     printf("Winner\n");
     printf("%s\n", game->players[winner].name);
     printf("Total Cash\n");
@@ -489,6 +438,26 @@ void printGameResult(GameplayState *game){
     printf("=============================================\n");
 }
 
+void startGame(void){
+
+    GameplayState game;
+    initializeGameBoard(&game);
+    initializePlayers(&game);
+    initializeGameState(&game);
+    
+    printf("\n");
+    printf("====================================\n");
+    printf("        MONOPOLY-LK STARTED\n");
+    printf("====================================\n");
+    determineTurnOrder(&game);
+
+    while(game.currentRound < 500 && countSolventPlayers(&game) > 1){
+        playTurnCycle(&game);
+    }
+
+    printGameResult(&game);
+
+}
    
 
 

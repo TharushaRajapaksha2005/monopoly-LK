@@ -185,7 +185,6 @@ typedef struct{
     int loanRoundsRemaining;
     int loanInterestRate;
 
-    /*tax not yet added */
 } Player;
 
 typedef struct{
@@ -210,16 +209,8 @@ typedef struct{
     int repairCost;
     int insurancePremiumFactor;
 
-    PropertyGroup boomGroup;
-    PropertyGroup declineGroup;
-    int boomRoundsRemaining;
-    int declineRoundsRemaining;
-    int lastMarketAffectedRound[8];
-
     GovernmentRegulation currentGovRegulation;
     NationalEvent currentNationalEvent;
-
-    /*event and economy not yet added */
 
 } GameplayState;
 
@@ -230,6 +221,7 @@ void initializeRailways(GameplayState *game);
 void initializeUtilities(GameplayState *game);
 void initializeBoard(GameplayState *game);
 void initializeGameBoard(GameplayState *game);
+void initializeGameState(GameplayState *game);
 
 void movePlayer(GameplayState *game, int playerId, int diceValue);
 
@@ -276,6 +268,8 @@ void attemptPropertyTrade(GameplayState *game, int playerId);
 
 int raiseMoney(GameplayState *game, int playerId, int amount);
 
+int hasDevelopmentOppertunity(GameplayState *game, int playerId);
+
 /*functions in game.c */
 
 int rollDice(void);
@@ -297,9 +291,8 @@ int countSolventPlayers(GameplayState *game);
 int calculateNetWorth(GameplayState *game, int playerId);
 int findWinner(GameplayState *game);
 void printGameResult(GameplayState *game);
-void printMarketConditions(GameplayState *game);
 void printRoundSummary(GameplayState *game);
-//void startGame(void);
+void startGame(void);
 
 
 /* functions in finance.c */
@@ -355,9 +348,6 @@ int repaireProperty(GameplayState *game, int playerId, int propertyId);
 /* functions in events.c*/
 void triggerDisaster(GameplayState *game);
 void applyInflation(GameplayState *game);
-void applyPropertyMarket(GameplayState *game);
-void updatePropertyMarket(GameplayState *game);
-
 void triggerGovRegulation(GameplayState *game);
 
 #endif

@@ -65,11 +65,9 @@ int shouldBuyProperty(GameplayState *game, int playerId, int propertyId){
     int cash;
     int price;
     int remainingCash;
-    int futureRent;
 
     cash = game->players[playerId].cash;
     price = game->properties[propertyId].purchasePrice;
-    futureRent = game->properties[propertyId].baseRent;
     remainingCash = cash - price;
 
     if(cash < price){
@@ -78,12 +76,11 @@ int shouldBuyProperty(GameplayState *game, int playerId, int propertyId){
 
     switch (game->players[playerId].strategy){
     case AGGRESSIVE:
-        if (remainingCash >= futureRent){ /*need money to pay atleast one future rent*/
+        if (remainingCash > 0){
             return 1;
         }
-
         return 0;
-
+        
     case CONSERVATIVE:
         if (remainingCash >= cash / 2){ /*need 50 % of current cash after buying stuff*/
             return 1;
@@ -188,12 +185,9 @@ int shouldBidProperty(GameplayState *game, int playerId, int propertyId, int cur
     nextBid = currentBid + 250;
     marketValue = game->properties[propertyId].currentMarketValue;
 
-    /* if bankrupt cant particiapate for bid*/
     if (game->players[playerId].isbankrupt == 1){
         return 0;
     }
-
-    /*check have cash for bid*/
     if (game->players[playerId].cash < nextBid){
         return 0;
     }
@@ -333,12 +327,11 @@ int hasMonopoly(GameplayState *game, int playerId, PropertyGroup group){
 int canBuildHouse(GameplayState *game, int playerId, int propertyId){
 
     PropertyGroup group;
-    int minimumHouses;
+    int minimumHouses = 4;
     int i;
 
     group = game->properties[propertyId].group;
 
-    /* check whether play owns the property or not */
     if(game->properties[propertyId].owner != playerId){
         return 0;
     }
@@ -354,7 +347,6 @@ int canBuildHouse(GameplayState *game, int playerId, int propertyId){
     if(game->properties[propertyId].houses >= 4){
         return 0;
     }
-    minimumHouses = 4;
 
     for (i = 0; i < MAX_PROPERTIES; i++){
         if(game->properties[i].group == group){
@@ -372,7 +364,6 @@ int canBuildHotel(GameplayState *game, int playerId, int propertyId){
 
     PropertyGroup group;
     int i;
-
     group = game->properties[propertyId].group;
 
     if(game->properties[propertyId].owner != playerId){
@@ -435,11 +426,11 @@ int shouldBuildHouse(GameplayState *game, int playerId, int propertyId){
     }
     return 0;
 }
-int shouldBuildHotel(GameplayState *game, int playerId, int propertId){
+int shouldBuildHotel(GameplayState *game, int playerId, int propertyId){
     int cost;
-    cost = game->properties[propertId].hotelCost;
+    cost = game->properties[propertyId].hotelCost;
 
-    if(canBuildHotel(game, playerId, propertId) == 0){
+    if(canBuildHotel(game, playerId, propertyId) == 0){
         return 0;
     }
     if(game->players[playerId].cash < cost){
@@ -581,43 +572,78 @@ void makeInsuranceDecision(GameplayState *game, int playerId){
 
 void handleBankLanding(GameplayState *game, int playerId){
     int maxLoan;
-    int repaymentAmount;
-    int extraAmount;
-
     maxLoan = calculateMaxLoan(game, playerId);
-    printf("%s landed on Bank of Ceylon.\n", game->players[playerId].name);
+
+    printf("%s landed on Bank of Ceylon\n", game->players[playerId].name);
 
     if(game->players[playerId].loanActive == 0){
         if(maxLoan <= 0){
-            printf("No eligible collateral available for a loan.\n");
+            printf("No eligible collateral available for a loan\n");
             return;
         }
-        if (game->players[playerId].cash < 5000){
-            takeLoan(game, playerId, maxLoan);
-        }
-        else{
+
+        switch(game->players[playerId].strategy){
+            case AGGRESSIVE:
+            if(hasDevelopmentOppertunity(game, playerId) == 1){
+                takeLoan(game, playerId, maxLoan);
+            }
+            else{
+                printf("%s decided not to obtain a loan.\n", game->players[playerId].name);
+            }
+            break;
+
+            case CONSERVATIVE:
             printf("%s decided not to obtain a loan.\n", game->players[playerId].name);
+            break;
+
+            case RISK_TAKER:
+            takeLoan(game, playerId, maxLoan);
+            break;
+
+            case OPPORTUNISTIC:
+            printf("%s decided not to obtain a loan.\n", game->players[playerId].name);
+            //add later
+            break;
         }
-        return;
+        return;       
     }
-    if(game->players[playerId].cash >= game->players[playerId].loanAmount){
-        repayLoan(game, playerId, game->players[playerId].loanAmount);
-        return;
-    }
-    if(game->players[playerId].cash > 5000){
-        repaymentAmount = game->players[playerId].cash - 5000;
-        repayLoan(game, playerId, repaymentAmount);
-        return;
-    }
-    extraAmount = maxLoan - game->players[playerId].loanAmount;
-    if(extraAmount > 0){
-        extraAmount = extraAmount / 2;
-        if(extraAmount > 0){
-            increaseLoan(game, playerId, extraAmount);
-            return;
+    else if(game->players[playerId].loanActive == 1){
+        switch(game->players[playerId].strategy){
+            case AGGRESSIVE:
+            if(game->players[playerId].cash > game->players[playerId].loanAmount * 2){
+                repayLoan(game, playerId, game->players[playerId].loanAmount);
+            }
+            else{
+                printf("%s keeps the loan active\n", game->players[playerId].name);
+            }
+            break;
+
+            case CONSERVATIVE:
+            if(game->players[playerId].cash >= game->players[playerId].loanAmount){
+                repayLoan(game, playerId, game->players[playerId].loanAmount);
+            }
+            else{
+                printf("%s keeps the loan active\n", game->players[playerId].name);
+            }
+            break;
+
+            case RISK_TAKER:
+            maxLoan = calculateMaxLoan(game, playerId);
+            if(maxLoan > 0){
+                increaseLoan(game, playerId, maxLoan);
+            }
+            else{
+                printf("%s has no additional collateral available\n", game->players[playerId].name);
+            }
+            break;
+
+            case OPPORTUNISTIC:
+            // add later
+            printf("%s made no bank transaction.\n", game->players[playerId].name);
+            break;
         }
     }
-     printf("%s made no bank transaction.\n", game->players[playerId].name);
+        
 }
 
 int countOwnedInGroup(GameplayState *game, int playerId, PropertyGroup group){
@@ -723,6 +749,21 @@ int raiseMoney(GameplayState *game, int playerId, int amount){
             if(game->players[playerId].cash >= amount){
                 return 1;
             }
+        }
+    }
+    return 0;
+}
+
+int hasDevelopmentOppertunity(GameplayState *game, int playerId){
+    int i;
+
+    for(i = 0; i < MAX_PROPERTIES; i++){
+        if(game->properties[i].owner == playerId){
+             if(hasMonopoly(game, playerId, game->properties[i].group) == 1){
+                if(game->properties[i].houses < 4 || game->properties[i].hotel == 0){
+                    return 1;
+                }
+             }
         }
     }
     return 0;

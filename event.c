@@ -69,11 +69,7 @@ void triggerDisaster(GameplayState *game){
             break;
 
         case BUSINESS_INTERRUPTION_INSURANCE:
-            /*
-                For now: if property has a hotel,
-                pay full repair cost.
-                Lost rent part can be added later.
-            */
+        // need updates 
             if(game->properties[propertyId].hotel == 1){
                 compensation = repairCost;
             }
@@ -125,103 +121,6 @@ void applyInflation(GameplayState *game){
    // printf("Current loan interest rate: %d%%\n", game->loanInterestRate);
 }
 
-void applyPropertyMarket(GameplayState *game){
-    int i;
-    int boom;
-    int decline;
-
-    do{
-        boom = rand() % 8;
-    }while (game->currentRound - game->lastMarketAffectedRound[boom] < 30);
-    do{
-        decline = rand() % 8;
-    }while (decline == boom || game->currentRound - game->lastMarketAffectedRound[decline] < 30);
-    
-   // printf("Selected boom: %d\n", boom);
-   // printf("Selected decline: %d\n", decline);
-
-    game->boomGroup = (PropertyGroup)boom;
-    game->declineGroup = (PropertyGroup)decline;
-    game->boomRoundsRemaining = 10;
-    game->declineRoundsRemaining = 10;
-
-    game->lastMarketAffectedRound[boom] = game->currentRound;
-    game->lastMarketAffectedRound[decline] = game->currentRound;
-
-    printf("\n=== PROPERTY MARKET UPDATE ===\n");
-    printf("Market Boom : %d\n", boom);
-    printf("Market Decline : %d\n", decline);
-    printf("Boom Duration : 10 Rounds\n");
-    printf("Decline Duration : 10 Rounds\n");
-
-    for (i = 0; i < MAX_PROPERTIES; i++){
-        // market boom
-        if(game->properties[i].group == game->boomGroup){
-            game->properties[i].purchasePrice = game->properties[i].normalPurchasePrice * 115 / 100;            
-            game->properties[i].mortgageValue = game->properties[i].normalMortgageValue * 115 / 100;
-            game->properties[i].baseRent = game->properties[i].normalBaseRent * 125 / 100;
-            game->properties[i].houseCost = game->properties[i].normalHouseCost * 110 / 100;
-            game->properties[i].hotelCost = game->properties[i].normalHotelCost * 110 / 100;
-            game->properties[i].currentMarketValue = game->properties[i].normalMarketValue * 120 / 100;
-        }
-        // market decline
-        if(game->properties[i].group == game->declineGroup){            
-            game->properties[i].currentMarketValue = game->properties[i].normalMarketValue * 85 / 100;
-            game->properties[i].baseRent = game->properties[i].normalBaseRent * 80 / 100;
-            game->properties[i].mortgageValue = game->properties[i].normalMortgageValue * 90 / 100;
-        }
-    }
-}
-
-void updatePropertyMarket(GameplayState *game){
-    int i;
-
-    if(game->boomRoundsRemaining > 0){
-        game->boomRoundsRemaining--;
-    }
-    if(game->declineRoundsRemaining > 0){
-        game->declineRoundsRemaining--;
-    }
-
-    if(game->boomRoundsRemaining == 0 && game->boomGroup != NO_GROUP){
-        for (i = 0; i < MAX_PROPERTIES; i++){
-            if(game->properties[i].group == game->boomGroup){
-                game->properties[i].purchasePrice = game->properties[i].normalPurchasePrice;
-                game->properties[i].mortgageValue = game->properties[i].normalMortgageValue;
-                game->properties[i].baseRent = game->properties[i].normalBaseRent;
-                game->properties[i].houseCost = game->properties[i].normalHouseCost;
-                game->properties[i].hotelCost = game->properties[i].normalHotelCost;
-                game->properties[i].currentMarketValue = game->properties[i].normalMarketValue;
-            }
-        }
-        printf("Market boom has ended.\n");
-        game->boomGroup = NO_GROUP;
-    }
-    if(game->declineRoundsRemaining == 0 && game->declineGroup != NO_GROUP){
-        for (i = 0; i < MAX_PROPERTIES; i++){
-            if(game->properties[i].group == game->declineGroup){
-                game->properties[i].mortgageValue = game->properties[i].normalMortgageValue;
-                game->properties[i].baseRent = game->properties[i].normalBaseRent;
-                game->properties[i].currentMarketValue = game->properties[i].normalMarketValue;
-            }
-        }
-        printf("Market decline has ended.\n");
-        game->declineGroup = NO_GROUP;
-    }
-    if(game->boomRoundsRemaining == 0 && game->declineRoundsRemaining == 0){
-        for (i = 0; i < MAX_PROPERTIES; i++){
-            game->properties[i].purchasePrice = game->properties[i].normalPurchasePrice;
-            game->properties[i].mortgageValue = game->properties[i].normalMortgageValue;
-            game->properties[i].baseRent = game->properties[i].normalBaseRent;
-            game->properties[i].houseCost = game->properties[i].normalHouseCost;
-            game->properties[i].hotelCost = game->properties[i].normalHotelCost;
-            game->properties[i].currentMarketValue = game->properties[i].normalMarketValue;
-        }
-        game->boomGroup = NO_GROUP;
-        game->declineGroup = NO_GROUP;
-    }
-}
-
 void triggerGovRegulation(GameplayState *game){
     int regulation;
 
@@ -270,6 +169,7 @@ void triggerGovRegulation(GameplayState *game){
             printf("Players may own at most three undeveloped properties.\n");
             printf("Additional purchases require development within 5 rounds.\n");
             break;
+
         default:
             break;
     }
