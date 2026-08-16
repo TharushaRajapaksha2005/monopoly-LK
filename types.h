@@ -241,6 +241,8 @@ void handleUtilityLanding(GameplayState *game, int playerId, int diceValue);
 
 void sendPlayerToJail(GameplayState *game, int playerId);
 
+
+
 /*functions in player.c */
 
 void initializePlayers(GameplayState *game);
@@ -257,12 +259,22 @@ int hasMonopoly(GameplayState *game, int playerId, PropertyGroup group);
 int canBuildHouse(GameplayState *game, int playerId, int propertyId);
 int canBuildHotel(GameplayState *game, int playerId, int propertyId);
 
-void buildHouse(GameplayState *game, int playerId, int propertyId);
-void buildHotel(GameplayState *game, int playerId, int propertyId);
+int buildHouse(GameplayState *game, int playerId, int propertyId);
+int buildHotel(GameplayState *game, int playerId, int propertyId);
 
 int shouldBuildHouse(GameplayState *game, int playerId, int propertyId);
 int shouldBuildHotel(GameplayState *game, int playerId, int propertyId);
 void developMonopoly(GameplayState *game, int playerId, PropertyGroup group);
+
+void makeDevelopmentDecision(GameplayState *game, int playerId);
+void makeInsuranceDecision(GameplayState *game, int playerId);
+void handleBankLanding(GameplayState *game, int playerId);
+
+int countOwnedInGroup(GameplayState *game, int playerId, PropertyGroup group);
+int countTotalInGroup(GameplayState *game, PropertyGroup group);
+void attemptPropertyTrade(GameplayState *game, int playerId);
+
+int raiseMoney(GameplayState *game, int playerId, int amount);
 
 /*functions in game.c */
 

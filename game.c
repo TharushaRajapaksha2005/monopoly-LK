@@ -10,8 +10,6 @@ int rollDice(){
     return dice1 + dice2;
 }
 
-/* sort only part of the arrays from high to low*/
-
 void sortTurnOrder(int turnOrder[], int diceValue[], int start, int end){
 
     int i, j, temp;
@@ -125,13 +123,14 @@ void playTurn(GameplayState *game, int playerId){
     if(game->players[playerId].isbankrupt == 1){
         return;
     }
-    performMaintenance(game, playerId);
-
     if(game->players[playerId].inJail == 1){
         handleJailTurn(game, playerId);
         return;
     }
-
+    performMaintenance(game, playerId);
+    attemptPropertyTrade(game, playerId);
+    makeDevelopmentDecision(game, playerId);
+    
     diceValue = rollDice();
 
     printf("%s rolled %d.\n", game->players[playerId].name, diceValue);
@@ -254,6 +253,7 @@ void playTurnCycle(GameplayState *game){
              if(isGameRoundComplete(game)){
                 completeGameRound(game);
             }
+
         }    
     }
 }
@@ -299,7 +299,6 @@ void updateBuildingCondition(GameplayState *game){
         }
     }
 }
-
 int getPropertyBuildingCondition(GameplayState *game, int propertyId){
     int i;
     int lowestCondition = 100;
@@ -381,6 +380,7 @@ void printRoundSummary(GameplayState *game){
     int i;
     int j;
     int properties;
+    int houses;
     int hotels;
 
     printf("\n");
@@ -390,10 +390,12 @@ void printRoundSummary(GameplayState *game){
 
     for (i = 0; i < MAX_PLAYERS; i++){
         properties = 0;
+        houses = 0;
         hotels = 0;
         for (j = 0; j < MAX_PROPERTIES; j++){
             if(game->properties[j].owner == i){
                 properties++;
+                houses += game->properties[j].houses;
                 if(game->properties[j].hotel == 1){
                     hotels++;
                 }
@@ -407,6 +409,7 @@ void printRoundSummary(GameplayState *game){
             printf("Cash : LKR %d\n", game->players[i].cash);
             printf("Net Worth : LKR %d\n", calculateNetWorth(game, i));
             printf("Properties : %d\n", properties);
+            printf("Houses : %d\n", houses);
             printf("Hotels : %d\n", hotels);
 
             if(game->players[i].loanActive == 1){

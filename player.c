@@ -1,9 +1,8 @@
+#include <stdio.h>
 #include <string.h>
 #include "types.h"
 
 void initializePlayers(GameplayState *game){
-
-    /*Player 0 - Aggressive Inverstor*/
     game->players[0].playerId = 0;
     strcpy(game->players[0].name, "Aggressive Investor");
     game->players[0].strategy = AGGRESSIVE;
@@ -18,7 +17,6 @@ void initializePlayers(GameplayState *game){
     game->players[0].loanRoundsRemaining = 0;
     game->players[0].loanInterestRate = 0;
 
-    /* Player 1 - Conservative Banker */
     game->players[1].playerId = 1;
     strcpy(game->players[1].name, "Conservative Banker");
     game->players[1].strategy = CONSERVATIVE;
@@ -33,7 +31,6 @@ void initializePlayers(GameplayState *game){
     game->players[1].loanRoundsRemaining = 0;
     game->players[1].loanInterestRate = 0;
 
-    /* Player 2 - Risk Taker */
     game->players[2].playerId = 2;
     strcpy(game->players[2].name, "Risk Taker");
     game->players[2].strategy = RISK_TAKER;
@@ -48,7 +45,6 @@ void initializePlayers(GameplayState *game){
     game->players[2].loanRoundsRemaining = 0;
     game->players[2].loanInterestRate = 0;
 
-    /* Player 3 - Opportunistic Trader */
     game->players[3].playerId = 3;
     strcpy(game->players[3].name, "Opportunistic Trader");
     game->players[3].strategy = OPPORTUNISTIC;
@@ -76,7 +72,7 @@ int shouldBuyProperty(GameplayState *game, int playerId, int propertyId){
     futureRent = game->properties[propertyId].baseRent;
     remainingCash = cash - price;
 
-    if (cash < price){
+    if(cash < price){
         return 0;
     }
 
@@ -102,13 +98,10 @@ int shouldBuyProperty(GameplayState *game, int playerId, int propertyId){
         if (remainingCash >= price){
             return 1;
         }
-
         return 0;
     }
-
     return 0;
 }
-
 int shouldBuyRailway(GameplayState *game, int playerId, int railwayId){
 
     int cash;
@@ -119,7 +112,7 @@ int shouldBuyRailway(GameplayState *game, int playerId, int railwayId){
     price = game->railways[railwayId].purchasePrice;
     remainingCash = cash - price;
 
-    if (cash < price){
+    if(cash < price){
         return 0;
     }
 
@@ -128,14 +121,12 @@ int shouldBuyRailway(GameplayState *game, int playerId, int railwayId){
         if (remainingCash > 0){
             return 1;
         }
-
         return 0;
 
     case CONSERVATIVE:
         if (remainingCash >= cash / 2){
             return 1;
         }
-
         return 0;
 
     case RISK_TAKER:
@@ -145,13 +136,10 @@ int shouldBuyRailway(GameplayState *game, int playerId, int railwayId){
         if (remainingCash >= price){
             return 1;
         }
-
         return 0;
     }
-
     return 0;
 }
-
 int shouldBuyUtility(GameplayState *game, int playerId, int utilityId){
 
     int cash;
@@ -162,23 +150,21 @@ int shouldBuyUtility(GameplayState *game, int playerId, int utilityId){
     price = game->utilities[utilityId].purchasePrice;
     remainingCash = cash - price;
 
-    if (cash < price){
+    if(cash < price){
         return 0;
     }
 
     switch (game->players[playerId].strategy){
     case AGGRESSIVE:
-        if (remainingCash > 0){
+        if(remainingCash > 0){
             return 1;
         }
-
         return 0;
 
     case CONSERVATIVE:
         if (remainingCash >= cash / 2){
             return 1;
         }
-
         return 0;
 
     case RISK_TAKER:
@@ -188,10 +174,8 @@ int shouldBuyUtility(GameplayState *game, int playerId, int utilityId){
         if (remainingCash >= price){
             return 1;
         }
-
         return 0;
     }
-
     return 0;
 }
 
@@ -218,40 +202,28 @@ int shouldBidProperty(GameplayState *game, int playerId, int propertyId, int cur
     case AGGRESSIVE:
         maximumBid = (int)(marketValue * 1.20f); // bids up to 120% of market value
 
-        if (nextBid <= maximumBid){
+        if(nextBid <= maximumBid){
             return 1;
         }
-
         return 0;
 
     case CONSERVATIVE:
         if (nextBid < marketValue){ // only bids below market value
             return 1;
         }
-
         return 0;
 
     case RISK_TAKER:
         return 1;
 
     case OPPORTUNISTIC:
-        /*
-                   Opportunistic Trader prefers
-                   discounted auction purchases.
-
-                   For now, treat a bid below market
-                   value as a discounted purchase.
-               */
         if (nextBid < marketValue){
             return 1;
         }
-
         return 0;
     }
-
     return 0;
 }
-
 int shouldBidRailway(GameplayState *game, int playerId, int railwayId, int currentBid){
 
     int nextBid;
@@ -261,11 +233,11 @@ int shouldBidRailway(GameplayState *game, int playerId, int railwayId, int curre
     nextBid = currentBid + 250;
     marketValue = game->railways[railwayId].currentMarketValue;
 
-    if (game->players[playerId].isbankrupt == 1){
+    if(game->players[playerId].isbankrupt == 1){
         return 0;
     }
 
-    if (game->players[playerId].cash < nextBid){
+    if(game->players[playerId].cash < nextBid){
         return 0;
     }
 
@@ -273,33 +245,28 @@ int shouldBidRailway(GameplayState *game, int playerId, int railwayId, int curre
     case AGGRESSIVE:
         maximumBid = (int)(marketValue * 1.20f);
 
-        if (nextBid <= maximumBid){
+        if(nextBid <= maximumBid){
             return 1;
         }
-
         return 0;
 
     case CONSERVATIVE:
         if (nextBid < marketValue){
             return 1;
         }
-
         return 0;
 
     case RISK_TAKER:
         return 1;
 
     case OPPORTUNISTIC:
-        if (nextBid < marketValue){
+        if(nextBid < marketValue){
             return 1;
         }
-
         return 0;
     }
-
     return 0;
 }
-
 int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int currentBid){
 
     int nextBid;
@@ -309,11 +276,11 @@ int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int curre
     nextBid = currentBid + 250;
     marketValue = game->utilities[utilityId].currentMarketValue;
 
-    if (game->players[playerId].isbankrupt == 1){
+    if(game->players[playerId].isbankrupt == 1){
         return 0;
     }
 
-    if (game->players[playerId].cash < nextBid){
+    if(game->players[playerId].cash < nextBid){
         return 0;
     }
 
@@ -321,30 +288,26 @@ int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int curre
     case AGGRESSIVE:
         maximumBid = (int)(marketValue * 1.20f);
 
-        if (nextBid <= maximumBid){
+        if(nextBid <= maximumBid){
             return 1;
         }
-
         return 0;
 
     case CONSERVATIVE:
-        if (nextBid < marketValue){
+        if(nextBid < marketValue){
             return 1;
         }
-
         return 0;
 
     case RISK_TAKER:
         return 1;
 
     case OPPORTUNISTIC:
-        if (nextBid < marketValue){
+        if(nextBid < marketValue){
             return 1;
         }
-
         return 0;
     }
-
     return 0;
 }
 
@@ -355,20 +318,18 @@ int hasMonopoly(GameplayState *game, int playerId, PropertyGroup group){
     int ownedByPlayer = 0;
 
     for (i = 0; i < MAX_PROPERTIES; i++){
-        if (game->properties[i].group == group){
+        if(game->properties[i].group == group){
             totalInGroup++;
-
-            if (game->properties[i].owner == playerId){
+            if(game->properties[i].owner == playerId){
                 ownedByPlayer++;
             }
         }
     }
-    if (totalInGroup > 0 && ownedByPlayer == totalInGroup){
+    if(totalInGroup > 0 && ownedByPlayer == totalInGroup){
         return 1;
     }
     return 0;
 }
-
 int canBuildHouse(GameplayState *game, int playerId, int propertyId){
 
     PropertyGroup group;
@@ -378,42 +339,35 @@ int canBuildHouse(GameplayState *game, int playerId, int propertyId){
     group = game->properties[propertyId].group;
 
     /* check whether play owns the property or not */
-    if (game->properties[propertyId].owner != playerId){
+    if(game->properties[propertyId].owner != playerId){
         return 0;
     }
-    if (game->properties[propertyId].mortgaged == 1){
+    if(game->properties[propertyId].mortgaged == 1){
         return 0;
     }
-    if (game->properties[propertyId].hotel == 1){
+    if(game->properties[propertyId].hotel == 1){
         return 0;
     }
-    if (hasMonopoly(game, playerId, group) == 0){
+    if(hasMonopoly(game, playerId, group) == 0){
         return 0;
     }
-    if (game->properties[propertyId].houses >= 4){
+    if(game->properties[propertyId].houses >= 4){
         return 0;
     }
-    if (game->players[playerId].cash < game->properties[propertyId].houseCost){
-        return 0;
-    }
-
     minimumHouses = 4;
 
     for (i = 0; i < MAX_PROPERTIES; i++){
-        if (game->properties[i].group == group){
-            if (game->properties[i].houses < minimumHouses){
+        if(game->properties[i].group == group){
+            if(game->properties[i].houses < minimumHouses){
                 minimumHouses = game->properties[i].houses;
             }
         }
     }
-
-    if (game->properties[propertyId].houses != minimumHouses)
-    {
+    if(game->properties[propertyId].houses != minimumHouses){
         return 0;
     }
     return 1;
 }
-
 int canBuildHotel(GameplayState *game, int playerId, int propertyId){
 
     PropertyGroup group;
@@ -421,59 +375,74 @@ int canBuildHotel(GameplayState *game, int playerId, int propertyId){
 
     group = game->properties[propertyId].group;
 
-    if (game->properties[propertyId].owner != playerId){
+    if(game->properties[propertyId].owner != playerId){
         return 0;
     }
-    if (game->properties[propertyId].mortgaged == 1){
+    if(game->properties[propertyId].mortgaged == 1){
         return 0;
     }
-    if (game->properties[propertyId].hotel == 1){
+    if(game->properties[propertyId].hotel == 1){
         return 0;
     }
-    if (hasMonopoly(game, playerId, group) == 0){
+    if(hasMonopoly(game, playerId, group) == 0){
         return 0;
     }
 
     for (i = 0; i < MAX_PROPERTIES; i++){
-        if (game->properties[i].group == group){
-            if (game->properties[i].houses < 4 && game->properties[i].hotel == 0){
+        if(game->properties[i].group == group){
+            if(game->properties[i].houses < 4 && game->properties[i].hotel == 0){
                 return 0;
             }
         }
     }
 
-    if (game->players[playerId].cash < game->properties[propertyId].hotelCost)
-    {
+    if(game->players[playerId].cash < game->properties[propertyId].hotelCost){
         return 0;
     }
     return 1;
 }
-
-int shouldBuildHouse(GameplayState *game, int plaeyerId, int propertyId){
-
-    if (canBuildHouse(game, plaeyerId, propertyId) == 0){
+int shouldBuildHouse(GameplayState *game, int playerId, int propertyId){
+    int cost;
+    cost = game->properties[propertyId].houseCost;
+    if(game->currentGovRegulation == HOUSING_SUBSIDY){
+        cost = cost * 70 / 100;
+    }
+    if(canBuildHouse(game, playerId, propertyId) == 0){
+        return 0;
+    }
+    if(game->players[playerId].cash < cost){
         return 0;
     }
 
-    switch (game->players[plaeyerId].strategy){
+    switch (game->players[playerId].strategy){
     case AGGRESSIVE:
         return 1; // aggressive investor build house asap
 
     case CONSERVATIVE:
+    if(game->players[playerId].cash - cost >= game->players[playerId].cash / 2){
+        return 1;
+    }
         return 0; // add later
 
     case RISK_TAKER:
         return 1; // build house asap
 
     case OPPORTUNISTIC:
-        return 0; // add later
+    if(game->currentGovRegulation == HOUSING_SUBSIDY){
+        return 1;
+    }
+        return 0;
     }
     return 0;
 }
-
 int shouldBuildHotel(GameplayState *game, int playerId, int propertId){
+    int cost;
+    cost = game->properties[propertId].hotelCost;
 
-    if (canBuildHotel(game, playerId, propertId) == 0){
+    if(canBuildHotel(game, playerId, propertId) == 0){
+        return 0;
+    }
+    if(game->players[playerId].cash < cost){
         return 0;
     }
 
@@ -482,7 +451,12 @@ int shouldBuildHotel(GameplayState *game, int playerId, int propertId){
         return 1;
 
     case CONSERVATIVE:
-        // add later
+    if(game->players[playerId].loanActive == 1){
+        return 0;
+    }
+    if(game->players[playerId].cash - cost >= game->players[playerId].cash / 2){
+        return 1;
+    }
         return 0;
 
     case RISK_TAKER:
@@ -494,9 +468,7 @@ int shouldBuildHotel(GameplayState *game, int playerId, int propertId){
     }
     return 0;
 }
-
 void developMonopoly(GameplayState *game, int playerId, PropertyGroup group){
-
     int i;
     int changed;
 
@@ -504,24 +476,254 @@ void developMonopoly(GameplayState *game, int playerId, PropertyGroup group){
         changed = 0;
 
         /* 1st build houses */
-
         for (i = 0; i < MAX_PROPERTIES; i++){
-            if (game->properties[i].group == group){
-                if (shouldBuildHouse(game, playerId, i) == 1){
-                    buildHouse(game, playerId, i);
-                    changed = 1;
+            if(game->properties[i].group == group){
+                if(shouldBuildHouse(game, playerId, i) == 1){
+                    if(buildHouse(game, playerId, i) == 1){
+                        changed = 1;
+                    }
+                    
                 }
             }
         }
-
         /* build hotels if can*/
         for (i = 0; i < MAX_PROPERTIES; i++){
-            if (game->properties[i].group == group){
-                if (shouldBuildHotel(game, playerId, i) == 1){
-                    buildHotel(game, playerId, i);
-                    changed = 1;
+            if(game->properties[i].group == group){
+                if(shouldBuildHotel(game, playerId, i) == 1){
+                    if(buildHotel(game, playerId, i) == 1){
+                        changed = 1;
+                    }
                 }
             }
         }
     } while (changed == 1);
+}
+
+void makeDevelopmentDecision(GameplayState *game, int playerId){
+    int i;
+    PropertyGroup group;
+
+    if(game->players[playerId].isbankrupt == 1){
+        return;
+    }
+    for (i = BROWN; i < DARK_BLUE; i++){
+        group = (PropertyGroup)i;
+        if(hasMonopoly(game, playerId, group) == 1){
+            developMonopoly(game, playerId, group);
+        }
+    }
+}
+void makeLoanDecision(GameplayState *game, int playerId){
+    int maxLoan;
+    maxLoan = calculateMaxLoan(game, playerId);
+
+    if(game->players[playerId].loanActive == 1){
+        return;
+    }
+    switch(game->players[playerId].strategy){
+        case RISK_TAKER:
+        takeLoan(game, playerId, maxLoan);
+            break;
+        case AGGRESSIVE:
+        if(game->players[playerId].cash < 5000){
+                takeLoan(game, playerId, maxLoan);
+            }
+            break;
+        case CONSERVATIVE:
+            if(game->players[playerId].cash < 500){
+                takeLoan(game, playerId, maxLoan);
+            }
+            break;
+        case OPPORTUNISTIC:
+            if(game->players[playerId].cash < 3000 && game->players[playerId].loanInterestRate < 10){
+                takeLoan(game, playerId, maxLoan);
+            }
+            break;
+    }
+}
+void makeInsuranceDecision(GameplayState *game, int playerId){
+    int i;
+
+    for (i = 0; i < MAX_PROPERTIES; i++){
+        if(game->properties[i].owner != playerId){
+            continue;
+        }
+        if(game->properties[i].insuranceType != NO_INSURANCE){
+            continue;
+        }
+        /* Only insure developed properties.*/
+        if(game->properties[i].houses == 0 && game->properties[i].hotel == 0){
+            continue;
+        }
+        switch (game->players[playerId].strategy){
+            case AGGRESSIVE:
+            if(game->properties[i].hotel == 1){
+                    buyInsurance(game, playerId, i, COMPREHENSIVE_INSURANCE);
+                }
+                else{
+                    buyInsurance(game, playerId, i, BASIC_INSURANCE);
+                }
+                return;
+
+            case CONSERVATIVE:
+            buyInsurance(game, playerId, i, COMPREHENSIVE_INSURANCE);
+                return;
+
+            case RISK_TAKER:
+            return;
+
+            case OPPORTUNISTIC:
+            return;
+        }
+    }
+    printf("%s decided not to purchase insurance.\n", game->players[playerId].name);
+}
+
+void handleBankLanding(GameplayState *game, int playerId){
+    int maxLoan;
+    int repaymentAmount;
+    int extraAmount;
+
+    maxLoan = calculateMaxLoan(game, playerId);
+    printf("%s landed on Bank of Ceylon.\n", game->players[playerId].name);
+
+    if(game->players[playerId].loanActive == 0){
+        if(maxLoan <= 0){
+            printf("No eligible collateral available for a loan.\n");
+            return;
+        }
+        if (game->players[playerId].cash < 5000){
+            takeLoan(game, playerId, maxLoan);
+        }
+        else{
+            printf("%s decided not to obtain a loan.\n", game->players[playerId].name);
+        }
+        return;
+    }
+    if(game->players[playerId].cash >= game->players[playerId].loanAmount){
+        repayLoan(game, playerId, game->players[playerId].loanAmount);
+        return;
+    }
+    if(game->players[playerId].cash > 5000){
+        repaymentAmount = game->players[playerId].cash - 5000;
+        repayLoan(game, playerId, repaymentAmount);
+        return;
+    }
+    extraAmount = maxLoan - game->players[playerId].loanAmount;
+    if(extraAmount > 0){
+        extraAmount = extraAmount / 2;
+        if(extraAmount > 0){
+            increaseLoan(game, playerId, extraAmount);
+            return;
+        }
+    }
+     printf("%s made no bank transaction.\n", game->players[playerId].name);
+}
+
+int countOwnedInGroup(GameplayState *game, int playerId, PropertyGroup group){
+    int i;
+    int count = 0;
+
+    for (i = 0; i < MAX_PROPERTIES; i++){
+        if(game->properties[i].group == group &&
+            game->properties[i].owner == playerId){
+            count++;
+        }
+    }
+    return count;
+}
+int countTotalInGroup(GameplayState *game, PropertyGroup group){
+    int i;
+    int count = 0;
+
+    for (i = 0; i < MAX_PROPERTIES; i++){
+        if(game->properties[i].group == group){
+            count++;
+        }
+    }
+    return count;
+}
+void attemptPropertyTrade(GameplayState *game, int playerId){
+    int i;
+    int totalInGroup;
+    int ownedInGroup;
+    int sellerId;
+    int offer;
+    PropertyGroup group;
+
+    for (group = BROWN; group <= DARK_BLUE; group++){
+        totalInGroup = countTotalInGroup(game, group);
+        ownedInGroup = countOwnedInGroup(game, playerId, group);
+
+        if(ownedInGroup != totalInGroup - 1){
+            continue;
+        }
+        for (i = 0; i < MAX_PROPERTIES; i++){
+            if(game->properties[i].group != group){
+                continue;
+            }
+            if(game->properties[i].owner == playerId){
+                continue;
+            }
+            if(game->properties[i].owner == NO_OWNER){
+                continue;
+            }
+            if(game->properties[i].loanLocked == 1){
+                continue;
+            }
+            sellerId = game->properties[i].owner;
+            offer = game->properties[i].currentMarketValue * 120 / 100; // I add this rule 
+
+            if(game->players[playerId].cash < offer){
+                continue;
+            }
+            if (offer > game->properties[i].currentMarketValue){
+                game->players[playerId].cash -= offer;
+                game->players[sellerId].cash += offer;
+                game->properties[i].owner = playerId;
+
+                printf("\n=== PROPERTY TRADE ===\n");
+                printf("%s purchased %s from %s for LKR %d.\n", game->players[playerId].name, game->properties[i].name, game->players[sellerId].name, offer);
+                printf("%s completed a monopoly!\n", game->players[playerId].name);
+
+                return;
+            }
+        }
+    }
+}
+
+int raiseMoney(GameplayState *game, int playerId, int amount){
+    int i;
+
+    if(game->players[playerId].cash >= amount){
+        return 1;
+    }
+    // mortgage property
+    for(i = 0; i < MAX_PROPERTIES; i++){
+        if(game->properties[i].owner == playerId && game->properties[i].mortgaged == 0 &&
+             game->properties[i].loanLocked == 0 && game->properties[i].houses == 0  &&
+              game->properties[i].hotel == 0){
+                 mortgageProperty(game, playerId, i);
+                 if(game->players[playerId].cash >= amount){
+                    return 1;
+                 }
+           }
+    }
+    for(i = 0; i < MAX_RAILWAY; i++){
+        if(game->railways[i].owner == playerId && game->railways[i].mortgaged == 0 && game->railways[i].loanLocked == 0){
+           mortgageRailway(game, playerId, i);
+           if(game->players[playerId].cash >= amount){
+                return 1;
+            }
+        }
+    }
+    for(i = 0; i < MAX_UTILITY; i++){
+        if(game->utilities[i].owner == playerId && game->utilities[i].mortgaged == 0 && game->utilities[i].loanLocked == 0){
+            mortgageUtility(game, playerId, i);
+            if(game->players[playerId].cash >= amount){
+                return 1;
+            }
+        }
+    }
+    return 0;
 }

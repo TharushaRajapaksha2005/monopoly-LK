@@ -434,7 +434,7 @@ void initializeProperties(GameplayState *game){
        game->properties[17].hotel = 0;
        game->properties[17].loanLocked = 0;
        game->properties[17].insuranceType = NO_INSURANCE;
-       game->properties[18].insuranceRoundsRemaining = 0;
+       game->properties[17].insuranceRoundsRemaining = 0;
        game->properties[17].damaged = 0;
 
        /* Property 18 - Nallur */
@@ -549,7 +549,6 @@ for (i = 0; i < MAX_PROPERTIES; i++){
     game->properties[i].normalHotelCost = game->properties[i].hotelCost;
 }
 }
-
 void initializeRailways(GameplayState *game){
 
        game->railways[0].railwayId = 0;
@@ -588,7 +587,6 @@ void initializeRailways(GameplayState *game){
        game->railways[3].mortgaged = 0;
        game->railways[3].loanLocked = 0;
 }
-
 void initializeUtilities(GameplayState *game){
 
        game->utilities[0].utilityId = 0;
@@ -609,7 +607,6 @@ void initializeUtilities(GameplayState *game){
        game->utilities[1].mortgaged = 0;
        game->utilities[1].loanLocked = 0;
 }
-
 void initializeBoard(GameplayState *game){
 
        game->board[0].squareId = 0;
@@ -813,7 +810,6 @@ void initializeBoard(GameplayState *game){
        game->board[39].type = PROPERTY;
        game->board[39].propertyId = 21;
 }
-
 void initializeGameBoard(GameplayState *game){
 
        initializeProperties(game);
@@ -845,7 +841,6 @@ void movePlayer(GameplayState *game, int playerId, int diceValue){
        printf("%s moved form square %d to square %d \n", game->players[playerId].name, oldPosition, newPosition);
        printf("%s landed on %s \n", game->players[playerId].name, game->board[newPosition].name);
 }
-
 void resolveLanding(GameplayState *game, int playerId, int diceValue){
 
        int position;
@@ -906,11 +901,12 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue){
               break;
 
        case BANK:
-              printf("Square type: BANK\n");
+              handleBankLanding(game, playerId);
               break;
 
        case INSURANCE:
               printf("Square type: INSURANCE\n");
+              makeInsuranceDecision(game, playerId);
               break;
 
        default:
@@ -918,7 +914,7 @@ void resolveLanding(GameplayState *game, int playerId, int diceValue){
               break;
        }
 }
-// handle property landing
+
 void handlePropertyLanding(GameplayState *game, int playerId){
 
        int position;
@@ -949,8 +945,6 @@ void handlePropertyLanding(GameplayState *game, int playerId){
               payPropertyRent(game, playerId, propertyId);
        }
 }
-
-// handle railway landing
 void handleRailwayLanding(GameplayState *game, int playerId){
 
        int position;
@@ -966,7 +960,7 @@ void handleRailwayLanding(GameplayState *game, int playerId){
 
        if (ownerId == NO_OWNER){
               if (shouldBuyRailway(game, playerId, railwayId) == 1){
-                     buyProperty(game, playerId, railwayId);
+                     buyRailway(game, playerId, railwayId);
               }
               else{
                      printf("%s decided not to buy %s \n", game->players[playerId].name, game->railways[railwayId].name);
@@ -982,8 +976,6 @@ void handleRailwayLanding(GameplayState *game, int playerId){
               payRailwayRent(game, playerId, railwayId);
        }
 }
-
-// handle utitlity landing
 void handleUtilityLanding(GameplayState *game, int playerId, int diceValue){
 
        int position;
