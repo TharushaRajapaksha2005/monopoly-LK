@@ -530,34 +530,6 @@ void makeDevelopmentDecision(GameplayState *game, int playerId){
         }
     }
 }
-void makeLoanDecision(GameplayState *game, int playerId){
-    int maxLoan;
-    maxLoan = calculateMaxLoan(game, playerId);
-
-    if(game->players[playerId].loanActive == 1){
-        return;
-    }
-    switch(game->players[playerId].strategy){
-        case RISK_TAKER:
-        takeLoan(game, playerId, maxLoan);
-            break;
-        case AGGRESSIVE:
-        if(game->players[playerId].cash < 5000){
-                takeLoan(game, playerId, maxLoan);
-            }
-            break;
-        case CONSERVATIVE:
-            if(game->players[playerId].cash < 500){
-                takeLoan(game, playerId, maxLoan);
-            }
-            break;
-        case OPPORTUNISTIC:
-            if(game->players[playerId].cash < 3000 && game->players[playerId].loanInterestRate < 10){
-                takeLoan(game, playerId, maxLoan);
-            }
-            break;
-    }
-}
 void makeInsuranceDecision(GameplayState *game, int playerId){
     int i;
 
@@ -595,7 +567,6 @@ void makeInsuranceDecision(GameplayState *game, int playerId){
     }
     printf("%s decided not to purchase insurance \n", game->players[playerId].name);
 }
-
 void handleBankLanding(GameplayState *game, int playerId){
     int maxLoan;
     maxLoan = calculateMaxLoan(game, playerId);
@@ -668,8 +639,7 @@ void handleBankLanding(GameplayState *game, int playerId){
             printf("%s made no bank transaction\n", game->players[playerId].name);
             break;
         }
-    }
-        
+    }   
 }
 
 int countOwnedInGroup(GameplayState *game, int playerId, PropertyGroup group){

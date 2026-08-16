@@ -837,6 +837,13 @@ void updateLoanAfterRound(GameplayState *game, int playerId){
     if(game->players[playerId].loanRoundsRemaining == 0){
         handleLoanDefault(game, playerId);
     }
+    printf("\n=== LOAN UPDATE ===\n");
+printf("%s\n", game->players[playerId].name);
+printf("Interest Added : LKR %d\n", interest);
+printf("New Loan Balance : LKR %d\n",
+       game->players[playerId].loanAmount);
+printf("Rounds Remaining : %d\n",
+       game->players[playerId].loanRoundsRemaining);
 }
 int repayLoan(GameplayState *game, int playerId, int amount){
     if(game->players[playerId].loanActive == 0){
@@ -874,17 +881,6 @@ int repayLoan(GameplayState *game, int playerId, int amount){
     }
     return 1;
 }
-/* int extendLoan(GameplayState *game, int playerId){
-    
-    if(game->players[playerId].loanActive == 0){
-        return 0;
-    game->players[playerId].loanRoundsRemaining += 20;
-
-    printf("%s extended the loan period by %d rounds.\n", game->players[playerId].name, extraRounds);
-    printf("New rounds remaining: %d\n", game->players[playerId].loanRoundsRemaining);
-
-    return 1;
-} */
 int increaseLoan(GameplayState *game, int playerId, int extraAmount){
     int maxLoan;
     maxLoan = calculateMaxLoan(game, playerId);
@@ -970,79 +966,6 @@ void handleLoanDefault(GameplayState *game, int playerId){
     else{
        // printf("%s still has assets and continue the game\n", game->players[playerId].name);
     }
-}
-
-void declareBankrupt(GameplayState *game, int playerId){
-    int i, j;
-    
-    if(game->players[playerId].isbankrupt == 1){
-        return;
-    }
-    printf("%s has been declared bankrupt\n", game->players[playerId].name);
-    game->players[playerId].isbankrupt = 1;
-
-    // return properties to bank
-    for (i = 0; i < MAX_PROPERTIES; i++){
-        if(game->properties[i].owner == playerId){
-            game->properties[i].houses = 0;
-            game->properties[i].hotel = 0;
-
-            for(j = 0; j < 4; j++){
-                game->properties[i].houseCondition[j] = 0;
-            }
-            game->properties[i].hotelCondition = 0;
-            game->properties[i].insuranceType = NO_INSURANCE;
-            game->properties[i].insuranceRoundsRemaining = 0;
-            game->properties[i].owner = NO_OWNER;
-            game->properties[i].mortgaged = 0;
-            game->properties[i].loanLocked = 0;
-            game->properties[i].maintenanceIgnoredRounds = 0;
-            game->properties[i].structuralDamage = 0;
-            game->properties[i].damaged = 0;
-        }
-    }
-    for (i = 0; i < MAX_RAILWAY; i++){
-        if(game->railways[i].owner == playerId){
-            game->railways[i].owner = NO_OWNER;
-            game->railways[i].mortgaged = 0;
-            game->railways[i].loanLocked = 0;
-        }
-    }
-    for (i = 0; i < MAX_UTILITY; i++){
-        if(game->utilities[i].owner == playerId){
-            game->utilities[i].owner = NO_OWNER;
-            game->utilities[i].mortgaged = 0;
-            game->utilities[i].loanLocked = 0;
-        }
-    }
-    game->players[playerId].loanActive = 0;
-    game->players[playerId].loanAmount = 0;
-    game->players[playerId].loanRoundsRemaining = 0;
-    game->players[playerId].loanInterestRate = 0;
-    game->players[playerId].cash = 0;
-
-    printf("Remaining assets transferred to the Bank\n");
-}
-
-int hasAssets(GameplayState *game, int playerId){
-    int i;
-
-    for (i = 0; i < MAX_PROPERTIES; i++){
-        if(game->properties[i].owner == playerId){
-            return 1;
-        }
-    }
-    for (i = 0; i < MAX_RAILWAY; i++){
-        if(game->railways[i].owner == playerId){
-            return 1;
-        }
-    }
-    for (i = 0; i <MAX_UTILITY; i++){
-        if(game->utilities[i].owner == playerId){
-            return 1;
-        }
-    }
-    return 0;
 }
 
 int buyInsurance(GameplayState *game, int playerId, int propertyId, InsuranceType type){
@@ -1230,7 +1153,6 @@ void updateMaintenanceNeglect(GameplayState *game){
         }
     }
 }
-
 int repaireStructuralDamage(GameplayState *game, int playerId, int propertyId){
     int i;
     int replacementValue = 0;

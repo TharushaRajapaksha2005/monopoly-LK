@@ -223,7 +223,6 @@ void initializeGameBoard(GameplayState *game);
 void initializeGameState(GameplayState *game);
 
 void movePlayer(GameplayState *game, int playerId, int diceValue);
-
 void resolveLanding(GameplayState *game, int playerId, int diceValue);
 
 void handlePropertyLanding(GameplayState *game, int playerId);
@@ -231,8 +230,6 @@ void handleRailwayLanding(GameplayState *game, int playerId);
 void handleUtilityLanding(GameplayState *game, int playerId, int diceValue);
 
 void sendPlayerToJail(GameplayState *game, int playerId);
-
-
 
 /*functions in player.c */
 
@@ -246,18 +243,15 @@ int shouldBidProperty(GameplayState *game, int playerId, int propertyId, int cur
 int shouldBidRailway(GameplayState *game, int playerId, int railwayId, int currentBid);
 int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int currentBid);
 
+int shouldPayJailBail(GameplayState *game, int playerId);
+
 int hasMonopoly(GameplayState *game, int playerId, PropertyGroup group);
 int canBuildHouse(GameplayState *game, int playerId, int propertyId);
 int canBuildHotel(GameplayState *game, int playerId, int propertyId);
-
-int buildHouse(GameplayState *game, int playerId, int propertyId);
-int buildHotel(GameplayState *game, int playerId, int propertyId);
-
 int shouldBuildHouse(GameplayState *game, int playerId, int propertyId);
 int shouldBuildHotel(GameplayState *game, int playerId, int propertyId);
 void developMonopoly(GameplayState *game, int playerId, PropertyGroup group);
 
-int shouldPayJailBail(GameplayState *game, int playerId);
 void makeDevelopmentDecision(GameplayState *game, int playerId);
 void makeInsuranceDecision(GameplayState *game, int playerId);
 void handleBankLanding(GameplayState *game, int playerId);
@@ -273,21 +267,27 @@ int hasDevelopmentOppertunity(GameplayState *game, int playerId);
 /*functions in game.c */
 
 int rollDice(void);
-
 void sortTurnOrder(int turnOrder[], int diceValues[], int start, int end);
 void resolveTiedGroup(GameplayState *game, int start, int end);
 void determineTurnOrder(GameplayState *game);
 void playTurn(GameplayState *game, int playerId);
+
+int handleJailTurn(GameplayState *game, int playerId);
+
 int isGameRoundComplete(GameplayState *game);
 void completeGameRound(GameplayState *game);
-int handleJailTurn(GameplayState *game, int playerId);
+
 void playTurnCycle(GameplayState *game);
 
 void updatePropertyAge(GameplayState *game);
+
 void updateBuildingCondition(GameplayState *game);
 int getPropertyBuildingCondition(GameplayState *game, int propertyId);
+void declareBankrupt(GameplayState *game, int playerId);
+int hasAssets(GameplayState *game, int plyaerId);
 
 int countSolventPlayers(GameplayState *game);
+
 int calculateNetWorth(GameplayState *game, int playerId);
 int findWinner(GameplayState *game);
 void printGameResult(GameplayState *game);
@@ -311,11 +311,13 @@ int calculateTotalPropertyValue(GameplayState *game, int playerId);
 void payCommunityDevelopmentFund(GameplayState *game, int playerId);
 int calculateIncomeTax(GameplayState *game, int playerId);
 void payIncomeTax(GameplayState *game, int playerId);
-void declareBankrupt(GameplayState *game, int playerId);
 
 void auctionProperty(GameplayState *game, int propertyId);
 void auctionRailway(GameplayState *game, int railwayId);
 void auctionUtility(GameplayState *game, int utilityId);
+
+int buildHouse(GameplayState *game, int playerId, int propertyId);
+int buildHotel(GameplayState *game, int playerId, int propertyId);
 
 int mortgageProperty(GameplayState *game, int playerId, int propertyId);
 int mortgageRailway(GameplayState *game, int playerId, int railwayId);
@@ -324,14 +326,13 @@ int mortgageUtility(GameplayState *game, int playerId, int utilityId);
 int calculateCollateralValue(GameplayState *game, int playerId);
 int lockLoanCollateral(GameplayState *game, int playerId, int loanAmount);
 void unlockLoanCollateral(GameplayState *game, int playerId);
+
 int calculateMaxLoan(GameplayState *game, int playerId);
 int takeLoan(GameplayState *game, int playerId, int amount);
 void updateLoanAfterRound(GameplayState *game, int playerId);
 int repayLoan(GameplayState *game, int playerId, int amount);
-// int extendLoan(GameplayState *game, int playerId, int extraRound);
 int increaseLoan(GameplayState *game, int playerId, int extraAmount);
 void handleLoanDefault(GameplayState *game, int playerId);
-int hasAssets(GameplayState *game, int plyaerId);
 
 int buyInsurance(GameplayState *game, int playerId, int propertyId, InsuranceType type);
 void updateInsuranceAfterRound(GameplayState *game);

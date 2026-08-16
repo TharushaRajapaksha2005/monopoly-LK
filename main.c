@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 #include "types.h"
 
 int main(void){
