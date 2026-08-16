@@ -2,7 +2,7 @@
 #include "types.h"
 
 int main(void){
-    srand(2026);
+    srand(42);
     startGame();
 
     return 0;

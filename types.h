@@ -55,9 +55,9 @@ typedef enum{
 
 typedef struct{
     int squareId;
-    char name[30];
+    char name[50];
     SquareType type;
-    int propertyId; // -1 if not a property
+    int propertyId; 
 } BoardSquare;
 
 typedef struct{
@@ -121,7 +121,7 @@ typedef struct{
 
 typedef struct{
     int utilityId;
-    char name[30];
+    char name[50];
 
     int purchasePrice;
     int currentMarketValue;
@@ -145,8 +145,7 @@ typedef enum{
     POLITICAL_UNREST
 } NationalEvent;
 
-typedef enum
-{
+typedef enum{
     NO_REGULATION,
     INCREASE_PROPERTY_TAX,
     REDUCE_LOAN_INTEREST,
@@ -258,6 +257,7 @@ int shouldBuildHouse(GameplayState *game, int playerId, int propertyId);
 int shouldBuildHotel(GameplayState *game, int playerId, int propertyId);
 void developMonopoly(GameplayState *game, int playerId, PropertyGroup group);
 
+int shouldPayJailBail(GameplayState *game, int playerId);
 void makeDevelopmentDecision(GameplayState *game, int playerId);
 void makeInsuranceDecision(GameplayState *game, int playerId);
 void handleBankLanding(GameplayState *game, int playerId);
@@ -280,7 +280,7 @@ void determineTurnOrder(GameplayState *game);
 void playTurn(GameplayState *game, int playerId);
 int isGameRoundComplete(GameplayState *game);
 void completeGameRound(GameplayState *game);
-void handleJailTurn(GameplayState *game, int playerId);
+int handleJailTurn(GameplayState *game, int playerId);
 void playTurnCycle(GameplayState *game);
 
 void updatePropertyAge(GameplayState *game);
@@ -306,8 +306,6 @@ void payRailwayRent(GameplayState *game, int playerId, int railwayId);
 void buyUtility(GameplayState *game, int playerId, int utilityId);
 int countOwnedUtilities(GameplayState *game, int playerId);
 void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceValue);
-
-int payJailBail(GameplayState *game, int playerId);
 
 int calculateTotalPropertyValue(GameplayState *game, int playerId);
 void payCommunityDevelopmentFund(GameplayState *game, int playerId);

@@ -17,8 +17,8 @@ void buyProperty(GameplayState *game, int playerId, int propertyId){
     game->players[playerId].cash -= price;
     game->properties[propertyId].owner = playerId;
 
-    printf("%s purchased %s for LKR %d \n", game->players[playerId].name, game->properties[propertyId].name, price);
-    printf("Remaining Balance : LKR %d.\n", game->players[playerId].cash);
+    printf("%s purchased %s for LKR %d\n", game->players[playerId].name, game->properties[propertyId].name, price);
+    printf("Remaining Balance : LKR %d\n", game->players[playerId].cash);
 }
 void payPropertyRent(GameplayState *game, int playerId, int propertyId){
     int ownerId;
@@ -36,11 +36,11 @@ void payPropertyRent(GameplayState *game, int playerId, int propertyId){
         return;
     }
     if(game->properties[propertyId].mortgaged == 1){
-        printf("%s is mortgaged. No rent collected.\n", game->properties[propertyId].name);
+        printf("%s is mortgaged. No rent collected\n", game->properties[propertyId].name);
         return;
     }
     if(game->properties[propertyId].damaged == 1){
-        printf("%s is damaged. No rent collected.\n", game->properties[propertyId].name);
+        printf("%s is damaged. No rent collected\n", game->properties[propertyId].name);
         return; 
     }
     /* rent calcutaions*/
@@ -91,9 +91,9 @@ void payPropertyRent(GameplayState *game, int playerId, int propertyId){
     game->players[playerId].cash -= rent;
     game->players[ownerId].cash += rent;
 
-    printf("%s landed on %s.\n", game->players[playerId].name, game->properties[propertyId].name);
-    printf("Rent Paid : LKR %d.\n", rent);
-    printf("Owner : %s.\n", game->players[ownerId].name);
+    printf("%s landed on %s\n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Rent Paid : LKR %d\n", rent);
+    printf("Owner : %s\n", game->players[ownerId].name);
 }
 
 void buyRailway(GameplayState *game, int playerId, int railwayId){
@@ -111,8 +111,8 @@ void buyRailway(GameplayState *game, int playerId, int railwayId){
     game->players[playerId].cash -= price;
     game->railways[railwayId].owner = playerId;
 
-    printf("%s purchased %s for LKR %d.\n", game->players[playerId].name, game->railways[railwayId].name, price);
-    printf("Remaining Balance : LKR %d.\n", game->players[playerId].cash);
+    printf("%s purchased %s for LKR %d\n", game->players[playerId].name, game->railways[railwayId].name, price);
+    printf("Remaining Balance : LKR %d\n", game->players[playerId].cash);
 }
 int countOwnedRailways(GameplayState *game, int playerId){
     int i;
@@ -140,7 +140,7 @@ void payRailwayRent(GameplayState *game, int playerId, int railwayId){
         return;
     }
     if(game->railways[railwayId].mortgaged == 1){
-        printf("%s is mortgaged no rent is paid \n", game->railways[railwayId].name);
+        printf("%s is mortgaged no rent is paid\n", game->railways[railwayId].name);
         return;
     }
     railwayCount = countOwnedRailways(game, ownerId);
@@ -171,9 +171,9 @@ void payRailwayRent(GameplayState *game, int playerId, int railwayId){
     game->players[playerId].cash -= rent;
     game->players[ownerId].cash += rent;
 
-    printf("%s landed on %s.\n", game->players[playerId].name, game->railways[railwayId].name);
-    printf("Railway Rent Paid : LKR %d.\n", rent);
-    printf("Owner : %s.\n", game->players[ownerId].name);
+    printf("%s landed on %s\n", game->players[playerId].name, game->railways[railwayId].name);
+    printf("Railway Rent Paid : LKR %d\n", rent);
+    printf("Owner : %s\n", game->players[ownerId].name);
 }
 
 void buyUtility(GameplayState *game, int playerId, int utilityId){
@@ -181,19 +181,19 @@ void buyUtility(GameplayState *game, int playerId, int utilityId){
     price = game->utilities[utilityId].purchasePrice;
 
     if(game->utilities[utilityId].owner != NO_OWNER){
-       // printf("This utility already has an owner.\n");
+       // printf("This utility already has an owner\n");
         return;
     }
     if(game->players[playerId].cash < price){
-       // printf("%s does not have enough cash to buy %s.\n", game->players[playerId].name, game->utilities[utilityId].name);
+       // printf("%s does not have enough cash to buy %s\n", game->players[playerId].name, game->utilities[utilityId].name);
         return;
     }
 
     game->players[playerId].cash -= price;
     game->utilities[utilityId].owner = playerId;
 
-    printf("%s purchased %s for LKR %d.\n", game->players[playerId].name, game->utilities[utilityId].name, price);
-    printf("Remaining Balance : LKR %d.\n", game->players[playerId].cash);
+    printf("%s purchased %s for LKR %d\n", game->players[playerId].name, game->utilities[utilityId].name, price);
+    printf("Remaining Balance : LKR %d\n", game->players[playerId].cash);
 }
 int countOwnedUtilities(GameplayState *game, int playerId){
     int i;
@@ -222,7 +222,7 @@ void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceVa
         return;
     }
     if(game->utilities[utilityId].mortgaged == 1){
-        printf("%s is mortgaged. No rent is paid.\n", game->utilities[utilityId].name);
+        printf("%s is mortgaged. No rent is paid\n", game->utilities[utilityId].name);
         return;
     }
 
@@ -248,27 +248,9 @@ void payUtilityRent(GameplayState *game, int playerId, int utilityId, int diceVa
     game->players[playerId].cash -= rent;
     game->players[ownerId].cash += rent;
 
-    printf("%s landed on %s.\n", game->players[playerId].name, game->utilities[utilityId].name);
-    printf("Utility Rent Paid : LKR %d.\n", rent);
-    printf("Owner : %s.\n", game->players[ownerId].name);  
-}
-
-int payJailBail(GameplayState *game, int playerId){
-    int bailAmount = 300;
-
-    if(game->players[playerId].cash < bailAmount){
-        printf("%s does not have enough cash to pay bail.\n", game->players[playerId].name);
-        return 0;
-    }
-
-    game->players[playerId].cash -= bailAmount;
-    game->players[playerId].inJail = 0;
-    game->players[playerId].jailTurns = 0;
-
-    printf("%s paid LKR %d bail and left Jail.\n", game->players[playerId].name, bailAmount);
-    printf("%s now has LKR %d.\n", game->players[playerId].name, game->players[playerId].cash);
-
-    return 1; 
+    printf("%s landed on %s\n", game->players[playerId].name, game->utilities[utilityId].name);
+    printf("Utility Rent Paid : LKR %d\n", rent);
+    printf("Owner : %s\n", game->players[ownerId].name);  
 }
 
 int calculateTotalPropertyValue(GameplayState *game, int playerId){
@@ -290,24 +272,24 @@ void payCommunityDevelopmentFund(GameplayState *game, int playerId){
     propertyValue = calculateTotalPropertyValue(game, playerId);
     tax = (propertyValue * game->communityFundRate)/100;
 
-    printf("%s landed on Community Development Fund.\n", game->players[playerId].name);
+    printf("%s landed on Community Development Fund\n", game->players[playerId].name);
 
     if(tax == 0){
         return;
     }
     if(game->players[playerId].cash < tax){
-        printf("%s cannot pay the Community Development Fund tax of LKR %d.\n", game->players[playerId].name, tax);
+        printf("%s cannot pay the Community Development Fund tax of LKR %d\n", game->players[playerId].name, tax);
         raiseMoney(game, playerId, tax);
     }
     if(game->players[playerId].cash < tax){
-        printf("%s still cannot pay the Community Development Fund tax of LKR %d.\n", game->players[playerId].name, tax);
+        printf("%s still cannot pay the Community Development Fund tax of LKR %d\n", game->players[playerId].name, tax);
         declareBankrupt(game, playerId);
         return;
     }
     game->players[playerId].cash -= tax;
 
-    printf("Payment Made : LKR %d.\n", tax);
-    printf("Remaining Balance : LKR %d.\n", game->players[playerId].cash);
+    printf("Payment Made : LKR %d\n", tax);
+    printf("Remaining Balance : LKR %d\n", game->players[playerId].cash);
 }
 
 int calculateIncomeTax(GameplayState *game, int playerId){
@@ -328,20 +310,20 @@ void payIncomeTax(GameplayState *game, int playerId){
     tax = calculateIncomeTax(game, playerId);
 
     printf("\n=== INCOME TAX ===\n");
-    printf("%s landed on Income Tax.\n", game->players[playerId].name);
+    printf("%s landed on Income Tax\n", game->players[playerId].name);
     printf("Tax Due: LKR %d\n", tax);
 
     if(game->players[playerId].cash < tax){
-        printf("%s cannot afford Income Tax of LKR %d.\n", game->players[playerId].name, tax);
+        printf("%s cannot afford Income Tax of LKR %d\n", game->players[playerId].name, tax);
         raiseMoney(game, playerId, tax);
     }
     if(game->players[playerId].cash < tax){
-        printf("%s still cannot pay Income Tax of LKR %d.\n", game->players[playerId].name, tax);
+        printf("%s still cannot pay Income Tax of LKR %d\n", game->players[playerId].name, tax);
         declareBankrupt(game, playerId);
         return;
     }
     game->players[playerId].cash -= tax;
-    printf("Income Tax Paid : LKR %d.\n", tax);
+    printf("Income Tax Paid : LKR %d\n", tax);
      printf("Remaining Balance: LKR %d\n", game->players[playerId].cash);
         return;
 }
@@ -366,7 +348,7 @@ void auctionProperty(GameplayState *game, int propertyId){
     printf("Property: \n");
     printf("%s\n", game->properties[propertyId].name);
     printf("Opening Bid: \n");
-    printf("LKR %d.\n", openingBid);
+    printf("LKR %d\n", openingBid);
 
     for (i = 0; i < MAX_PLAYERS; i++){
         if(game->players[i].isbankrupt == 0){
@@ -394,13 +376,13 @@ void auctionProperty(GameplayState *game, int propertyId){
                 currentBid = nextBid;
                 highestBidder = i;
 
-                printf("%s bids LKR %d \n", game->players[i].name, currentBid);
+                printf("%s bids LKR %d\n", game->players[i].name, currentBid);
             }
             else{
                 active[i] = 0;
                 activeCount--;
 
-                printf("%s withdraws \n", game->players[i].name);
+                printf("%s withdraws\n", game->players[i].name);
             }
         }
 
@@ -424,8 +406,8 @@ void auctionProperty(GameplayState *game, int propertyId){
         }
     }
     if (highestBidder == NO_OWNER){
-        printf("\nNobody purchased %s \n", game->properties[propertyId].name);
-        printf("Property remain owned by the Bank \n");
+        printf("\nNobody purchased %s\n", game->properties[propertyId].name);
+        printf("Property remain owned by the Bank\n");
 
         return;
     }
@@ -453,7 +435,7 @@ void auctionRailway(GameplayState *game, int railwayId){
     printf("Railway: \n");
     printf("%s\n", game->railways[railwayId].name);
     printf("Opening Bid: LKR \n");
-    printf("LKR %d.\n", openingBid);
+    printf("LKR %d\n", openingBid);
 
     for (i = 0; i < MAX_PLAYERS; i++){
         if(game->players[i].isbankrupt == 0){
@@ -502,14 +484,14 @@ void auctionRailway(GameplayState *game, int railwayId){
         }
     }
     if(highestBidder == NO_GROUP){
-        printf("\nNobidy purchased %s \n", game->railways[railwayId].name);
+        printf("\nNobidy purchased %s\n", game->railways[railwayId].name);
         return;
     }
 
     game->players[highestBidder].cash -= currentBid;
     game->railways[railwayId].owner = highestBidder;
 
-    printf("%s wins the auction.\n", game->players[highestBidder].name);
+    printf("%s wins the auction\n", game->players[highestBidder].name);
 }
 void auctionUtility(GameplayState *game, int utilityId){
     int active[MAX_PLAYERS];
@@ -561,7 +543,7 @@ void auctionUtility(GameplayState *game, int utilityId){
             else{
                 active[i] = 0;
                 activeCount--;
-                printf("%s withdraws \n", game->players[i].name);
+                printf("%s withdraws\n", game->players[i].name);
             }
         }
 
@@ -583,7 +565,7 @@ void auctionUtility(GameplayState *game, int utilityId){
     }
 
     if(highestBidder == NO_OWNER){
-        printf("\nNobody purchased %s.\n", game->utilities[utilityId].name);
+        printf("\nNobody purchased %s\n", game->utilities[utilityId].name);
         return;
     }
 
@@ -613,8 +595,8 @@ int buildHouse(GameplayState *game, int playerId, int propertyId){
     game->properties[propertyId].houseCondition[newHouse] = 100;
     game->properties[propertyId].houses++;
 
-    printf("%s constructed one house on %s.\n", game->players[playerId].name, game->properties[propertyId].name);
-    printf("Construction Cost : LKR %d.\n", cost);
+    printf("%s constructed one house on %s\n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Construction Cost : LKR %d\n", cost);
     return 1;
 }
 int buildHotel(GameplayState *game, int playerId, int propertyId){
@@ -637,8 +619,8 @@ int buildHotel(GameplayState *game, int playerId, int propertyId){
     game->properties[propertyId].hotel = 1;
     game->properties[propertyId].hotelCondition = 100;
 
-    printf("%s upgraded %s to a Hotel.\n", game->players[playerId].name, game->properties[propertyId].name);
-    printf("Construction Cost : LKR %d.\n", cost);
+    printf("%s upgraded %s to a Hotel\n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Construction Cost : LKR %d\n", cost);
     return 1;
 }
 
@@ -675,7 +657,7 @@ int mortgageRailway(GameplayState *game, int playerId, int railwayId){
     game->railways[railwayId].mortgaged = 1;
     game->players[playerId].cash += game->railways[railwayId].mortgageValue;
 
-    printf("%s mortgaged %s.\n", game->players[playerId].name, game->railways[railwayId].name);
+    printf("%s mortgaged %s \n", game->players[playerId].name, game->railways[railwayId].name);
     printf("Mortgage Value : LKR %d\n", game->railways[railwayId].mortgageValue);
     printf("Current Balance : LKR %d\n", game->players[playerId].cash);
 
@@ -693,7 +675,7 @@ int mortgageUtility(GameplayState *game, int playerId, int utilityId){
     game->utilities[utilityId].mortgaged = 1;
     game->players[playerId].cash += game->utilities[utilityId].mortgageValue;
 
-    printf("%s mortgaged %s.\n", game->players[playerId].name, game->utilities[utilityId].name);
+    printf("%s mortgaged %s \n", game->players[playerId].name, game->utilities[utilityId].name);
     printf("Mortgage Value : LKR %d\n", game->utilities[utilityId].mortgageValue);
     printf("Current Balance : LKR %d\n", game->players[playerId].cash);
 
@@ -834,7 +816,7 @@ int takeLoan(GameplayState *game, int playerId, int amount){
     game->players[playerId].cash += amount; 
 
     printf("%s obtained a secured loan\n", game->players[playerId].name);
-    printf("Loan Amount : LKR %d.\n", amount);
+    printf("Loan Amount : LKR %d \n", amount);
     printf("Interest Rate : %d%%\n", game->players[playerId].loanInterestRate);
     printf("Duration: %d\n",game->players[playerId].loanRoundsRemaining);
 
@@ -852,12 +834,7 @@ void updateLoanAfterRound(GameplayState *game, int playerId){
     game->players[playerId].loanAmount += interest;
     game->players[playerId].loanRoundsRemaining--;
 
-   /* printf("%s loan updated\n", game->players[playerId].name);
-    printf("Interest added: LKR %d\n", interest);
-    printf("Outstanding loan: LKR %d\n", game->players[playerId].loanAmount);
-    printf("Rounds remaining: %d\n", game->players[playerId].loanRoundsRemaining);
-*/
-    if (game->players[playerId].loanRoundsRemaining == 0){
+    if(game->players[playerId].loanRoundsRemaining == 0){
         handleLoanDefault(game, playerId);
     }
 }
@@ -923,7 +900,7 @@ int increaseLoan(GameplayState *game, int playerId, int extraAmount){
         return 0;
     }
     if(lockLoanCollateral(game, playerId, extraAmount) == 0){
-        printf("Loan increase rejected due to insufficient collateral.\n");
+        printf("Loan increase rejected due to insufficient collateral\n");
         return 0;
     }
     
@@ -963,7 +940,7 @@ void handleLoanDefault(GameplayState *game, int playerId){
     }
      for (i = 0; i < MAX_RAILWAY; i++){
         if(game->railways[i].owner == playerId && game->railways[i].loanLocked == 1){
-            printf("%s transferred to the Bank.\n", game->railways[i].name);
+            printf("%s transferred to the Bank\n", game->railways[i].name);
 
             game->railways[i].owner = NO_OWNER;
             game->railways[i].loanLocked = 0;
@@ -972,7 +949,7 @@ void handleLoanDefault(GameplayState *game, int playerId){
     }
      for (i = 0; i < MAX_UTILITY; i++){
         if(game->utilities[i].owner == playerId && game->utilities[i].loanLocked == 1){
-            printf("%s transferred to the Bank.\n", game->utilities[i].name);
+            printf("%s transferred to the Bank\n", game->utilities[i].name);
 
             game->utilities[i].owner = NO_OWNER;
             game->utilities[i].loanLocked = 0;
@@ -984,7 +961,7 @@ void handleLoanDefault(GameplayState *game, int playerId){
     game->players[playerId].loanRoundsRemaining = 0;
     game->players[playerId].loanInterestRate = 0;
 
-    printf("Collateral has been foreclosed.\n");
+    printf("Collateral has been foreclosed\n");
     printf("Outstanding loan cleared\n");
 
     if(hasAssets(game, playerId) == 0){
@@ -998,11 +975,10 @@ void handleLoanDefault(GameplayState *game, int playerId){
 void declareBankrupt(GameplayState *game, int playerId){
     int i, j;
     
-
     if(game->players[playerId].isbankrupt == 1){
         return;
     }
-    printf("%s has been declared bankrupt.\n", game->players[playerId].name);
+    printf("%s has been declared bankrupt\n", game->players[playerId].name);
     game->players[playerId].isbankrupt = 1;
 
     // return properties to bank
@@ -1045,7 +1021,7 @@ void declareBankrupt(GameplayState *game, int playerId){
     game->players[playerId].loanInterestRate = 0;
     game->players[playerId].cash = 0;
 
-    printf("Remaining assets transferred to the Bank.\n");
+    printf("Remaining assets transferred to the Bank\n");
 }
 
 int hasAssets(GameplayState *game, int playerId){
@@ -1103,13 +1079,13 @@ int buyInsurance(GameplayState *game, int playerId, int propertyId, InsuranceTyp
     game->properties[propertyId].insuranceRoundsRemaining = 20;
 
     if(type == BASIC_INSURANCE){
-        printf("Basic Insurance purchased.\n");
+        printf("Basic Insurance purchased\n");
     }
     else if(type == COMPREHENSIVE_INSURANCE){
-        printf("Comprehensive Insurance purchased.\n");
+        printf("Comprehensive Insurance purchased\n");
     }
     else if(type == BUSINESS_INTERRUPTION_INSURANCE){
-        printf("Business Interruption Insurance purchased.\n");
+        printf("Business Interruption Insurance purchased\n");
     }
     printf("Property : %s\n", game->properties[propertyId].name);
     printf("Premium: LKR %d\n", premium);
@@ -1124,11 +1100,11 @@ void updateInsuranceAfterRound(GameplayState *game){
             game->properties[i].insuranceRoundsRemaining--;
             /* Reminder 3 rounds before expiry. */
             if (game->properties[i].insuranceRoundsRemaining == 3){
-                printf("Insurance on %s expires in 3 rounds.\n", game->properties[i].name);
+                printf("Insurance on %s expires in 3 rounds\n", game->properties[i].name);
             }
             /* Policy expired. */
             if(game->properties[i].insuranceRoundsRemaining <= 0){
-                printf("Insurance on %s has expired.\n", game->properties[i].name);
+                printf("Insurance on %s has expired\n", game->properties[i].name);
                 game->properties[i].insuranceType = NO_INSURANCE;
                 game->properties[i].insuranceRoundsRemaining = 0;
             }
@@ -1153,10 +1129,10 @@ int repairProperty(GameplayState *game, int propertyId){
 
     game->players[owner].cash -= repairCost;
     game->properties[propertyId].damaged = 0;
-    printf("%s renovated %s.\n", game->players[owner].name, game->properties[propertyId].name);
-    printf("Renovation Cost : LKR %d.\n", repairCost);
-    printf("Property age reset to 0.\n");
-    printf("Depreciation restored.\n");
+    printf("%s renovated %s\n", game->players[owner].name, game->properties[propertyId].name);
+    printf("Renovation Cost : LKR %d\n", repairCost);
+    printf("Property age reset to 0\n");
+    printf("Depreciation restored\n");
 
     return 1;
 }
@@ -1177,8 +1153,8 @@ void maintainProperty(GameplayState *game, int playerId, int propertyId){
                 game->players[playerId].cash -= maintenanceCost;
                 game->properties[propertyId].houseCondition[i] = 100;
 
-                printf("%s maintained House on %s.\n", game->players[playerId].name, game->properties[propertyId].name);
-                printf("Maintenance Cost : LKR %d.\n", maintenanceCost);
+                printf("%s maintained House on %s \n", game->players[playerId].name, game->properties[propertyId].name);
+                printf("Maintenance Cost : LKR %d \n", maintenanceCost);
             }
         }
     }
@@ -1248,9 +1224,9 @@ void updateMaintenanceNeglect(GameplayState *game){
             game->properties[i].valueBeforeStructuralDamage = game->properties[i].currentMarketValue;
             game->properties[i].currentMarketValue = game->properties[i].currentMarketValue * 85 / 100;
 
-            printf("%s has suffered structural damage due to neglected maintenance.\n", game->properties[i].name);
+            printf("%s has suffered structural damage due to neglected maintenance\n", game->properties[i].name);
             printf("Property value reduced to 15%%\n");
-            printf("Maximum Rent reduced by 25%%.\n");
+            printf("Maximum Rent reduced by 25%%\n");
         }
     }
 }
@@ -1292,8 +1268,8 @@ int repaireStructuralDamage(GameplayState *game, int playerId, int propertyId){
     game->properties[propertyId].valueBeforeStructuralDamage = 0;
 
     printf("%s renovated structural damage on %s for \n", game->players[playerId].name, game->properties[propertyId].name);
-    printf("Renovation Cost : LKR %d.\n", renovationCost);
-    printf("Property condition restored.\n");
+    printf("Renovation Cost : LKR %d\n", renovationCost);
+    printf("Property condition restored\n");
 
     return 1;
 }
@@ -1308,7 +1284,7 @@ int repaireProperty(GameplayState *game, int playerId, int propertyId){
         return 0;
     }
     if(game->players[playerId].cash < renovationCost){
-        printf("%s cannot afford to renovate %s.\n", game->players[playerId].name, game->properties[propertyId].name);
+        printf("%s cannot afford to renovate %s\n", game->players[playerId].name, game->properties[propertyId].name);
         return 0;
     }
     game->players[playerId].cash -= renovationCost;
@@ -1319,9 +1295,9 @@ int repaireProperty(GameplayState *game, int playerId, int propertyId){
     game->properties[propertyId].depreciationPercent = 0;
     game->properties[propertyId].age = 0;
 
-    printf("%s renovated property on %s.\n", game->players[playerId].name, game->properties[propertyId].name);
-    printf("Renovation Cost : LKR %d.\n", renovationCost);
-    printf("Property condition restored.\n");
+    printf("%s renovated property on %s\n", game->players[playerId].name, game->properties[propertyId].name);
+    printf("Renovation Cost : LKR %d\n", renovationCost);
+    printf("Property condition restored\n");
 
     return 1;
 }

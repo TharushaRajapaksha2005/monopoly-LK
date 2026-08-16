@@ -82,12 +82,12 @@ void triggerDisaster(GameplayState *game){
 
         if(compensation > 0){
             game->players[owner].cash += compensation;
-            printf("Insurance Claim Approved.\n");
+            printf("Insurance Claim Approved\n");
             printf("Compensation Paid :\n");
             printf("LKR %d.\n", compensation);
         }
         else{
-            printf("Property is not covered by insurance.\n");
+            printf("Property is not covered by insurance\n");
         }
         repairProperty(game, propertyId);          
 }
@@ -103,14 +103,11 @@ void applyInflation(GameplayState *game){
 
      for (i = 0; i < MAX_PROPERTIES; i++){
         game->properties[i].normalPurchasePrice = game->properties[i].normalPurchasePrice * (100 + inflationRate) / 100;
+        game->properties[i].normalMarketValue = game->properties[i].normalMarketValue * (100 + inflationRate) / 100;
+        game->properties[i].normalMortgageValue = game->properties[i].normalMortgageValue * (100 + inflationRate) / 100;
         game->properties[i].normalHouseCost = game->properties[i].normalHouseCost * (100 + inflationRate) / 100;
         game->properties[i].normalHotelCost = game->properties[i].normalHotelCost * (100 + inflationRate) / 100;        
         game->properties[i].normalBaseRent = game->properties[i].normalBaseRent * (100 + inflationRate) / 100;
-       // copy inflated normal values to property values market effect aplie to this values 
-        game->properties[i].purchasePrice = game->properties[i].normalPurchasePrice;
-        game->properties[i].houseCost = game->properties[i].normalHouseCost;
-        game->properties[i].hotelCost = game->properties[i].normalHotelCost;
-        game->properties[i].baseRent = game->properties[i].normalBaseRent;
     }
     game->insurancePremiumFactor = game->insurancePremiumFactor * (100 + inflationRate) / 100;
     game->repairCost = game->repairCost * (100 + inflationRate) / 100;
@@ -131,32 +128,32 @@ void triggerGovRegulation(GameplayState *game){
     switch (regulation){
         case INCREASE_PROPERTY_TAX:
             printf("Increase Property Tax Introduced\n");
-            printf("Income Tax increased by 50%%.\n");
+            printf("Income Tax increased by 50%%\n");
             break;
 
         case REDUCE_LOAN_INTEREST:
             printf("Reduce Loan Interest Introduced\n");
-            printf("Loan interest rate reduced by 2%%.\n");
+            printf("Loan interest rate reduced by 2%%\n");
             break;
 
         case HOUSING_SUBSIDY:
-            printf("Housing Subsidy Introduced.\n");
-            printf("Construction costs reduced by 30%%.\n");
+            printf("Housing Subsidy Introduced\n");
+            printf("Construction costs reduced by 30%%\n");
             break;
 
         case LUXURY_PROPERTY_TAX:
             printf("Luxury Property Tax Introduced\n");
-            printf("Hotels are subject to a 25%% maintenance tax.\n");
+            printf("Hotels are subject to a 25%% maintenance tax\n");
             break;
 
         case RAILWAY_MODERNIZATION:
             printf("Railway Modernization Introduced\n");
-            printf("Railway rent increased by 25%%.\n");
+            printf("Railway rent increased by 25%%\n");
             break;
 
         case ELECTRICITY_TARIFF_REVISION:
             printf("Electricity Tariff Revision Introduced\n");
-            printf("Utility rent increased by 20%%.\n");
+            printf("Utility rent increased by 20%%\n");
             break;
 
         case INSURANCE_REGULATION:
@@ -166,8 +163,8 @@ void triggerGovRegulation(GameplayState *game){
 
         case ANTI_SPECULATION_ACT:
             printf("Anti-Speculation Act Introducedn");
-            printf("Players may own at most three undeveloped properties.\n");
-            printf("Additional purchases require development within 5 rounds.\n");
+            printf("Players may own at most three undeveloped properties\n");
+            printf("Additional purchases require development within 5 rounds\n");
             break;
 
         default:

@@ -305,6 +305,32 @@ int shouldBidUtility(GameplayState *game, int playerId, int utilityId, int curre
     return 0;
 }
 
+int shouldPayJailBail(GameplayState *game, int playerId){
+    int bail = 300;
+
+    if(game->players[playerId].cash < bail){
+        return 0;
+    }
+    switch(game->players[playerId].strategy){
+        case AGGRESSIVE:
+        return 1;
+
+        case CONSERVATIVE:
+        if(game->players[playerId].cash - bail >= game->players[playerId].cash / 2){
+            return 1;
+        }
+        return 0;
+
+        case RISK_TAKER:
+        return 1;
+
+        case OPPORTUNISTIC:
+        //add later 
+        return 0;
+    }
+    return 0;
+}
+
 int hasMonopoly(GameplayState *game, int playerId, PropertyGroup group){
 
     int i;
@@ -567,7 +593,7 @@ void makeInsuranceDecision(GameplayState *game, int playerId){
             return;
         }
     }
-    printf("%s decided not to purchase insurance.\n", game->players[playerId].name);
+    printf("%s decided not to purchase insurance \n", game->players[playerId].name);
 }
 
 void handleBankLanding(GameplayState *game, int playerId){
@@ -588,12 +614,12 @@ void handleBankLanding(GameplayState *game, int playerId){
                 takeLoan(game, playerId, maxLoan);
             }
             else{
-                printf("%s decided not to obtain a loan.\n", game->players[playerId].name);
+                printf("%s decided not to obtain a loan\n", game->players[playerId].name);
             }
             break;
 
             case CONSERVATIVE:
-            printf("%s decided not to obtain a loan.\n", game->players[playerId].name);
+            printf("%s decided not to obtain a loan\n", game->players[playerId].name);
             break;
 
             case RISK_TAKER:
@@ -601,7 +627,7 @@ void handleBankLanding(GameplayState *game, int playerId){
             break;
 
             case OPPORTUNISTIC:
-            printf("%s decided not to obtain a loan.\n", game->players[playerId].name);
+            printf("%s decided not to obtain a loan\n", game->players[playerId].name);
             //add later
             break;
         }
@@ -639,7 +665,7 @@ void handleBankLanding(GameplayState *game, int playerId){
 
             case OPPORTUNISTIC:
             // add later
-            printf("%s made no bank transaction.\n", game->players[playerId].name);
+            printf("%s made no bank transaction\n", game->players[playerId].name);
             break;
         }
     }
@@ -709,7 +735,7 @@ void attemptPropertyTrade(GameplayState *game, int playerId){
                 game->properties[i].owner = playerId;
 
                 printf("\n=== PROPERTY TRADE ===\n");
-                printf("%s purchased %s from %s for LKR %d.\n", game->players[playerId].name, game->properties[i].name, game->players[sellerId].name, offer);
+                printf("%s purchased %s from %s for LKR %d \n", game->players[playerId].name, game->properties[i].name, game->players[sellerId].name, offer);
                 printf("%s completed a monopoly!\n", game->players[playerId].name);
 
                 return;

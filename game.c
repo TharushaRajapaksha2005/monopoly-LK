@@ -6,16 +6,14 @@ int rollDice(){
 
     int dice1 = rand() % 6 + 1;
     int dice2 = rand() % 6 + 1;
-
     return dice1 + dice2;
 }
 void sortTurnOrder(int turnOrder[], int diceValue[], int start, int end){
-
     int i, j, temp;
 
     for (i = start; i < end; i++){
         for (j = i + 1; j <= end; j++){
-            if (diceValue[j] > diceValue[i]){
+            if(diceValue[j] > diceValue[i]){
                 temp = diceValue[i]; // swap dice valuse
                 diceValue[i] = diceValue[j];
                 diceValue[j] = temp;
@@ -121,8 +119,9 @@ void playTurn(GameplayState *game, int playerId){
         return;
     }
     if(game->players[playerId].inJail == 1){
-        handleJailTurn(game, playerId);
-        return;
+        if(handleJailTurn(game, playerId) == 0){
+            return;
+        }
     }
     performMaintenance(game, playerId);
     attemptPropertyTrade(game, playerId);
@@ -130,19 +129,31 @@ void playTurn(GameplayState *game, int playerId){
     
     diceValue = rollDice();
 
-    printf("%s rolled %d.\n", game->players[playerId].name, diceValue);
+    printf("%s rolled %d\n", game->players[playerId].name, diceValue);
 
     movePlayer(game, playerId, diceValue);
     resolveLanding(game, playerId, diceValue);
 }
 
-void handleJailTurn(GameplayState *game, int playerId){
+int handleJailTurn(GameplayState *game, int playerId){
 
     int dice1;
     int dice2;
     int diceValue;
+    int bailAmount = 300;
 
     printf("\n%s is currently is jail\n", game->players[playerId].name);
+
+    if(shouldPayJailBail(game, playerId) == 1){
+         if(game->players[playerId].cash >= bailAmount){
+            game->players[playerId].cash -= bailAmount;
+            game->players[playerId].inJail = 0;
+            game->players[playerId].jailTurns = 0;
+            printf("%s paid LKR 300 bail and left Jail\n", game->players[playerId].name);
+            printf("Current Balance : LKR %d \n", game->players[playerId].cash);
+            return 1;
+         }
+    }
 
     dice1 = rand() % 6 + 1;
     dice2 = rand() % 6 + 1;
@@ -160,7 +171,7 @@ void handleJailTurn(GameplayState *game, int playerId){
         movePlayer(game, playerId, diceValue);
         resolveLanding(game, playerId, diceValue);
 
-        return;
+        return 0;
     }
     /* player failed to roll doubles*/
     game->players[playerId].jailTurns++;
@@ -174,10 +185,10 @@ void handleJailTurn(GameplayState *game, int playerId){
         game->players[playerId].jailTurns = 0;
 
         printf("%s completed three turns in Jail and has been released.\n", game->players[playerId].name);
+        return 0;
     }
-    else{
-        printf("%s remains in Jail.\n", game->players[playerId].name);
-    }
+    printf("%s remains in Jail.\n", game->players[playerId].name);
+    return 0;  
 }
 
 int isGameRoundComplete(GameplayState *game){
@@ -206,10 +217,9 @@ void completeGameRound(GameplayState *game){
             updateLoanAfterRound(game, i);
         }
     }
-    /* insurance duration*/
+    
     updateInsuranceAfterRound(game);
     updatePropertyAge(game);
-    updateBuildingCondition(game);
     updateBuildingCondition(game);
     updateMaintenanceNeglect(game);
 
@@ -252,14 +262,18 @@ void updatePropertyAge(GameplayState *game){
     for (i = 0; i < MAX_PROPERTIES; i++){
         if(game->properties[i].owner != NO_OWNER){
             game->properties[i].age++;
+            //temp values
             if(game->properties[i].age > 50 && game->properties[i].age % 5 == 0 && game->properties[i].depreciationPercent < 30){
                 game->properties[i].depreciationPercent++;
-                game->properties[i].currentMarketValue = game->properties[i].currentMarketValue * 99/100;
+                game->properties[i].currentMarketValue = game->properties[i].normalMarketValue *
+                (100 - game->properties[i].depreciationPercent) / 100;
+
+                printf("\n=== PROPERTY DEPRECIATION ===\n");
                 printf("Property\n");
                 printf("%s\n", game->properties[i].name);
-                printf("has depreciated by %d%%.\n", game->properties[i].depreciationPercent);
+                printf("has depreciated by %d%% \n", game->properties[i].depreciationPercent);
                 printf("Current value\n");
-                printf("LKR %d.\n", game->properties[i].currentMarketValue);
+                printf("LKR %d \n", game->properties[i].currentMarketValue);
             }
         }
     }
